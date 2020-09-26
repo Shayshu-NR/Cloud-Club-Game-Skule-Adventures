@@ -1,0 +1,27 @@
+{
+  "name": "jumper",
+  "version": "1.0.0",
+  "description": "A basic platformer game written with PhaserJS v2 to demonstrate basic game functions",
+  "main": "game.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron main.js",
+    "serve": "./node node_modules/.bin/http-server ./public"
+  },
+  "bin": {
+    "jumper": "main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egee-irl/jumper.git"
+  },
+  "author": "Egee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/egee-irl/jumper/issues"
+  },
+  "homepage": "https://github.com/egee-irl/jumper#readme",
+  "dependencies": {
+    "electron": "^8.2.5",
+    "http-server": "^0.12.3"
+  }
+}
