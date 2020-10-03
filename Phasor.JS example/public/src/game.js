@@ -59,7 +59,7 @@ function create() {
     game.physics.arcade.enable(player)
 
     //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.5
+    player.body.bounce.y = 10
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
 
