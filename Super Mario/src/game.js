@@ -6,13 +6,13 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 
 
 function create() {
-    game.physics.startSystem(Phaser.Physics.ARCADE)
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
 }
 
 function update() {
-    game.physics.arcade.overlap(player, goomba, killPlayer, null, this)
+    game.physics.arcade.overlap(player, goomba, killPlayer, null, this);
 
 }
 
