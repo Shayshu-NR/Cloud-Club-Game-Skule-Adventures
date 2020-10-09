@@ -23,6 +23,7 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('woof', './assets/woof.png', 32, 32)
+    game.load.image('steve', './assets/steve.png')
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
 }
 
@@ -85,6 +86,14 @@ function create() {
         diamond.body.bounce.y = 0.3 + Math.random() * 0.2
     }
 
+    //Adding an enemey to the level
+    enemy = game.add.group();
+
+    enemy.enableBody = true;
+    
+    const steve = enemy.create(700, 0, 'steve');
+    steve.body.gravity.y = 1000;
+
     //  Create the score text
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
 
@@ -112,9 +121,13 @@ function update() {
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
+    game.physics.arcade.collide(enemy, platforms)
 
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
+
+    //
+    game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
 
     // Configure the controls!
     if (cursors.left.isDown) {
@@ -146,6 +159,18 @@ function collectDiamond(player, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+}
+
+function kill_mario(player, enemy){
+    enemy.kill();
+    player.kill();
+
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+
+    alert("Game over");
+
+    location.reload();
 }
 
 var tick = function () {
