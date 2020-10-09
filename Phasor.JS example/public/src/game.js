@@ -14,6 +14,8 @@ let platforms
 let diamonds
 let cursors
 let player
+var text;
+var timedEvent;
 
 function preload() {
     // Load & Define our game assets
@@ -21,6 +23,7 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('woof', './assets/woof.png', 32, 32)
+    game.load.audio("mario_die", './assets/smb_mariodie.wav')
 }
 
 function create() {
@@ -59,7 +62,7 @@ function create() {
     game.physics.arcade.enable(player)
 
     //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 10
+    player.body.bounce.y = 0.2
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
 
@@ -87,6 +90,19 @@ function create() {
 
     //  And bootstrap our controls
     cursors = game.input.keyboard.createCursorKeys()
+
+    scoreText.text = 'Score: 0';
+
+
+    //~~~~~ Demo of timer ~~~~~
+    //Creating a timer...
+    // 2:30 in seconds
+    this.timeLimit = 30;
+    this.timeText = game.add.text(15, 50, "00:00");
+    this.timeText.fill = "#000000";
+    this.timer = game.time.events.loop(1000, tick, this);
+    //Start the timer once everyting is loaded...
+    //~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function update() {
@@ -114,7 +130,7 @@ function update() {
 
     //  This allows the player to jump!
     if (cursors.up.isDown && player.body.touching.down) {
-        player.body.velocity.y = -400
+        player.body.velocity.y = -500
     }
     // Show an alert modal when score reaches 120
     if (score === 120) {
@@ -130,4 +146,29 @@ function collectDiamond(player, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+}
+
+var tick = function () {
+    this.timeLimit--;
+    var minutes = Math.floor(this.timeLimit / 60);
+    var seconds = this.timeLimit - (minutes * 60);
+    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
+    this.timeText.text = timeString;
+    if (this.timeLimit === 0) {
+        outofTime();
+    }
+};
+
+var addZeros = function (num) {
+    if (num < 10) {
+        num = "0" + num;
+    }
+    return num;
+};
+
+var outofTime = function () {
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+    alert("Out of Time!");
+    location.reload();
 }
