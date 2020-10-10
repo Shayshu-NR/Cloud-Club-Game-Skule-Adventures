@@ -23,7 +23,10 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('woof', './assets/woof.png', 32, 32)
+    game.load.spritesheet('goomba', './assets/mimic.png', 32, 32);
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
+    game.load.audio("mario_die", './assets/smb_mariodie.wav')
+    game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
 }
 
 function create() {
@@ -103,6 +106,24 @@ function create() {
     this.timer = game.time.events.loop(1000, tick, this);
     //Start the timer once everyting is loaded...
     //~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Demo of moving enemy ~~~~~
+    hazard = game.add.group()
+    hazard.enableBody = true
+
+    spike = hazard.create(525, 420, 'spike')
+    spike.body.gravity = 1000
+    spike.body.immovable = true
+
+    enemy1 = hazard.create(100 , 300, 'goomba')
+    enemy1.animations.add('fly', [0,1,2,3,4,5,6,7,8,9,10], 6, true)
+    enemy1.animations.play('fly')
+
+    tween1 = game.add.tween(enemy1)
+    tween1.loop = -1
+    tween1.to({x:350, y:300}, 2000, null, true, 0, loop=1000, true)
+    
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function update() {
@@ -112,9 +133,12 @@ function update() {
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
+    game.physics.arcade.collide(hazard, platforms)
+    game.physics.arcade.collide(player, hazard)
 
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
+    game.physics.arcade.overlap(player, hazard, kill_mario, null, this)
 
     // Configure the controls!
     if (cursors.left.isDown) {
@@ -170,5 +194,16 @@ var outofTime = function () {
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
     alert("Out of Time!");
+    location.reload();
+}
+
+function kill_mario(player, enemy){
+    player.kill();
+
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+
+    alert("Game over");
+
     location.reload();
 }

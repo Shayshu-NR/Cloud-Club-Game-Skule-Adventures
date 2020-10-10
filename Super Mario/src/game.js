@@ -91,8 +91,8 @@ function create() {
 
     enemy.enableBody = true;
     
-    const steve = enemy.create(700, 0, 'steve');
-    steve.body.gravity.y = 1000;
+    const steve = enemy.create(350, 350, 'steve');
+    
 
     //  Create the score text
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
@@ -107,9 +107,11 @@ function create() {
     //Creating a timer...
     // 2:30 in seconds
     this.timeLimit = 30;
-    this.timeText = game.add.text(15, 50, "00:00");
+    this.timeText = game.add.text(700, 20, "00:00");
     this.timeText.fill = "#000000";
     this.timer = game.time.events.loop(1000, tick, this);
+
+    console.log(this)
     //Start the timer once everyting is loaded...
     //~~~~~~~~~~~~~~~~~~~~~~~~~
 }
