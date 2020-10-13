@@ -25,7 +25,6 @@ function preload() {
     game.load.spritesheet('woof', './assets/woof.png', 32, 32)
     game.load.spritesheet('goomba', './assets/mimic.png', 32, 32);
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
-    game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
 }
 
@@ -121,8 +120,9 @@ function create() {
 
     tween1 = game.add.tween(enemy1)
     tween1.loop = -1
-    tween1.to({x:350, y:300}, 2000, null, true, 0, loop=1000, true)
-    
+    tween1.to({x:350, y:300}, 2000, null, true, 0, loop=100, true)
+
+    console.log(this);
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
