@@ -1,0 +1,7 @@
+{
+    "test": "This info is from a JSON file!",
+    "Platforms": [
+        { "x": 50, "y": 80 }, { "x": 150, "y": -150 }
+    ]
+
+}
