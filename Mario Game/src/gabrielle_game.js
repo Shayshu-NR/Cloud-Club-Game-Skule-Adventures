@@ -10,6 +10,7 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 // Declare shared variables at the top so all methods can access them
 let score = 0
 let scoreText
+let powerText
 let platforms
 let diamonds
 let cursors
@@ -18,24 +19,25 @@ var text;
 var timedEvent;
 var sky
 var json_parsed
+let state = 3
 
 function preload() {
     // Load & Define our game assets
     game.load.image('sky', './assets/sky.png')
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('woof', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('woof', './assets/Main.png', 32, 32)
     game.load.spritesheet('goomba', './assets/mimic.png', 32, 32)
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
     game.load.spritesheet("brick", "./assets/brick.png", 32, 32)
 
-    game.load.text("Json_test", "./data/test.json")
+   // game.load.text("Json_test", "./data/test.json")
 }
 
 function create() {
-    json_parsed = JSON.parse(game.cache.getText("Json_test"))
-    console.log(json_parsed)
+    //json_parsed = JSON.parse(game.cache.getText("Json_test"))
+    //console.log(json_parsed)
 
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -104,17 +106,17 @@ function create() {
 
     //  Create the score text
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
-
+    power = game.add.text(300, 70, '', { fontSize: '32px', fill: '#000' })
     //  And bootstrap our controls
     cursors = game.input.keyboard.createCursorKeys()
-
+    power.text = 3
     scoreText.text = 'Score: 0';
 
 
     //~~~~~ Demo of timer ~~~~~
     //Creating a timer...
     // 2:30 in seconds
-    this.timeLimit = 30;
+    this.timeLimit = 60;
     this.timeText = game.add.text(15, 50, "00:00");
     this.timeText.fill = "#000000";
     this.timer = game.time.events.loop(1000, tick, this);
@@ -132,6 +134,7 @@ function create() {
     enemy1 = hazard.create(100, 300, 'goomba')
     enemy1.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 6, true)
     enemy1.animations.play('fly')
+    enemy1.enableBody = true
 
     tween1 = game.add.tween(enemy1)
     tween1.loop = -1
@@ -155,11 +158,12 @@ function create() {
 function update() {
     //  We want the player to stop when not moving
     player.body.velocity.x = 0
+    power.text = state;
 
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
-    game.physics.arcade.collide(hazard, platforms)
+    game.physics.arcade.collide(hazard, platforms, kill_mario, null, this)
     game.physics.arcade.collide(player, hazard, kill_mario, null, this)
     game.physics.arcade.collide(player, brick, brick_break, null, this)
 
@@ -224,14 +228,24 @@ var outofTime = function() {
 }
 
 function kill_mario(player, enemy) {
+    //this checks whether mario has a power up or not.
+    if(state >= 2){
+        state = state - 1
+        console.log(state)
+        player.position.x = player.position.x - 25;
+    }
+    else{
     player.kill();
 
     var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-
+    //die_noise.play();
+    
     alert("Game over");
 
     location.reload();
+    create()
+    state = 3
+    }
 }
 
 
