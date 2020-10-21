@@ -1,14 +1,6 @@
 // import { Bullet } from './bullet.js'
 // Linted with standardJS - https://standardjs.com/
 
-// Initialize the Phaser Game object and set default game window size
-const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-    preload: preload,
-    create: create,
-    update: update,
-    render: render
-})
-
 // var Bullet = new Phaser.Class({
 
 //     Extends: Phaser.GameObjects.Image,
@@ -56,6 +48,17 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 //     }
 
 // });
+
+
+// Initialize the Phaser Game object and set default game window size
+const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+    preload: preload,
+    create: create,
+    update: update,
+    render: render
+})
+
+
 // Declare shared variables at the top so all methods can access them
 let score = 0
 let scoreText
@@ -83,6 +86,7 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('woof', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('new_state', './assets/woof.png', 32, 32)
     game.load.spritesheet('goomba', './assets/mimic.png', 32, 32)
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
@@ -145,7 +149,7 @@ function create() {
     //! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'woof')
+    player = game.add.sprite(32, game.world.height - 150, 'new_state')
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player)
@@ -156,8 +160,8 @@ function create() {
     player.body.collideWorldBounds = true
 
     //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1], 10, true)
-    player.animations.add('right', [2, 3], 10, true)
+    player.animations.add('left', [0], 10, true)
+    player.animations.add('right', [1], 10, true)
 
     //  Finally some diamonds to collect
     diamonds = game.add.group()
@@ -337,10 +341,12 @@ function kill_mario(player, enemy) {
     if (state >= 2) {
         player.position.x = player.position.x - 25
         state--
+        player.loadTexture('woof')
         console.log("state: ", state)
         return
     } else {
-
+        game.input.keyboard.disabled = true;
+        //player.animation.play('DIE')
         player.kill();
 
         var die_noise = game.add.audio("mario_die");
