@@ -19,24 +19,23 @@ var text;
 var timedEvent;
 var sky
 var json_parsed
-let state = 3
-
+let state = 1
+lives = 1
 function preload() {
     // Load & Define our game assets
     game.load.image('sky', './assets/sky.png')
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('woof', './assets/Main.png', 32, 32)
+    game.load.spritesheet('woof', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('goomba', './assets/mimic.png', 32, 32)
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
     game.load.spritesheet("brick", "./assets/brick.png", 32, 32)
-
-   // game.load.text("Json_test", "./data/test.json")
+    game.load.text("test", "./JSON Files/gabrielle_test.json")
 }
 
 function create() {
-    //json_parsed = JSON.parse(game.cache.getText("Json_test"))
+    json_parsed = JSON.parse(game.cache.getText("test"))
     //console.log(json_parsed)
 
 
@@ -96,8 +95,9 @@ function create() {
     diamonds.enableBody = true
 
     //  Create 12 diamonds evenly spaced apart
-    for (var i = 0; i < 12; i++) {
-        const diamond = diamonds.create(i * 70, 0, 'diamond')
+    var DIamonds = json_parsed.Diamonds
+    for (var i = 0; i < DIamonds.length; i++) {
+        diamond = diamonds.create(DIamonds[i].y, 0, 'diamond')
 
         //  Drop em from the sky and bounce a bit
         diamond.body.gravity.y = 1000
@@ -105,11 +105,14 @@ function create() {
     }
 
     //  Create the score text
+    //scoreText.destroy();
+    //scoreText.fixedToCamera = true;
+    //scoreText = game.add.text(player.x, 16, "SCORE: 0", {fontSize: '56px', color: '#fff'})
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
-    power = game.add.text(300, 70, '', { fontSize: '32px', fill: '#000' })
+    power = game.add.text(16, 80, '', { fontSize: '32px', fill: '#000' })
     //  And bootstrap our controls
     cursors = game.input.keyboard.createCursorKeys()
-    power.text = 3
+    //power.text = 3
     scoreText.text = 'Score: 0';
 
 
@@ -134,21 +137,25 @@ function create() {
     enemy1 = hazard.create(100, 300, 'goomba')
     enemy1.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 6, true)
     enemy1.animations.play('fly')
-    enemy1.enableBody = true
 
     tween1 = game.add.tween(enemy1)
     tween1.loop = -1
     tween1.to({ x: 350, y: 300 }, 2000, null, true, 0, loop = 100, true)
 
-    console.log(this);
+    //console.log(this);
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Demo of birck ~~~~~
     brick = game.add.group()
     brick.enableBody = true
 
-    const block = brick.create(50, game.world.height - 150, 'brick')
-    block.body.immovable = true
+    var brick_location = json_parsed.Bricks
+    for(var j = 0; j < brick_location.length; j++){
+        const block = brick.create(brick_location[j].x, brick_location[j].y, 'brick')
+        block.body.immovable = true
+    }
+    
+    
 
     game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player);
@@ -158,8 +165,10 @@ function create() {
 function update() {
     //  We want the player to stop when not moving
     player.body.velocity.x = 0
-    power.text = state;
-
+    power.text = "Lives:" + lives;
+    //scoreText.setViisibility = false
+    //scoreText = this.add.text(player.x, 16, "SCORE: 0", {fontSize: '56px', color: '#fff'})
+    
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
@@ -230,21 +239,29 @@ var outofTime = function() {
 function kill_mario(player, enemy) {
     //this checks whether mario has a power up or not.
     if(state >= 2){
-        state = state - 1
+        state--
+        player.position.x = player.position.x - 15;
         console.log(state)
-        player.position.x = player.position.x - 25;
+        
     }
     else{
+    //life is lost
+    lives--
+    if(lives == 0){
+        //needs to be across the screen in big red letters
+        alert("All lives lost! Game over");
+        this.input.keyboard.enabled = false
+    }
     player.kill();
 
     var die_noise = game.add.audio("mario_die");
     //die_noise.play();
     
-    alert("Game over");
+    
 
     location.reload();
     create()
-    state = 3
+    state = 1
     }
 }
 
@@ -252,6 +269,8 @@ function kill_mario(player, enemy) {
 function brick_break(player, block) {
     //Only break the brick when the player is below 
     //and not hittin gon the sides
+
+    
     console.log('Player (x,y):', "(", player.position.x, player.position.y, ")")
     console.log('Block (x,y):', "(", block.position.x, block.position.y, ")")
 
@@ -261,13 +280,11 @@ function brick_break(player, block) {
     var block_x = block.position.x
     var block_y = block.position.y
 
-    if (player_y < block_y) {
+    if (player_y < block_y || player_x > block_x + 16 || player_x < block_x - 16) {
         return
-    } else if (player_x > block_x + 16) {
-        return
-    } else if (player_x < block_x - 16) {
-        return
-    } else {
+    }  else {
+        if(state<3)state++;
+        //player.setTexture('woof')
         block.kill()
     }
 
