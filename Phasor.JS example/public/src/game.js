@@ -101,10 +101,10 @@ function preload() {
 }
 
 function create() {
-    //!
+    //! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     json_parsed = JSON.parse(game.cache.getText("Json_test"))
     console.log("Json file: ", json_parsed)
-        //!
+        //! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
