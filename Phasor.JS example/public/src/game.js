@@ -1,55 +1,5 @@
 // import { Bullet } from './bullet.js'
 // Linted with standardJS - https://standardjs.com/
-
-// var Bullet = new Phaser.Class({
-
-//     Extends: Phaser.GameObjects.Image,
-
-//     initialize:
-
-//     // Bullet Constructor
-//         function Bullet(scene) {
-//         Phaser.GameObjects.Image.call(this, scene, 0, 0, 'bullet');
-//         this.speed = 1;
-//         this.born = 0;
-//         this.direction = 0;
-//         this.xSpeed = 0;
-//         this.ySpeed = 0;
-//         this.setSize(12, 12, true);
-//     },
-
-//     // Fires a bullet from the player to the reticle
-//     fire: function(shooter, target) {
-//         this.setPosition(shooter.x, shooter.y); // Initial position
-//         this.direction = Math.atan((target.x - this.x) / (target.y - this.y));
-
-//         // Calculate X and y velocity of bullet to moves it from shooter to target
-//         if (target.y >= this.y) {
-//             this.xSpeed = this.speed * Math.sin(this.direction);
-//             this.ySpeed = this.speed * Math.cos(this.direction);
-//         } else {
-//             this.xSpeed = -this.speed * Math.sin(this.direction);
-//             this.ySpeed = -this.speed * Math.cos(this.direction);
-//         }
-
-//         this.rotation = shooter.rotation; // angle bullet with shooters rotation
-//         this.born = 0; // Time since new bullet spawned
-//     },
-
-//     // Updates the position of the bullet each cycle
-//     update: function(time, delta) {
-//         this.x += this.xSpeed * delta;
-//         this.y += this.ySpeed * delta;
-//         this.born += delta;
-//         if (this.born > 1800) {
-//             this.setActive(false);
-//             this.setVisible(false);
-//         }
-//     }
-
-// });
-
-
 // Initialize the Phaser Game object and set default game window size
 const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
     preload: preload,
@@ -59,14 +9,15 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 })
 
 
+
 // Declare shared variables at the top so all methods can access them
-let score = 0
-let scoreText
-let platforms
-let diamonds
-let cursors
-let player
-let hazard
+var scoreText
+var score = 0
+var platforms
+var diamonds
+var cursors
+var player
+var hazard
 var plat_x
 var plat_y
 var enemy1
@@ -79,8 +30,12 @@ var json_parsed
 var goomba
 var walking_goomba
 var state = 3
+var bullets
 
 function preload() {
+
+    // var test = JSON.parse("./data/test.json")
+    // console.log("Preload", test)
     // Load & Define our game assets
     game.load.image('sky', './assets/sky.png')
     game.load.image('ground', './assets/platform.png')
@@ -96,15 +51,15 @@ function preload() {
         //!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     game.load.audio('coin_sound', './assets/smb_coin.wav')
     game.load.audio('brick_sound', './assets/smb_breakblock.wav')
-
+    game.load.image('bullets', "./assets/steve.png")
     game.load.spritesheet('blue_goomba', './assets/bluegoomba.png', 32, 32)
 }
 
 function create() {
-    //!
+    //! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     json_parsed = JSON.parse(game.cache.getText("Json_test"))
     console.log("Json file: ", json_parsed)
-        //!
+        //! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
@@ -127,7 +82,7 @@ function create() {
     const ground = platforms.create(0, game.world.height - 32, 'ground')
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(20, 2)
+    ground.scale.setTo(2, 2)
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true
@@ -244,6 +199,12 @@ function create() {
     walking_goomba.loop = -1
     walking_goomba.to({ x: 1250, y: 368 }, 2000, null, true, 0, 1000000, true)
         //! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //! ~~~~~ Bullets demo ~~~~~
+    bullets = game.add.group();
+    bullets.enableBody = true
+
+    //! ~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function update() {
@@ -289,6 +250,10 @@ function update() {
         alert('You win!')
         score = 0
     }
+
+    if (game.input.activePointer.isDown) {
+        create_bullet()
+    }
 }
 
 function render() {
@@ -321,7 +286,7 @@ var tick = function() {
     if (this.timeLimit === 0) {
         outofTime();
     }
-};
+}
 
 var addZeros = function(num) {
     if (num < 10) {
@@ -383,4 +348,39 @@ function brick_break(player, block) {
         break_sound.play()
     }
 
+}
+
+function shoot(pointer) {
+    console.log(pointer)
+    var bullet = game.bullets.get(pointer.x, pointer.y);
+    if (bullet) {
+        bullet.setActive(true);
+        bullet.setVisible(true);
+        bullet.body.velocity.y = -200;
+    }
+}
+
+function create_bullet() {
+    let wanted_vel = 100
+    let x_vel
+    let y_vel
+
+    let to_x = game.input.activePointer.x - 16
+    let to_y = game.input.activePointer.y - 16
+    let from_x = player.position.x
+    let from_y = player.position.y
+
+    let distance = Math.sqrt((to_x - from_x) ** 2 + (to_y - from_y) ** 2)
+    let distance_x = to_x - from_x
+    let distance_y = to_y - from_y
+
+    let time = distance / wanted_vel
+
+    x_vel = distance_x / time
+    y_vel = distance_y / time
+
+    const test = bullets.create(player.position.x, player.position.y, 'bullets')
+
+    test.body.velocity.x = x_vel
+    test.body.velocity.y = y_vel
 }
