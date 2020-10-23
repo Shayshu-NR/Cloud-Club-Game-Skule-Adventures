@@ -28,6 +28,7 @@ function preload() {
 }
 
 function create() {
+    game.world.setBounds(0, 0, 1000, 600)
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -114,6 +115,7 @@ function create() {
     console.log(this)
     //Start the timer once everyting is loaded...
     //~~~~~~~~~~~~~~~~~~~~~~~~~
+    game.camera.follow(player)
 }
 
 function update() {
@@ -153,7 +155,7 @@ function update() {
         score = 0
     }
 
-    if (playerpositiony > 536) {
+    if (player.position.y > 536) {
         falloutofworld(player)
     }
 }
@@ -208,5 +210,6 @@ function falloutofworld(player) {
     player.kill();
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
+    alert("Game over");
     location.reload();
 }
