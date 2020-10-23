@@ -284,8 +284,8 @@ function question_break(player, block){
     } else if (player_x < block_x - 16) {
         return
     //how do i check if the block's texture is iron
-    } else if (block. == 'iron'){
-        return
+    //} else if (block == 'iron'){
+        //return
     } else {
  
         block.loadTexture('iron')
