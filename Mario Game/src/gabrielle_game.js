@@ -27,6 +27,7 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('woof', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('woof2', './assets/Cloud Character.png', 32, 32)
     game.load.spritesheet('goomba', './assets/mimic.png', 32, 32)
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
@@ -159,8 +160,11 @@ function create() {
 
     game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player);
+    keySpace = this.input.keyboard.addKey(Phaser.Keyboard.KeyCodes.SPACE)
+
     //~~~~~~~~~~~~~~~~~~~~~~~~~
 }
+
 
 function update() {
     //  We want the player to stop when not moving
@@ -182,10 +186,10 @@ function update() {
     // Configure the controls!
     if (cursors.left.isDown) {
         player.body.velocity.x = -300
-        player.animations.play('left')
+        player.animations.play('right')
     } else if (cursors.right.isDown) {
         player.body.velocity.x = 300
-        player.animations.play('right')
+        player.animations.play('left')
     } else {
         // If no movement keys are pressed, stop the player
         player.animations.stop()
@@ -242,7 +246,7 @@ function kill_mario(player, enemy) {
         state--
         player.position.x = player.position.x - 15;
         console.log(state)
-        
+        player.loadTexture('woof')
     }
     else{
     //life is lost
@@ -283,8 +287,12 @@ function brick_break(player, block) {
     if (player_y < block_y || player_x > block_x + 16 || player_x < block_x - 16) {
         return
     }  else {
-        if(state<3)state++;
-        //player.setTexture('woof')
+        //For player state upgrades~~~
+        if (state<3){
+            state++;
+        }
+        player.loadTexture('woof2')
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         block.kill()
     }
 
