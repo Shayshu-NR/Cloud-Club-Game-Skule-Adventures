@@ -27,10 +27,10 @@ function preload() {
     game.load.spritesheet('woof', './assets/woof.png', 32, 32)
     game.load.image('steve', './assets/steve.png')
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
-    game.load.image('brick','./assets/brick.png')
-    game.load.image('qBlock','./assets/question-block.png')
-    game.load.image('iron','./assets/iron-block.png')
-    game.load.image('fireflower','./assets/fireflower.png')
+    game.load.image('brick', './assets/brick.png')
+    game.load.image('qBlock', './assets/question-block.png')
+    game.load.image('iron', './assets/iron-block.png')
+    game.load.image('fireflower', './assets/fireflower.png')
 }
 
 function create() {
@@ -96,9 +96,9 @@ function create() {
     enemy = game.add.group();
 
     enemy.enableBody = true;
-    
+
     const steve = enemy.create(350, 350, 'steve');
-    
+
 
     //  Create the score text
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
@@ -118,8 +118,8 @@ function create() {
     this.timer = game.time.events.loop(1000, tick, this);
 
     console.log(this)
-    //Start the timer once everyting is loaded...
-    //~~~~~~~~~~~~~~~~~~~~~~~~~
+        //Start the timer once everyting is loaded...
+        //~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
     //~~~~~ Demo of birck ~~~~~
@@ -134,14 +134,13 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~~ question block ~~~~~
-    
     qBlock = game.add.group()
     qBlock.enableBody = true
 
     const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
     questionBlock.body.immovable = true
-
-    //~~~~~ power ups ~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~ power ups ~~~~~
     powerUp = game.add.group()
     powerUp.enableBody = true
 }
@@ -197,7 +196,7 @@ function collectDiamond(player, diamond) {
     scoreText.text = 'Score: ' + score
 }
 
-function kill_mario(player, enemy){
+function kill_mario(player, enemy) {
     enemy.kill();
     player.kill();
 
@@ -209,7 +208,7 @@ function kill_mario(player, enemy){
     location.reload();
 }
 
-var tick = function () {
+var tick = function() {
     this.timeLimit--;
     var minutes = Math.floor(this.timeLimit / 60);
     var seconds = this.timeLimit - (minutes * 60);
@@ -220,14 +219,14 @@ var tick = function () {
     }
 };
 
-var addZeros = function (num) {
+var addZeros = function(num) {
     if (num < 10) {
         num = "0" + num;
     }
     return num;
 };
 
-var outofTime = function () {
+var outofTime = function() {
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
     alert("Out of Time!");
@@ -257,17 +256,17 @@ function brick_break(player, block) {
         block.kill()
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
-        //get coin to pop up from the top
-        //does the coin jump up a lil before going down(?)
-        //coin object probaby same logic as diamond
-        const dia = diamonds.create(block_x, block_y-32, 'diamond')
+            //get coin to pop up from the top
+            //does the coin jump up a lil before going down(?)
+            //coin object probaby same logic as diamond
+        const dia = diamonds.create(block_x, block_y - 32, 'diamond')
         dia.body.gravity.y = 1000
         dia.body.bounce.y = 0.3 + Math.random() * 0.2
     }
 
 }
 
-function question_break(player, block){
+function question_break(player, block) {
     //Only break the question mark block when the player is below 
     //and not hittin on the sides
 
@@ -283,25 +282,25 @@ function question_break(player, block){
         return
     } else if (player_x < block_x - 16) {
         return
-    //how do i check if the block's texture is iron
-    //} else if (block == 'iron'){
+        //how do i check if the block's texture is iron
+        //} else if (block == 'iron'){
         //return
     } else {
- 
+
         block.loadTexture('iron')
-        //~~~~~ replace w/ question mark audio sound
+            //~~~~~ replace w/ question mark audio sound
         var break_sound = game.add.audio('brick_sound')
-        //is that the same sound as the brick or nah
+            //is that the same sound as the brick or nah
         break_sound.play()
-        //get powerup to slide up from question mark brick
-        const flower = powerUp.create(block_x, block_y-32, 'fireflower')
+            //get powerup to slide up from question mark brick
+        const flower = powerUp.create(block_x, block_y - 32, 'fireflower')
         flower.body.gravity.y = 0.98
         flower.body.bounce.y = 0.3 + Math.random() * 0.2
-        
-        const diamond = diamonds.create(block_x, block_y-32, 'diamond')
+
+        const diamond = diamonds.create(block_x, block_y - 32, 'diamond')
         diamond.body.gravity.y = 1000
         diamond.body.bounce.y = 0.3 + Math.random() * 0.2
-        
+
     }
 
 }
