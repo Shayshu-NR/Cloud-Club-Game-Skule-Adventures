@@ -15,6 +15,7 @@ let platforms
 let diamonds
 let cursors
 let player
+let enemy
 var text;
 var timedEvent;
 var hazard;
@@ -152,6 +153,20 @@ function create() {
     questionBlock.body.immovable = true
     questionBlock.broken = false
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    hazard = game.add.group()
+    hazard.enableBody = true
+
+    goomba = hazard.create(100,318,'goomba')
+    goomba.animations.add('walk', [2, 1, 2, 0], 4, true)
+    goomba.animations.play('walk')
+    goomba.body.gravity.y = 1000
+
+    walking_goomba = game.add.tween(goomba)
+    walking_goomba.loop = -1
+    walking_goomba.to({ x: 300, y: 318 }, 100, null, true, 0, 1000000, true)
+
+
 
     //~~~~~ World and camera settings ~~~~~
     game.world.setBounds(0, 0, 8000, 600)
