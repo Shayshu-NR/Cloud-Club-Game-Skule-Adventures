@@ -25,6 +25,7 @@ let arrState
 var time
 var hitTime = 70
 //let arrState = []
+
 function preload() {
     // Load & Define our game assets
     game.load.image('sky', './assets/sky.png')
@@ -43,7 +44,7 @@ function preload() {
 function create() {
     arrState = ['woof','woof2','woof3']
     json_parsed = JSON.parse(game.cache.getText("test"))
-    //console.log(json_parsed)
+        //console.log(json_parsed)
 
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -117,9 +118,9 @@ function create() {
     //scoreText = game.add.text(player.x, 16, "SCORE: 0", {fontSize: '56px', color: '#fff'})
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
     power = game.add.text(16, 80, '', { fontSize: '32px', fill: '#000' })
-    //  And bootstrap our controls
+        //  And bootstrap our controls
     cursors = game.input.keyboard.createCursorKeys()
-    //power.text = 3
+        //power.text = 3
     scoreText.text = 'Score: 0';
 
 
@@ -157,12 +158,12 @@ function create() {
     brick.enableBody = true
 
     var brick_location = json_parsed.Bricks
-    for(var j = 0; j < brick_location.length; j++){
+    for (var j = 0; j < brick_location.length; j++) {
         const block = brick.create(brick_location[j].x, brick_location[j].y, 'brick')
         block.body.immovable = true
     }
-    
-    
+
+
 
     game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player);
@@ -179,7 +180,7 @@ function update() {
     time = Math.floor(this.timeLimit)
     //scoreText.setViisibility = false
     //scoreText = this.add.text(player.x, 16, "SCORE: 0", {fontSize: '56px', color: '#fff'})
-    
+
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
@@ -248,7 +249,7 @@ var outofTime = function() {
 }
 
 function kill_mario(player, enemy) {
-    //this checks whether mario has a power up or not.
+    //this checks whether mario has a power up or not
 
     var dif = hitTime - time
     console.log("DIFFERENCE: " +dif)
@@ -257,6 +258,7 @@ function kill_mario(player, enemy) {
         
         //calculates at what time mario last hit the enemy
         hitTime = time;
+
         state--
         /**
         *this.timeLimit = 60;
@@ -271,8 +273,7 @@ function kill_mario(player, enemy) {
        //console.log("Time: " + time);
         //console.log(time)
         console.log(state)
-        console.log(player)
-        player.loadTexture(arrState[state])
+
     }
     else{
     //life is lost
@@ -284,16 +285,14 @@ function kill_mario(player, enemy) {
     }
     player.kill();
 
-    var die_noise = game.add.audio("mario_die");
-    //die_noise.play();
-    
-    
+        var die_noise = game.add.audio("mario_die");
+        //die_noise.play();
 
     location.reload();
     create()
     state = 0
+
     }
-}
 }
 
 
@@ -301,7 +300,7 @@ function brick_break(player, block) {
     //Only break the brick when the player is below 
     //and not hittin gon the sides
 
-    
+
     console.log('Player (x,y):', "(", player.position.x, player.position.y, ")")
     console.log('Block (x,y):', "(", block.position.x, block.position.y, ")")
 
@@ -313,16 +312,13 @@ function brick_break(player, block) {
 
     if (player_y < block_y || player_x > block_x + 16 || player_x < block_x - 16) {
         return
-    }  else {
+    } else {
         //For player state upgrades~~~
         if (state<2){
+
             state++;
             player.loadTexture(arrState[state])
         }
-        //player.loadTexture(arrState[state-1])
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        block.kill()
-    }
 
-
+    }}
 }

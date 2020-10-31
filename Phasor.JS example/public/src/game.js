@@ -31,6 +31,7 @@ var goomba
 var walking_goomba
 var state = 3
 var bullets
+var fireball_direction = 0
 
 function preload() {
 
@@ -51,7 +52,7 @@ function preload() {
         //!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     game.load.audio('coin_sound', './assets/smb_coin.wav')
     game.load.audio('brick_sound', './assets/smb_breakblock.wav')
-    game.load.image('bullets', "./assets/steve.png")
+    game.load.image('bullets', "./assets/fireball.png")
     game.load.spritesheet('blue_goomba', './assets/bluegoomba.png', 32, 32)
 }
 
@@ -142,8 +143,14 @@ function create() {
     //  Create the score text
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
 
-    //  And bootstrap our controls
-    cursors = game.input.keyboard.createCursorKeys()
+    cursors = game.input.keyboard.createCursorKeys({
+        up: 'up',
+        down: 'down',
+        left: 'left',
+        right: 'right',
+        space: 'spacebar'
+
+    })
 
     scoreText.text = 'Score: 0';
 
@@ -203,8 +210,9 @@ function create() {
     //! ~~~~~ Bullets demo ~~~~~
     bullets = game.add.group();
     bullets.enableBody = true
+        //! ~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //! ~~~~~~~~~~~~~~~~~~~~~~~~
+    console.log(Phaser.Keyboard.SPACEBAR)
 }
 
 function update() {
@@ -225,9 +233,11 @@ function update() {
     if (cursors.left.isDown) {
         player.body.velocity.x = -300
         player.animations.play('left')
+        fireball_direction = -1
     } else if (cursors.right.isDown) {
         player.body.velocity.x = 300
         player.animations.play('right')
+        fireball_direction = 1
     } else {
         // If no movement keys are pressed, stop the player
         player.animations.stop()
@@ -251,9 +261,12 @@ function update() {
         score = 0
     }
 
-    if (game.input.activePointer.isDown) {
+
+    //!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         create_bullet()
     }
+    //!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function render() {
@@ -277,7 +290,6 @@ function collectDiamond(player, diamond) {
 }
 
 var tick = function() {
-    console.log("Tick: ", this)
     this.timeLimit--;
     var minutes = Math.floor(this.timeLimit / 60);
     var seconds = this.timeLimit - (minutes * 60);
@@ -361,26 +373,10 @@ function shoot(pointer) {
 }
 
 function create_bullet() {
-    let wanted_vel = 100
-    let x_vel
-    let y_vel
-
-    let to_x = game.input.activePointer.x - 16
-    let to_y = game.input.activePointer.y - 16
-    let from_x = player.position.x
-    let from_y = player.position.y
-
-    let distance = Math.sqrt((to_x - from_x) ** 2 + (to_y - from_y) ** 2)
-    let distance_x = to_x - from_x
-    let distance_y = to_y - from_y
-
-    let time = distance / wanted_vel
-
-    x_vel = distance_x / time
-    y_vel = distance_y / time
+    let x_vel = 500
 
     const test = bullets.create(player.position.x, player.position.y, 'bullets')
 
-    test.body.velocity.x = x_vel
-    test.body.velocity.y = y_vel
+    test.body.velocity.x = x_vel * fireball_direction
+    test.body.velocity.y = 0
 }
