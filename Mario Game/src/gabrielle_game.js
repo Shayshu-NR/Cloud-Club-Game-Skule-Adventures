@@ -19,16 +19,21 @@ var text;
 var timedEvent;
 var sky
 var json_parsed
-let state = 1
+let state = 0
 lives = 1
+let arrState
+var time
+var hitTime = 70
+//let arrState = []
 function preload() {
     // Load & Define our game assets
     game.load.image('sky', './assets/sky.png')
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('woof', './assets/Main Sprite.png', 32, 32)
-    game.load.spritesheet('woof2', './assets/Cloud Character.png', 32, 32)
-    game.load.spritesheet('goomba', './assets/mimic.png', 32, 32)
+    game.load.spritesheet('woof2', './assets/BigMain_Sprite.png', 32, 64)    
+    game.load.spritesheet('woof3', './assets/Big_Main_SpritePowerup.png', 32, 64)
+    game.load.spritesheet('bluegoomba', './assets/mimic.png', 32, 32)
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
     game.load.spritesheet("brick", "./assets/brick.png", 32, 32)
@@ -36,6 +41,7 @@ function preload() {
 }
 
 function create() {
+    arrState = ['woof','woof2','woof3']
     json_parsed = JSON.parse(game.cache.getText("test"))
     //console.log(json_parsed)
 
@@ -170,6 +176,7 @@ function update() {
     //  We want the player to stop when not moving
     player.body.velocity.x = 0
     power.text = "Lives:" + lives;
+    time = Math.floor(this.timeLimit)
     //scoreText.setViisibility = false
     //scoreText = this.add.text(player.x, 16, "SCORE: 0", {fontSize: '56px', color: '#fff'})
     
@@ -242,11 +249,30 @@ var outofTime = function() {
 
 function kill_mario(player, enemy) {
     //this checks whether mario has a power up or not.
-    if(state >= 2){
+
+    var dif = hitTime - time
+    console.log("DIFFERENCE: " +dif)
+    if((dif)>5){
+    if(state > 0){
+        
+        //calculates at what time mario last hit the enemy
+        hitTime = time;
         state--
-        player.position.x = player.position.x - 15;
+        /**
+        *this.timeLimit = 60;
+        *this.timeText = game.add.text(15, 50, "00:00");
+        *this.timeText.fill = "#000000";
+        *this.timer = game.time.events.loop(1000, tick, this);
+         */
+       //timer = this.time.addEvent({ delay: 3000, callback: null, callbackScope: this });
+       
+        //this.now = 0
+       player.position.x = player.position.x - 16
+       //console.log("Time: " + time);
+        //console.log(time)
         console.log(state)
-        player.loadTexture('woof')
+        console.log(player)
+        player.loadTexture(arrState[state])
     }
     else{
     //life is lost
@@ -265,8 +291,9 @@ function kill_mario(player, enemy) {
 
     location.reload();
     create()
-    state = 1
+    state = 0
     }
+}
 }
 
 
@@ -288,10 +315,11 @@ function brick_break(player, block) {
         return
     }  else {
         //For player state upgrades~~~
-        if (state<3){
+        if (state<2){
             state++;
+            player.loadTexture(arrState[state])
         }
-        player.loadTexture('woof2')
+        //player.loadTexture(arrState[state-1])
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         block.kill()
     }
