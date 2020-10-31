@@ -28,10 +28,12 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
-    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 32)
+    game.load.spritesheet('purple_player', './assets/Main_SpritePowerup.png', 32, 32)
+    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('brick', './assets/brick.png')
     game.load.image('iron', './assets/iron-block.png')
+    game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
@@ -148,8 +150,8 @@ function create() {
     qBlock.enableBody = true
 
     const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
-    questionBlock.powerUp = 'hammer_powerUp'
     questionBlock.body.immovable = true
+    questionBlock.powerUp = 'mushroom'
     questionBlock.broken = false
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -198,7 +200,7 @@ function update() {
     }
 
 
-    if (player.position.y > 536) {
+    if (player.position.y >= 536) {
         falloutofworld(player)
     }
 
@@ -341,6 +343,7 @@ function question_break(player, block) {
         break_sound.play()
             //get powerup to slide up from question mark brick
         const new_powerUp = powerUp.create(block_x, block_y - 32, block.powerUp)
+        new_powerUp.power_type = block.powerUp
         new_powerUp.body.gravity.y = 0.98
         new_powerUp.body.bounce.y = 0.3 + Math.random() * 0.2
         block.broken = true
@@ -364,7 +367,9 @@ function falloutofworld(player) {
 }
 
 function powerUp_ingest(player, powerUp) {
-    console.log(powerUp)
+    console.log(player)
+    player.body.height = 64
+    player.loadTexture('big_player')
     powerUp.kill()
 
 }

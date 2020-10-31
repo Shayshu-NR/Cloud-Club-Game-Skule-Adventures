@@ -140,7 +140,8 @@ function create() {
     const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
     questionBlock.body.immovable = true
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //~~~~~ power ups ~~~~~
+
+    //~~~~~ power ups ~~~~~
     powerUp = game.add.group()
     powerUp.enableBody = true
 }
@@ -297,9 +298,9 @@ function question_break(player, block) {
         flower.body.gravity.y = 0.98
         flower.body.bounce.y = 0.3 + Math.random() * 0.2
 
-        const diamond = diamonds.create(block_x, block_y - 32, 'diamond')
-        diamond.body.gravity.y = 1000
-        diamond.body.bounce.y = 0.3 + Math.random() * 0.2
+        // const diamond = diamonds.create(block_x, block_y - 32, 'diamond')
+        // diamond.body.gravity.y = 1000
+        // diamond.body.bounce.y = 0.3 + Math.random() * 0.2
 
     }
 

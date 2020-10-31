@@ -19,8 +19,8 @@ var text;
 var timedEvent;
 var sky
 var json_parsed
-var state = 1
-var lives = 1
+var state = 3
+var lives = 3
 
 function preload() {
     // Load & Define our game assets
@@ -260,9 +260,6 @@ function kill_mario(player, enemy) {
 
         var die_noise = game.add.audio("mario_die");
         //die_noise.play();
-
-
-
         location.reload();
         create()
         state = 1
