@@ -36,7 +36,7 @@ function preload() {
     game.load.spritesheet('woof3', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.spritesheet('bluegoomba', './assets/mimic.png', 32, 32)
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
-    game.load.spritesheet("spike", "./assets/spike.png", 32, 32)
+    game.load.spritesheet("spike", "./assets/iron-block.png", 32, 32)
     game.load.spritesheet("brick", "./assets/brick.png", 32, 32)
     game.load.text("test", "./JSON Files/gabrielle_test.json")
 }
@@ -44,10 +44,9 @@ function preload() {
 function create() {
     arrState = ['woof','woof2','woof3']
     json_parsed = JSON.parse(game.cache.getText("test"))
-        //console.log(json_parsed)
-
-
+    //console.log(json_parsed)
     //  We're going to be using physics, so enable the Arcade Physics system
+
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
 
@@ -103,14 +102,14 @@ function create() {
     diamonds.enableBody = true
 
     //  Create 12 diamonds evenly spaced apart
-    var DIamonds = json_parsed.Diamonds
+   /** var DIamonds = json_parsed.Diamonds
     for (var i = 0; i < DIamonds.length; i++) {
         diamond = diamonds.create(DIamonds[i].y, 0, 'diamond')
 
         //  Drop em from the sky and bounce a bit
         diamond.body.gravity.y = 1000
         diamond.body.bounce.y = 0.3 + Math.random() * 0.2
-    }
+    }**/
 
     //  Create the score text
     //scoreText.destroy();
@@ -260,18 +259,8 @@ function kill_mario(player, enemy) {
         hitTime = time;
 
         state--
-        /**
-        *this.timeLimit = 60;
-        *this.timeText = game.add.text(15, 50, "00:00");
-        *this.timeText.fill = "#000000";
-        *this.timer = game.time.events.loop(1000, tick, this);
-         */
-       //timer = this.time.addEvent({ delay: 3000, callback: null, callbackScope: this });
-       
-        //this.now = 0
-       player.position.x = player.position.x - 16
-       //console.log("Time: " + time);
-        //console.log(time)
+        player.loadTexture(arrState[state])
+        
         console.log(state)
 
     }
@@ -294,7 +283,7 @@ function kill_mario(player, enemy) {
 
     }
 }
-
+}
 
 function brick_break(player, block) {
     //Only break the brick when the player is below 
@@ -319,6 +308,6 @@ function brick_break(player, block) {
             state++;
             player.loadTexture(arrState[state])
         }
-
-    }}
+        block.kill()
+    }
 }
