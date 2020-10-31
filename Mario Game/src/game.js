@@ -15,6 +15,7 @@ let platforms
 let diamonds
 let cursors
 let player
+let enemy
 var text;
 var timedEvent;
 var hazard;
@@ -34,6 +35,7 @@ function preload() {
     game.load.image('iron', './assets/iron-block.png')
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
+    game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
 }
 
@@ -152,6 +154,29 @@ function create() {
     questionBlock.body.immovable = true
     questionBlock.broken = false
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~cracked out goomba~~~~~~~~~~~~~~~
+    hazard = game.add.group()
+    hazard.enableBody = true
+
+    goomba = hazard.create(100,318,'goomba')
+    goomba.animations.add('walk', [2, 1, 2, 0], 4, true)
+    goomba.animations.play('walk')
+    goomba.body.gravity.y = 1000
+
+    walking_goomba = game.add.tween(goomba)
+    walking_goomba.loop = -1
+    walking_goomba.to({ x: 300, y: 318 }, 100, null, true, 0, 1000000, true)
+
+    //~~~~~~~~~~~astronaut~~~~~~~~~~~~~~~
+    astronaut = hazard.create(400,418,'astronaut')
+    astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
+    astronaut.animations.play('walk')
+    astronaut.body.gravity.y = 1000
+
+    walking_astronaut = game.add.tween(astronaut)
+    walking_astronaut.loop = -1
+    walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
+
 
     //~~~~~ World and camera settings ~~~~~
     game.world.setBounds(0, 0, 8000, 600)
