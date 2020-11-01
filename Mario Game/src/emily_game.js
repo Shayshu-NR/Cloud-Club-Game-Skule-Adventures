@@ -281,6 +281,7 @@ function brick_break(player, block) {
             //coin object probaby same logic as diamond
         const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
+        dia.body.velocity.y = -100
         dia.body.bounce.y = 1
     } else {
         block.kill()
