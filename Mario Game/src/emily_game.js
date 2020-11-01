@@ -165,7 +165,10 @@ function update() {
     game.physics.arcade.collide(player, qBlock, question_break, null, this)
     game.physics.arcade.collide(powerUp, qBlock)
     game.physics.arcade.collide(diamonds, qBlock)
-    game.physics.arcade.collide(diamonds, brick)
+
+    //does the mario coin brick interaction where the diamond gets killed and added to score board
+    //issue - we can't have diamonds prespawned on bricks
+    game.physics.arcade.collide(brick, diamonds, collectBDiamond, null, this)
 
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
@@ -198,6 +201,15 @@ function update() {
 
 function collectDiamond(player, diamond) {
     // Removes the diamond from the screen
+    diamond.kill()
+
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
+}
+
+function collectBDiamond(brick, diamond){
+    // Removes the diamond from the screen for the brick and diamond interaction
     diamond.kill()
 
     //  And update the score
@@ -267,7 +279,7 @@ function brick_break(player, block) {
             //get coin to pop up from the top
             //does the coin jump up a lil before going down(?)
             //coin object probaby same logic as diamond
-        const dia = diamonds.create(block_x, block_y - 32, 'diamond')
+        const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
         dia.body.bounce.y = 1
     } else {
