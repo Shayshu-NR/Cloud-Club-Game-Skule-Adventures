@@ -21,6 +21,7 @@ var powerUp;
 
 function preload() {
     // Load & Define our game assets
+    game.load.text("emily_test", "./JSON Files/emily_test.json")
     game.load.image('sky', './assets/sky.png')
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
@@ -38,6 +39,7 @@ function preload() {
 }
 
 function create() {
+    json_parsed = JSON.parse(game.cache.getText('emily_test'))
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -127,13 +129,24 @@ function create() {
 
 
     //~~~~~ Demo of birck ~~~~~
+    
     brick = game.add.group()
     brick.enableBody = true
 
-    const block = brick.create(50, game.world.height - 150, 'brick')
-    block.body.immovable = true
-    block.counter = 5;
+    //const block = brick.create(50, game.world.height - 150, 'brick')
+    //block.body.immovable = true
+    //block.counter = 5;
 
+    var brick_location = json_parsed.Bricks
+    for (var i = 0; i < brick_location.length; i++) {
+        var brick_x = brick_location[i].x
+        var brick_y = brick_location[i].y
+        var brick_counter = brick_location[i].counter
+
+        const block = brick.create(brick_x, brick_y, 'brick')
+        block.body.immovable = true
+        block.counter = brick_counter
+    }
     game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player);
     //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -276,9 +289,6 @@ function brick_break(player, block) {
         block.counter--
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
-            //get coin to pop up from the top
-            //does the coin jump up a lil before going down(?)
-            //coin object probaby same logic as diamond
         const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
         dia.body.velocity.y = -100
