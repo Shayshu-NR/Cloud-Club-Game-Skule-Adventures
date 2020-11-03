@@ -18,6 +18,7 @@ var text;
 var timedEvent;
 var qBlock
 var powerUp;
+var powerUpHierarchy = {'fireflower': 3, 'mushroom': 2, 'small': 0}
 
 function preload() {
     // Load & Define our game assets
@@ -36,6 +37,8 @@ function preload() {
     game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
+    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
 }
 
 function create() {
@@ -65,8 +68,8 @@ function create() {
     let ledge = platforms.create(400, 450, 'ground')
     ledge.body.immovable = true
 
-    ledge = platforms.create(-75, 350, 'ground')
-    ledge.body.immovable = true
+    //ledge = platforms.create(-75, 350, 'ground')
+    //ledge.body.immovable = true
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'woof')
@@ -78,6 +81,7 @@ function create() {
     player.body.bounce.y = 0.2
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
+    player.currentState = 'small'
 
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1], 10, true)
@@ -155,10 +159,23 @@ function create() {
     qBlock = game.add.group()
     qBlock.enableBody = true
 
-    const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
-    questionBlock.body.immovable = true
-    questionBlock.powerUp = 'mushroom'
-    questionBlock.broken = false
+    //const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
+    //questionBlock.body.immovable = true
+    //questionBlock.powerUp = 'mushroom'
+   // questionBlock.broken = false
+
+    var qBlock_location = json_parsed.QBlocks
+    for (var i = 0; i < qBlock_location.length; i++) {
+        var qBlock_x = qBlock_location[i].x
+        var qBlock_y = qBlock_location[i].y
+        var power_Up = qBlock_location[i].powerUp
+
+        const question_block = qBlock.create(qBlock_x, qBlock_y, 'qBlock')
+        question_block.powerUp = power_Up
+        question_block.broken = false
+        question_block.body.immovable = true
+        console.log(question_block)
+    }
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ power ups ~~~~~
@@ -176,8 +193,9 @@ function update() {
     game.physics.arcade.collide(enemy, platforms)
     game.physics.arcade.collide(player, brick, brick_break, null, this)
     game.physics.arcade.collide(player, qBlock, question_break, null, this)
-    game.physics.arcade.collide(powerUp, qBlock)
     game.physics.arcade.collide(diamonds, qBlock)
+    game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
+    game.physics.arcade.collide(powerUp, qBlock)
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -316,7 +334,7 @@ function question_break(player, block) {
     } else if (player_x < block_x - 16) {
         return
     } else if (!block.broken){
-
+        console.log("block: ", block)
         block.loadTexture('iron')
             //~~~~~ replace w/ question mark audio sound
         var break_sound = game.add.audio('brick_sound')
@@ -336,5 +354,22 @@ function question_break(player, block) {
     } else {
         return
     }
+
+}
+
+function powerUp_ingest(player, powerUp) {
+    console.log(player)
+    player.body.height = 64
+
+    if (powerUpHierarchy[player.currentState] < powerUpHierarchy[powerUp.power_type]){
+        player.currentState = powerUp.power_type
+        if (powerUp.power_type == 'fireflower'){
+            player.loadTexture('big_purple_player')
+        } else if (powerUp.power_type == 'mushroom'){
+            player.loadTexture('big_player')
+            
+        }
+    } 
+    powerUp.kill()
 
 }
