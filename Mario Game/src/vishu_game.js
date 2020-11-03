@@ -29,7 +29,7 @@ function preload() {
 
 function create() {
     game.world.setBounds(0, 0, 1000, 600)
-    //  We're going to be using physics, so enable the Arcade Physics system
+        //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  A simple background for our game
@@ -91,9 +91,9 @@ function create() {
     enemy = game.add.group();
 
     enemy.enableBody = true;
-    
+
     const steve = enemy.create(350, 350, 'steve');
-    
+
 
     //  Create the score text
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
@@ -113,8 +113,8 @@ function create() {
     this.timer = game.time.events.loop(1000, tick, this);
 
     console.log(this)
-    //Start the timer once everyting is loaded...
-    //~~~~~~~~~~~~~~~~~~~~~~~~~
+        //Start the timer once everyting is loaded...
+        //~~~~~~~~~~~~~~~~~~~~~~~~~
     game.camera.follow(player)
 }
 
@@ -169,7 +169,7 @@ function collectDiamond(player, diamond) {
     scoreText.text = 'Score: ' + score
 }
 
-function kill_mario(player, enemy){
+function kill_mario(player, enemy) {
     enemy.kill();
     player.kill();
 
@@ -181,7 +181,7 @@ function kill_mario(player, enemy){
     location.reload();
 }
 
-var tick = function () {
+var tick = function() {
     this.timeLimit--;
     var minutes = Math.floor(this.timeLimit / 60);
     var seconds = this.timeLimit - (minutes * 60);
@@ -192,14 +192,14 @@ var tick = function () {
     }
 };
 
-var addZeros = function (num) {
+var addZeros = function(num) {
     if (num < 10) {
         num = "0" + num;
     }
     return num;
 };
 
-var outofTime = function () {
+var outofTime = function() {
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
     alert("Out of Time!");
