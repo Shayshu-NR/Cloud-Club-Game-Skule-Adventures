@@ -21,6 +21,7 @@ var powerUp;
 
 function preload() {
     // Load & Define our game assets
+    game.load.text("emily_test", "./JSON Files/emily_test.json")
     game.load.image('sky', './assets/sky.png')
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
@@ -31,9 +32,14 @@ function preload() {
     game.load.image('qBlock', './assets/question-block.png')
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('fireflower', './assets/fireflower.png')
+    game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
+    game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
+    game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
+    game.load.image('mushroom', './assets/temp_mushroom.png')
 }
 
 function create() {
+    json_parsed = JSON.parse(game.cache.getText('emily_test'))
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -123,12 +129,24 @@ function create() {
 
 
     //~~~~~ Demo of birck ~~~~~
+    
     brick = game.add.group()
     brick.enableBody = true
 
-    const block = brick.create(50, game.world.height - 150, 'brick')
-    block.body.immovable = true
+    //const block = brick.create(50, game.world.height - 150, 'brick')
+    //block.body.immovable = true
+    //block.counter = 5;
 
+    var brick_location = json_parsed.Bricks
+    for (var i = 0; i < brick_location.length; i++) {
+        var brick_x = brick_location[i].x
+        var brick_y = brick_location[i].y
+        var brick_counter = brick_location[i].counter
+
+        const block = brick.create(brick_x, brick_y, 'brick')
+        block.body.immovable = true
+        block.counter = brick_counter
+    }
     game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player);
     //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,6 +157,8 @@ function create() {
 
     const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
     questionBlock.body.immovable = true
+    questionBlock.powerUp = 'mushroom'
+    questionBlock.broken = false
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ power ups ~~~~~
@@ -158,6 +178,10 @@ function update() {
     game.physics.arcade.collide(player, qBlock, question_break, null, this)
     game.physics.arcade.collide(powerUp, qBlock)
     game.physics.arcade.collide(diamonds, qBlock)
+
+    //does the mario coin brick interaction where the diamond gets killed and added to score board
+    //issue - we can't have diamonds prespawned on bricks
+    game.physics.arcade.collide(brick, diamonds, collectBDiamond, null, this)
 
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
@@ -190,6 +214,15 @@ function update() {
 
 function collectDiamond(player, diamond) {
     // Removes the diamond from the screen
+    diamond.kill()
+
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
+}
+
+function collectBDiamond(brick, diamond){
+    // Removes the diamond from the screen for the brick and diamond interaction
     diamond.kill()
 
     //  And update the score
@@ -252,17 +285,16 @@ function brick_break(player, block) {
         return
     } else if (player_x < block_x - 16) {
         return
-    } else {
-
-        block.kill()
+    } else if (block.counter > 0){
+        block.counter--
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
-            //get coin to pop up from the top
-            //does the coin jump up a lil before going down(?)
-            //coin object probaby same logic as diamond
-        const dia = diamonds.create(block_x, block_y - 32, 'diamond')
+        const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
-        dia.body.bounce.y = 0.3 + Math.random() * 0.2
+        dia.body.velocity.y = -100
+        dia.body.bounce.y = 1
+    } else {
+        block.kill()
     }
 
 }
@@ -283,10 +315,7 @@ function question_break(player, block) {
         return
     } else if (player_x < block_x - 16) {
         return
-        //how do i check if the block's texture is iron
-        //} else if (block == 'iron'){
-        //return
-    } else {
+    } else if (!block.broken){
 
         block.loadTexture('iron')
             //~~~~~ replace w/ question mark audio sound
@@ -294,17 +323,18 @@ function question_break(player, block) {
             //is that the same sound as the brick or nah
         break_sound.play()
             //get powerup to slide up from question mark brick
-        const flower = powerUp.create(block_x, block_y - 32, 'fireflower')
-        flower.body.gravity.y = 0.98
-        flower.body.bounce.y = 0.3 + Math.random() * 0.2
+        const new_powerUp = powerUp.create(block_x, block_y - 32, block.powerUp)
+        new_powerUp.power_type = block.powerUp
+        new_powerUp.body.gravity.y = 0.98
+        new_powerUp.body.bounce.y = 0.3 + Math.random() * 0.2
+        block.broken = true
 
         // const diamond = diamonds.create(block_x, block_y - 32, 'diamond')
         // diamond.body.gravity.y = 1000
         // diamond.body.bounce.y = 0.3 + Math.random() * 0.2
 
+    } else {
+        return
     }
 
 }
-//hit question block
-//coin/diamond
-//update scorecounter
