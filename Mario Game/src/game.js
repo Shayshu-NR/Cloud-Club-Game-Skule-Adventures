@@ -75,6 +75,8 @@ function create() {
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'player')
+    player.lives = 3
+    player.state = 3
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player)
@@ -153,32 +155,37 @@ function create() {
 
     const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
     questionBlock.body.immovable = true
-    questionBlock.powerUp = 'mushroom'
+    questionBlock.powerUp = 'hammer_powerUp'
     questionBlock.broken = false
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // questionBlock = qBlock.create(200, game.world.height - 150, 'qBlock')
+    // questionBlock.body.immovable = true
+    // questionBlock.powerUp = 'mushroom'
+    // questionBlock.broken = false
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     //~~~~~~~~~~~cracked out goomba~~~~~~~~~~~~~~~
     hazard = game.add.group()
     hazard.enableBody = true
 
-    goomba = hazard.create(100,318,'goomba')
-    goomba.animations.add('walk', [2, 1, 2, 0], 4, true)
-    goomba.animations.play('walk')
-    goomba.body.gravity.y = 1000
+    // goomba = hazard.create(100,318,'goomba')
+    // goomba.animations.add('walk', [2, 1, 2, 0], 4, true)
+    // goomba.animations.play('walk')
+    // goomba.body.gravity.y = 1000
 
-    walking_goomba = game.add.tween(goomba)
-    walking_goomba.loop = -1
-    walking_goomba.to({ x: 300, y: 318 }, 100, null, true, 0, 1000000, true)
+    // walking_goomba = game.add.tween(goomba)
+    // walking_goomba.loop = -1
+    // walking_goomba.to({ x: 300, y: 318 }, 100, null, true, 0, 1000000, true)
 
-    //~~~~~~~~~~~astronaut~~~~~~~~~~~~~~~
-    astronaut = hazard.create(400,418,'astronaut')
-    astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
-    astronaut.animations.play('walk')
-    astronaut.body.gravity.y = 1000
+    // //~~~~~~~~~~~astronaut~~~~~~~~~~~~~~~
+    // astronaut = hazard.create(400,418,'astronaut')
+    // astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
+    // astronaut.animations.play('walk')
+    // astronaut.body.gravity.y = 1000
 
-    walking_astronaut = game.add.tween(astronaut)
-    walking_astronaut.loop = -1
-    walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
-
+    // walking_astronaut = game.add.tween(astronaut)
+    // walking_astronaut.loop = -1
+    // walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
 
     //~~~~~ World and camera settings ~~~~~
     game.world.setBounds(0, 0, 8000, 600)
@@ -393,8 +400,14 @@ function falloutofworld(player) {
 
 function powerUp_ingest(player, powerUp) {
     console.log(player)
-    player.body.height = 64
-    player.loadTexture('big_player')
-    powerUp.kill()
+    if (powerUp.power_type == "mushroom") {
+        player.body.height = 64
+        player.loadTexture('big_player')
+        powerUp.kill()
+    } else if (powerUp.power_type == "hammer_powerUp") {
+        player.loadTexture("hammer_powerUp")
+        powerUp.kill()
+    }
+    player.powerUp = powerUp.power_type
 
 }
