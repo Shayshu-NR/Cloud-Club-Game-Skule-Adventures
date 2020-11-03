@@ -1,18 +1,20 @@
 {
     "QBlocks":[
         {
-            "x": 100,
-            "y": 300
+            "x": 200,
+            "y": 420,
+            "powerUp": "mushroom"
         },
         {
-            "x": 200,
-            "y": 300
+            "x": 100,
+            "y": 420,
+            "powerUp": "fireflower"
         }
     ],
     "Bricks":[
         {
             "x": 50,
-            "y": 450,
+            "y": 420,
             "counter": 5
         }
     ]
