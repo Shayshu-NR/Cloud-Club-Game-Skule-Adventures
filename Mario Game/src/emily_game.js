@@ -18,7 +18,7 @@ var text;
 var timedEvent;
 var qBlock
 var powerUp;
-var powerUpHierarchy = {'fireflower': 3, 'mushroom': 2, 'small': 0}
+var powerUpHierarchy = { 'fireflower': 3, 'mushroom': 2, 'small': 0 }
 
 function preload() {
     // Load & Define our game assets
@@ -43,7 +43,8 @@ function preload() {
 
 function create() {
     json_parsed = JSON.parse(game.cache.getText('emily_test'))
-    //  We're going to be using physics, so enable the Arcade Physics system
+    console.log(json_parsed)
+        //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //  A simple background for our game
@@ -93,14 +94,14 @@ function create() {
     //  Enable physics for any object that is created in this group
     diamonds.enableBody = true
 
-    //  Create 12 diamonds evenly spaced apart
-    for (var i = 0; i < 12; i++) {
-        const diamond = diamonds.create(i * 70, 0, 'diamond')
+    // //  Create 12 diamonds evenly spaced apart
+    // for (var i = 0; i < 12; i++) {
+    //     const diamond = diamonds.create(i * 70, 0, 'diamond')
 
-        //  Drop em from the sky and bounce a bit
-        diamond.body.gravity.y = 1000
-        diamond.body.bounce.y = 0.3 + Math.random() * 0.2
-    }
+    //     //  Drop em from the sky and bounce a bit
+    //     diamond.body.gravity.y = 1000
+    //     diamond.body.bounce.y = 0.3 + Math.random() * 0.2
+    // }
 
     //Adding an enemey to the level
     enemy = game.add.group();
@@ -133,7 +134,7 @@ function create() {
 
 
     //~~~~~ Demo of birck ~~~~~
-    
+
     brick = game.add.group()
     brick.enableBody = true
 
@@ -162,7 +163,7 @@ function create() {
     //const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
     //questionBlock.body.immovable = true
     //questionBlock.powerUp = 'mushroom'
-   // questionBlock.broken = false
+    // questionBlock.broken = false
 
     var qBlock_location = json_parsed.QBlocks
     for (var i = 0; i < qBlock_location.length; i++) {
@@ -176,7 +177,7 @@ function create() {
         question_block.body.immovable = true
         console.log(question_block)
     }
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ power ups ~~~~~
     powerUp = game.add.group()
@@ -239,7 +240,7 @@ function collectDiamond(player, diamond) {
     scoreText.text = 'Score: ' + score
 }
 
-function collectBDiamond(brick, diamond){
+function collectBDiamond(brick, diamond) {
     // Removes the diamond from the screen for the brick and diamond interaction
     diamond.kill()
 
@@ -303,9 +304,9 @@ function brick_break(player, block) {
         return
     } else if (player_x < block_x - 16) {
         return
-    } else if (block.counter > 0){
+    } else if (block.counter > 0) {
         block.counter--
-        var break_sound = game.add.audio('brick_sound')
+            var break_sound = game.add.audio('brick_sound')
         break_sound.play()
         const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
@@ -333,7 +334,7 @@ function question_break(player, block) {
         return
     } else if (player_x < block_x - 16) {
         return
-    } else if (!block.broken){
+    } else if (!block.broken) {
         console.log("block: ", block)
         block.loadTexture('iron')
             //~~~~~ replace w/ question mark audio sound
@@ -361,15 +362,15 @@ function powerUp_ingest(player, powerUp) {
     console.log(player)
     player.body.height = 64
 
-    if (powerUpHierarchy[player.currentState] < powerUpHierarchy[powerUp.power_type]){
+    if (powerUpHierarchy[player.currentState] < powerUpHierarchy[powerUp.power_type]) {
         player.currentState = powerUp.power_type
-        if (powerUp.power_type == 'fireflower'){
+        if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
-        } else if (powerUp.power_type == 'mushroom'){
+        } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
-            
+
         }
-    } 
+    }
     powerUp.kill()
 
 }
