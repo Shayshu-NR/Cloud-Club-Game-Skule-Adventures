@@ -1,0 +1,21 @@
+{
+    "QBlocks":[
+        {
+            "x": 200,
+            "y": 420,
+            "powerUp": "mushroom"
+        },
+        {
+            "x": 100,
+            "y": 420,
+            "powerUp": "fireflower"
+        }
+    ],
+    "Bricks":[
+        {
+            "x": 50,
+            "y": 420,
+            "counter": 5
+        }
+    ]
+}

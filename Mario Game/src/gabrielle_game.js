@@ -24,7 +24,7 @@ lives = 1
 let arrState
 var time
 var hitTime = 70
-//let arrState = []
+    //let arrState = []
 
 function preload() {
     // Load & Define our game assets
@@ -32,7 +32,7 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('woof', './assets/Main Sprite.png', 32, 32)
-    game.load.spritesheet('woof2', './assets/BigMain_Sprite.png', 32, 64)    
+    game.load.spritesheet('woof2', './assets/BigMain_Sprite.png', 32, 64)
     game.load.spritesheet('woof3', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.spritesheet('bluegoomba', './assets/mimic.png', 32, 32)
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
@@ -42,10 +42,10 @@ function preload() {
 }
 
 function create() {
-    arrState = ['woof','woof2','woof3']
+    arrState = ['woof', 'woof2', 'woof3']
     json_parsed = JSON.parse(game.cache.getText("test"))
-    //console.log(json_parsed)
-    //  We're going to be using physics, so enable the Arcade Physics system
+        //console.log(json_parsed)
+        //  We're going to be using physics, so enable the Arcade Physics system
 
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -102,14 +102,14 @@ function create() {
     diamonds.enableBody = true
 
     //  Create 12 diamonds evenly spaced apart
-   /** var DIamonds = json_parsed.Diamonds
-    for (var i = 0; i < DIamonds.length; i++) {
-        diamond = diamonds.create(DIamonds[i].y, 0, 'diamond')
+    /** var DIamonds = json_parsed.Diamonds
+     for (var i = 0; i < DIamonds.length; i++) {
+         diamond = diamonds.create(DIamonds[i].y, 0, 'diamond')
 
-        //  Drop em from the sky and bounce a bit
-        diamond.body.gravity.y = 1000
-        diamond.body.bounce.y = 0.3 + Math.random() * 0.2
-    }**/
+         //  Drop em from the sky and bounce a bit
+         diamond.body.gravity.y = 1000
+         diamond.body.bounce.y = 0.3 + Math.random() * 0.2
+     }**/
 
     //  Create the score text
     //scoreText.destroy();
@@ -177,8 +177,8 @@ function update() {
     player.body.velocity.x = 0
     power.text = "Lives:" + lives;
     time = Math.floor(this.timeLimit)
-    //scoreText.setViisibility = false
-    //scoreText = this.add.text(player.x, 16, "SCORE: 0", {fontSize: '56px', color: '#fff'})
+        //scoreText.setViisibility = false
+        //scoreText = this.add.text(player.x, 16, "SCORE: 0", {fontSize: '56px', color: '#fff'})
 
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
@@ -250,6 +250,7 @@ var outofTime = function() {
 function kill_mario(player, enemy) {
     //this checks whether mario has a power up or not
 
+<<<<<<< HEAD
     //var dif = hitTime - time
     //console.log("DIFFERENCE: " +dif)
     //if((dif)>5){
@@ -273,17 +274,49 @@ function kill_mario(player, enemy) {
         this.input.keyboard.enabled = false
     }
     player.kill();
+=======
+    var dif = hitTime - time
+    console.log("DIFFERENCE: " + dif)
+    if ((dif) > 5) {
+        if (state > 0) {
 
-        var die_noise = game.add.audio("mario_die");
-        //die_noise.play();
+            //calculates at what time mario last hit the enemy
+            hitTime = time;
+>>>>>>> 43b78231be044bf52489d2a4666e57db6319a670
 
-    location.reload();
-    create()
-    state = 0
+            state--
+            player.loadTexture(arrState[state])
 
+            console.log(state)
+
+        } else {
+            //life is lost
+            lives--
+            if (lives == 0) {
+                //needs to be across the screen in big red letters
+                alert("All lives lost! Game over");
+                this.input.keyboard.enabled = false
+            }
+            player.kill();
+
+            var die_noise = game.add.audio("mario_die");
+            //die_noise.play();
+            location.reload();
+            create()
+            state = 1 ===
+                ===
+                =
+
+                location.reload();
+            create()
+            state = 0
+        }
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 43b78231be044bf52489d2a4666e57db6319a670
 
 function brick_break(player, block) {
     //Only break the brick when the player is below 
@@ -303,13 +336,14 @@ function brick_break(player, block) {
         return
     } else {
         //For player state upgrades~~~
-        if (state<2){
+        if (state < 2) {
 
             state++;
             player.loadTexture(arrState[state])
         }
         block.kill()
     }
+<<<<<<< HEAD
 }**/
 
 
@@ -725,5 +759,6 @@ function falloutofworld(player) {
 function powerUp_ingest(player, powerUp) {
     console.log(powerUp)
     powerUp.kill()
+
 
 }
