@@ -61,7 +61,7 @@ function create() {
     const ground = platforms.create(0, game.world.height - 64, 'ground')
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(5, 1)
+    ground.scale.setTo(5, 2)
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true
@@ -168,24 +168,24 @@ function create() {
     hazard = game.add.group()
     hazard.enableBody = true
 
-    // goomba = hazard.create(100,318,'goomba')
-    // goomba.animations.add('walk', [2, 1, 2, 0], 4, true)
-    // goomba.animations.play('walk')
-    // goomba.body.gravity.y = 1000
+    goomba = hazard.create(100, 318, 'goomba')
+    goomba.animations.add('walk', [2, 1, 2, 0], 5, true)
+    goomba.animations.play('walk')
+    goomba.body.gravity.y = 1000
 
-    // walking_goomba = game.add.tween(goomba)
-    // walking_goomba.loop = -1
-    // walking_goomba.to({ x: 300, y: 318 }, 100, null, true, 0, 1000000, true)
+    walking_goomba = game.add.tween(goomba)
+    walking_goomba.loop = -1
+    walking_goomba.to({ x: 300, y: 318 }, 1600, null, true, 0, 1000000, true)
 
-    // //~~~~~~~~~~~astronaut~~~~~~~~~~~~~~~
-    // astronaut = hazard.create(400,418,'astronaut')
-    // astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
-    // astronaut.animations.play('walk')
-    // astronaut.body.gravity.y = 1000
+    //~~~~~~~~~~~astronaut~~~~~~~~~~~~~~~
+    astronaut = hazard.create(400, 418, 'astronaut')
+    astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
+    astronaut.animations.play('walk')
+    astronaut.body.gravity.y = 1000
 
-    // walking_astronaut = game.add.tween(astronaut)
-    // walking_astronaut.loop = -1
-    // walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
+    walking_astronaut = game.add.tween(astronaut)
+    walking_astronaut.loop = -1
+    walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
 
     //~~~~~ World and camera settings ~~~~~
     game.world.setBounds(0, 0, 8000, 600)

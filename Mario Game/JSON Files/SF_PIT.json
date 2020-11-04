@@ -1,0 +1,31 @@
+{
+    "Backgroud": "pit_background",
+    "ground": [{
+            "start_x": 0,
+            "end_x": 500
+        },
+        {
+            "start_x": 550,
+            "end_x": 1000
+        }
+    ],
+    "hazards_static": [],
+    "hazards_dynamic": [],
+    "enemies": [{
+        "start_x": ,
+        "start_y": ,
+        "tween": true,
+        "tween_x": ,
+        "tween_y": ,
+        "speed":
+    }],
+    "brick": [{
+        "x": ,
+        "y": ,
+        "counter":
+    }],
+    "question_blocks": [
+        { "x": , "y": , "poweup": }
+    ],
+    "flag_pole": { "x": 123, "y": 0 }
+}
