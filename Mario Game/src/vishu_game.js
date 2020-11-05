@@ -4,7 +4,8 @@
 const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
     preload: preload,
     create: create,
-    update: update
+    update: update,
+    render: render
 })
 
 // Declare shared variables at the top so all methods can access them
@@ -16,24 +17,43 @@ let cursors
 let player
 var text;
 var timedEvent;
+var hazard;
+var powerUp
+var state = 1
+var lives = 1
+
+var fireballs;
+var playerPowerUp;
+var keyReset = false;
 
 function preload() {
     // Load & Define our game assets
     game.load.image('sky', './assets/sky.png')
     game.load.image('ground', './assets/platform.png')
     game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('woof', './assets/woof.png', 32, 32)
-    game.load.image('steve', './assets/steve.png')
+    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 32)
+    game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
+    game.load.image('brick', './assets/brick.png')
+    game.load.image('iron', './assets/iron-block.png')
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
+    game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
+    game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
+    game.load.image('fireflower', './assets/fireflower.png')
+
+    //fireball
+    game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
 }
 
 function create() {
-    game.world.setBounds(0, 0, 1000, 600)
-        //  We're going to be using physics, so enable the Arcade Physics system
+    //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
-    //  A simple background for our game
-    game.add.sprite(0, 0, 'sky')
+    //~~~~~ Tiling the background ~~~~~
+    sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
+    sky.fixedToCamera = true
+    sky.tilePosition.x = game.camera.x * -0.2
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group()
@@ -45,7 +65,7 @@ function create() {
     const ground = platforms.create(0, game.world.height - 64, 'ground')
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2)
+    ground.scale.setTo(5, 2)
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true
@@ -58,7 +78,7 @@ function create() {
     ledge.body.immovable = true
 
     // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'woof')
+    player = game.add.sprite(32, game.world.height - 150, 'player')
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player)
@@ -69,8 +89,9 @@ function create() {
     player.body.collideWorldBounds = true
 
     //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1], 10, true)
-    player.animations.add('right', [2, 3], 10, true)
+    player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
+    player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
+    player.animations.add('stop', [5], 10, true)
 
     //  Finally some diamonds to collect
     diamonds = game.add.group()
@@ -83,23 +104,29 @@ function create() {
         const diamond = diamonds.create(i * 70, 0, 'diamond')
 
         //  Drop em from the sky and bounce a bit
+        diamond.unique = i
         diamond.body.gravity.y = 1000
         diamond.body.bounce.y = 0.3 + Math.random() * 0.2
     }
 
     //Adding an enemey to the level
     enemy = game.add.group();
-
     enemy.enableBody = true;
-
-    const steve = enemy.create(350, 350, 'steve');
-
+    var testingFireballKill;
+    testingFireballKill = enemy.create(600, 420, "goomba")
 
     //  Create the score text
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
 
     //  And bootstrap our controls
-    cursors = game.input.keyboard.createCursorKeys()
+    cursors = game.input.keyboard.createCursorKeys({
+        up: 'up',
+        down: 'down',
+        left: 'left',
+        right: 'right',
+        space: 'spacebar'
+
+    })
 
     scoreText.text = 'Score: 0';
 
@@ -107,15 +134,44 @@ function create() {
     //~~~~~ Demo of timer ~~~~~
     //Creating a timer...
     // 2:30 in seconds
-    this.timeLimit = 30;
+    this.timeLimit = 500;
     this.timeText = game.add.text(700, 20, "00:00");
     this.timeText.fill = "#000000";
     this.timer = game.time.events.loop(1000, tick, this);
 
-    console.log(this)
-        //Start the timer once everyting is loaded...
-        //~~~~~~~~~~~~~~~~~~~~~~~~~
-    game.camera.follow(player)
+    //~~~~~ Brick ~~~~~
+    brick = game.add.group()
+    brick.enableBody = true
+
+    const block = brick.create(50, game.world.height - 150, 'brick')
+    block.body.immovable = true
+        //~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Power Up ~~~~~
+    powerUp = game.add.group()
+    powerUp.enableBody = true
+        //~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~~ question block ~~~~~
+    qBlock = game.add.group()
+    qBlock.enableBody = true
+
+    const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
+    questionBlock.powerUp = 'fireflower'
+    questionBlock.body.immovable = true
+    questionBlock.broken = false
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ World and camera settings ~~~~~
+    game.world.setBounds(0, 0, 8000, 600)
+    game.camera.follow(player);
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    console.log(game)
+
+    //shooting fireballs
+    fireballs = game.add.group();
+    fireballs.enableBody = true
+
 }
 
 function update() {
@@ -125,12 +181,16 @@ function update() {
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
+    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {enemy.kill()}, null, this)
+    game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(enemy, platforms)
-
-    //  Call callectionDiamond() if player overlaps with a diamond
+    game.physics.arcade.collide(player, qBlock, question_break, null, this)
+    game.physics.arcade.collide(player, brick, brick_break, null, this)
+    game.physics.arcade.collide(diamonds, qBlock)
+    game.physics.arcade.collide(powerUp, qBlock)
+    game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
+    game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-
-    //
     game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
 
     // Configure the controls!
@@ -142,26 +202,47 @@ function update() {
         player.animations.play('right')
     } else {
         // If no movement keys are pressed, stop the player
+
         player.animations.stop()
+        player.animations.play('stop')
     }
 
     //  This allows the player to jump!
     if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -500
     }
-    // Show an alert modal when score reaches 120
-    if (score === 120) {
-        alert('You win!')
-        score = 0
-    }
+
 
     if (player.position.y > 536) {
         falloutofworld(player)
     }
+
+    this.timeText.x = 700 + this.camera.view.x
+    scoreText.x = 16 + this.camera.view.x
+
+    
+    if (player.playerPowerUp == 3) {
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
+            keyReset = true;
+            Fireballs(fireballs, player);
+            console.log("is down 1");
+        }
+        if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
+            keyReset = false;
+        }
+          
+    } 
+}
+
+function render() {
+    this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
+    this.game.debug.cameraInfo(this.game.camera, 200, 32);
+    this.game.debug.spriteInfo(player, 500, 32);
 }
 
 function collectDiamond(player, diamond) {
-    // Removes the diamond from the screen
+    console.log("Unique ID for diamound: ", diamond.unique)
+        // Removes the diamond from the screen
     diamond.kill()
 
     //  And update the score
@@ -170,15 +251,31 @@ function collectDiamond(player, diamond) {
 }
 
 function kill_mario(player, enemy) {
-    enemy.kill();
-    player.kill();
+    //this checks whether mario has a power up or not.
+    if (state >= 2) {
+        state--
+        player.position.x = player.position.x - 15;
+        console.log(state)
+        player.loadTexture('woof')
+    } else {
+        //life is lost
+        lives--
+        if (lives == 0) {
+            //needs to be across the screen in big red letters
+            alert("All lives lost! Game over");
+            this.input.keyboard.enabled = false
+        }
+        player.kill();
 
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
+        var die_noise = game.add.audio("mario_die");
+        //die_noise.play();
 
-    alert("Game over");
 
-    location.reload();
+
+        location.reload();
+        create()
+        state = 1
+    }
 }
 
 var tick = function() {
@@ -210,6 +307,116 @@ function falloutofworld(player) {
     player.kill();
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
+    location.reload();
+}
+
+function brick_break(player, block) {
+    //Only break the brick when the player is below 
+    //and not hittin gon the sides
+    var player_x = player.position.x
+    var player_y = player.position.y
+
+    var block_x = block.position.x
+    var block_y = block.position.y
+
+    if (player_y < block_y) {
+        return
+    } else if (player_x > block_x + 16) {
+        return
+    } else if (player_x < block_x - 16) {
+        return
+    } else {
+
+        block.kill()
+        var break_sound = game.add.audio('brick_sound')
+        break_sound.play()
+            //get coin to pop up from the top
+            //does the coin jump up a lil before going down(?)
+            //coin object probaby same logic as diamond
+        const dia = diamonds.create(block_x, block_y - 32, 'diamond')
+        dia.body.gravity.y = 1000
+        dia.body.bounce.y = 0.3 + Math.random() * 0.2
+    }
+
+}
+
+function question_break(player, block) {
+    //Only break the question mark block when the player is below 
+    //and not hittin on the sides
+
+    var player_x = player.position.x
+    var player_y = player.position.y
+
+    var block_x = block.position.x
+    var block_y = block.position.y
+
+    if (player_y < block_y) {
+        return
+    } else if (player_x > block_x + 16) {
+        return
+    } else if (player_x < block_x - 16) {
+        return
+        //how do i check if the block's texture is iron
+        //} else if (block == 'iron'){
+        //return
+    } else if (!block.broken) {
+        console.log(block)
+        block.loadTexture('iron')
+            //~~~~~ replace w/ question mark audio sound
+        var break_sound = game.add.audio('brick_sound')
+            //is that the same sound as the brick or nah
+        break_sound.play()
+            //get powerup to slide up from question mark brick
+        const new_powerUp = powerUp.create(block_x, block_y - 32, block.powerUp)
+        new_powerUp.body.gravity.y = 0.98
+        new_powerUp.body.bounce.y = 0.3 + Math.random() * 0.2
+        block.broken = true
+
+        // const diamond = diamonds.create(block_x, block_y - 32, 'diamond')
+        // diamond.body.gravity.y = 1000
+        // diamond.body.bounce.y = 0.3 + Math.random() * 0.2
+
+    } else {
+        return
+    }
+
+}
+
+function falloutofworld(player) {
+    player.kill();
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
     alert("Game over");
     location.reload();
 }
+
+function powerUp_ingest(player, powerUp) {
+    //corresponds to fire flower
+    player.playerPowerUp = 3;
+    console.log(powerUp)
+    powerUp.kill()
+    
+    
+
+}
+
+//mario shooting fireballs function
+function Fireballs(fireballs, player) {
+    
+    const f = fireballs.create(player.position.x, player.position.y, "fireball")
+    f.body.gravity.y = 400;
+    f.body.velocity.y = 0;
+    f.bounce = 0;
+    f.body.velocity.x = 300;
+    
+}
+
+function fireballKill(platforms, fireballs) {
+    fireballs.body.velocity.y = -100;
+    fireballs.bounce++;
+    if (fireballs.bounce == 5) {
+        fireballs.kill();
+    }
+
+}
+
