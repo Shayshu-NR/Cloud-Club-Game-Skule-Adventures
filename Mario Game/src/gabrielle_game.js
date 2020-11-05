@@ -23,6 +23,7 @@ var powerUp
 var state = 3
 var lives = 1
 var timing
+
 function preload() {
     // Load & Define our game assets
     game.load.image('sky', './assets/sky.png')
@@ -42,7 +43,7 @@ function preload() {
 function create() {
 
     lastHit = 520
-    //  We're going to be using physics, so enable the Arcade Physics system
+        //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //~~~~~ Tiling the background ~~~~~
@@ -84,13 +85,13 @@ function create() {
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
     player.isInvincible = false
-    //  Our two animations, walking left and right.
+        //  Our two animations, walking left and right.
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
-    player.animations.add('left_blink',[10,20, 9,20, 8,20, 10, 20,7,20, 6,20, 10,20], 10, true)
-    player.animations.add('right_blink', [0,20, 1,20, 2,20, 0,20, 3,20, 4,20, 0,20], 10, true)
+    player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
+    player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-    player.animations.add('stop_blink', [20,5,20], 10, true)
+    player.animations.add('stop_blink', [20, 5, 20], 10, true)
 
     //  Finally some diamonds to collect
     diamonds = game.add.group()
@@ -136,7 +137,7 @@ function create() {
     this.timeText = game.add.text(700, 20, "00:00");
     this.timeText.fill = "#000000";
     this.timer = game.time.events.loop(1000, tick, this);
-    
+
     //~~~~~ Brick ~~~~~
     brick = game.add.group()
     brick.enableBody = true
@@ -159,11 +160,11 @@ function create() {
     questionBlock.body.immovable = true
     questionBlock.broken = false
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //~~~~~~~~~~~cracked out goomba~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~cracked out goomba~~~~~~~~~~~~~~~
     hazard = game.add.group()
     hazard.enableBody = true
 
-    goomba = hazard.create(100,318,'goomba')
+    goomba = hazard.create(100, 318, 'goomba')
     goomba.animations.add('walk', [2, 1, 2, 0], 4, true)
     goomba.animations.play('walk')
     goomba.body.gravity.y = 1000
@@ -173,7 +174,7 @@ function create() {
     walking_goomba.to({ x: 300, y: 318 }, 100, null, true, 0, 1000000, true)
 
     //~~~~~~~~~~~astronaut~~~~~~~~~~~~~~~
-    astronaut = hazard.create(400,418,'astronaut')
+    astronaut = hazard.create(400, 418, 'astronaut')
     astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
     astronaut.animations.play('walk')
     astronaut.body.gravity.y = 1000
@@ -189,7 +190,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     console.log(game)
 
-    
+
 
 }
 
@@ -198,10 +199,10 @@ function update() {
     player.body.velocity.x = 0
 
     timing = Math.floor(this.timeLimit)
-    if((lastHit - timing) > 10){
+    if ((lastHit - timing) > 10) {
         player.isInvincible = false
     }
-    
+
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
@@ -213,37 +214,31 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-    
+
     if (!player.isInvincible)
-    game.physics.arcade.overlap(player, hazard, kill_mario, null, this);
+        game.physics.arcade.overlap(player, hazard, kill_mario, null, this);
 
     // Configure the controls!
     if (cursors.left.isDown) {
         player.body.velocity.x = -300
-        if(player.isInvincible){
+        if (player.isInvincible) {
             player.animations.play('left_blink')
-        }
-        else{
+        } else {
             player.animations.play('left')
         }
-        
-        
     } else if (cursors.right.isDown) {
-        player.body.velocity.x = 300 
-        if(player.isInvincible){
+        player.body.velocity.x = 300
+        if (player.isInvincible) {
             player.animations.play('right_blink')
-        }
-        else{
+        } else {
             player.animations.play('right')
         }
     } else {
         // If no movement keys are pressed, stop the player
 
-        //player.animations.stop() 
-        if(player.isInvincible){
+        if (player.isInvincible) {
             player.animations.play('stop_blink')
-        }
-        else{
+        } else {
             player.animations.play('stop')
         }
     }
@@ -285,22 +280,16 @@ function kill_mario(player, hazard) {
 
         state--
         //player.position.x = player.position.x - 15;
-        console.log("State:"+state)
-        //player.loadTexture('woof')
-       
+        console.log("State:" + state)
+            //player.loadTexture('woof')
+
         lastHit = timing
         console.log(lastHit)
-        
+
         console.log(hazard.position.x, player.position.x)
-        //console.log(lastHit - timer)
-        
-         
+            //console.log(lastHit - timer)
+
         player.isInvincible = true
-
-      
-       
-        
-
     } else {
         //life is lost
         lives--
@@ -313,8 +302,6 @@ function kill_mario(player, hazard) {
 
         var die_noise = game.add.audio("mario_die");
         //die_noise.play();
-
-
 
         location.reload();
         create()
