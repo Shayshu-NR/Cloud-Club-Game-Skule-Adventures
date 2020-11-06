@@ -25,97 +25,127 @@ var timing
 var powerUpHierarchy = { 'fireflower': 3, 'mushroom': 2, 'small': 1 }
 var fireballs;
 var playerPowerUp;
-var keyReset = false;
+var keyReset = false
+var lastHit = 520
 
 function preload() {
-    // Load & Define our game assets
+    //~~~~~ Json file ~~~~~
     game.load.text("emily_test", "./JSON Files/game.json")
+    //~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
+    //~~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
-    game.load.image('diamond', './assets/diamond.png')
-    game.load.image('steve', './assets/steve.png')
-    game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
-    game.load.image('fireflower', './assets/fireflower.png')
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Enemies ~~~~~
+    game.load.image('steve', './assets/steve.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
+    //~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Power ups ~~~~~
+    game.load.image('fireflower', './assets/fireflower.png')
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
-    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
-    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
-    game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
+    //~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Player model ~~~~~
+    game.load.image('diamond', './assets/diamond.png')
+    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
+    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    //~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Sound ~~~~~
+    game.load.audio("mario_die", './assets/smb_mariodie.wav')
+    //~~~~~~~~~~~~~~~~~
 }
 
 function create() {
-    lastHit = 520
+    //~~~~~ Loading json file ~~~~~
     json_parsed = JSON.parse(game.cache.getText('emily_test'))
-    //  We're going to be using physics, so enable the Arcade Physics system
-    game.physics.startSystem(Phaser.Physics.ARCADE)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //~~~~~ Tiling the background ~~~~~
+    //~~~~~ Physics engine ~~~~~
+    game.physics.startSystem(Phaser.Physics.ARCADE)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Background ~~~~~
     sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
+    //~~~~~ Groups ~~~~~
     platforms = game.add.group()
+    brick = game.add.group()
+    qBlock = game.add.group()
+    diamonds = game.add.group()
+    powerUp = game.add.group()
+    enemy = game.add.group()
+    fireballs = game.add.group()
+    hazard = game.add.group()
+    //~~~~~~~~~~~~~~~~~~
 
-    //  We will enable physics for any object that is created in this group
+    //~~~~~ Enable body ~~~~~
     platforms.enableBody = true
+    brick.enableBody = true
+    qBlock.enableBody = true
+    diamonds.enableBody = true
+    powerUp.enableBody = true
+    enemy.enableBody = true
+    fireballs.enableBody = true
+    hazard.enableBody = true
+    //~~~~~~~~~~~~~~~~~~~~~~~
 
-    // Here we create the ground.
+    //~~~~~ Ground/ledge creation ~~~~~
     const ground = platforms.create(0, game.world.height - 64, 'ground')
+    ground.scale.setTo(5, 2)
+    ground.body.immovable = true
 
     let ledge = platforms.create(400, 450, 'ground')
     ledge.body.immovable = true
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(5, 2)
-
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true
-
-    // The player and its settings
+    //~~~~~ Player attributes ~~~~~
     player = game.add.sprite(32, game.world.height - 150, 'player')
+    game.physics.arcade.enable(player)
     player.lives = 3
     player.state = 3
     player.facing = 1;
-
-    //  We need to enable physics on the player
-    game.physics.arcade.enable(player)
-
-    //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
     player.currentState = 'small'
 
-    //  Our two animations, walking left and right.
+
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
     player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
     player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
     player.animations.add('stop_blink', [20, 5, 20], 10, true)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //  Finally some diamonds to collect
-    diamonds = game.add.group()
-
-    //  Enable physics for any object that is created in this group
-    diamonds.enableBody = true
-    //Adding an enemey to the level
-    enemy = game.add.group();
-
-    enemy.enableBody = true;
-
-    //  Create the score text
+    //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
+    scoreText.text = 'Score: 0';
 
-    //  And bootstrap our controls
+    this.timeLimit = 500
+    this.timeText = game.add.text(700, 20, "00:00")
+    this.timeText.fill = "#000000"
+    this.timer = game.time.events.loop(1000, tick, this)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Cursors ~~~~~
     cursors = game.input.keyboard.createCursorKeys({
         up: 'up',
         down: 'down',
@@ -123,21 +153,9 @@ function create() {
         right: 'right',
         space: 'spacebar'
     })
-
-    scoreText.text = 'Score: 0';
-
-    //~~~~~ Demo of timer ~~~~~
-    //Creating a timer...
-    // 2:30 in seconds
-    this.timeLimit = 500;
-    this.timeText = game.add.text(700, 20, "00:00");
-    this.timeText.fill = "#000000";
-    this.timer = game.time.events.loop(1000, tick, this);
-
-    //~~~~~ Brick ~~~~~
-    brick = game.add.group()
-    brick.enableBody = true
-
+    //~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Brick and Qblock parsing from json file ~~~~~
     var brick_location = json_parsed.Bricks
     for (var i = 0; i < brick_location.length; i++) {
         var brick_x = brick_location[i].x
@@ -148,16 +166,6 @@ function create() {
         block.body.immovable = true
         block.counter = brick_counter
     }
-    //~~~~~~~~~~~~~~~~~
-
-    //~~~~~ Power Up ~~~~~
-    powerUp = game.add.group()
-    powerUp.enableBody = true
-    //~~~~~~~~~~~~~~~~~~~~
-
-    //~~~~~~ question block ~~~~~
-    qBlock = game.add.group()
-    qBlock.enableBody = true
 
     var qBlock_location = json_parsed.QBlocks
     for (var i = 0; i < qBlock_location.length; i++) {
@@ -172,15 +180,9 @@ function create() {
         question_block.animations.add('q_break', [0, 1, 2, 3], 150, true)
         console.log(question_block)
     }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    hazard = game.add.group()
-    hazard.enableBody = true
-
-    fireballs = game.add.group();
-    fireballs.enableBody = true
-
-    //~~~~~~~~~~~astronaut~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~ Enemy creation ~~~~~~~~~~~~~~~
     astronaut = enemy.create(400, 418, 'astronaut')
     astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
     astronaut.animations.play('walk')
@@ -188,10 +190,11 @@ function create() {
     walking_astronaut = game.add.tween(astronaut)
     walking_astronaut.loop = -1
     walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ World and camera settings ~~~~~
     game.world.setBounds(0, 0, 8000, 600)
-    game.camera.follow(player);
+    game.camera.follow(player)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
