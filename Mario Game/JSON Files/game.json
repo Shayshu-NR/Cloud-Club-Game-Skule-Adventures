@@ -8,17 +8,27 @@
             "x": 100,
             "y": 420,
             "powerUp": "fireflower"
+        },
+        {
+            "x": 500,
+            "y": 300,
+            "powerUp": "hammer_powerUp"
         }
     ],
     "Bricks": [{
             "x": 50,
-            "y": 420,
+            "y": 300,
             "counter": 5
         },
         {
             "x": 300,
             "y": 400,
             "counter": 1
+        },
+        {
+            "x": 500,
+            "y": 300,
+            "counter": 3
         }
 
     ]
