@@ -313,7 +313,7 @@ function collectBDiamond(brick, diamond) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
-    if (state >= 2) {
+    if (powerUpHierarchy[player.currentState] >= 2) {
 
         state--
         //player.position.x = player.position.x - 15;
