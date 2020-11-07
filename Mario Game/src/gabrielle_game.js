@@ -20,8 +20,6 @@ var text;
 var timedEvent;
 var hazard;
 var powerUp
-var state = 3
-var lives = 1
 var timing
 function preload() {
     // Load & Define our game assets
@@ -84,13 +82,15 @@ function create() {
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
     player.isInvincible = false
+    player.state = 1
+    player.lives = 1
     //  Our two animations, walking left and right.
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
     player.animations.add('left_blink',[10,20, 9,20, 8,20, 10, 20,7,20, 6,20, 10,20], 10, true)
     player.animations.add('right_blink', [0,20, 1,20, 2,20, 0,20, 3,20, 4,20, 0,20], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-    player.animations.add('stop_blink', [20,5,20], 10, true)
+    player.animations.add('stop_blink', [20,5], 10, true)
 
     //  Finally some diamonds to collect
     diamonds = game.add.group()
@@ -198,7 +198,7 @@ function update() {
     player.body.velocity.x = 0
 
     timing = Math.floor(this.timeLimit)
-    if((lastHit - timing) > 10){
+    if((lastHit - timing) > 2){
         player.isInvincible = false
     }
     
@@ -221,7 +221,7 @@ function update() {
     if (cursors.left.isDown) {
         player.body.velocity.x = -300
         if(player.isInvincible){
-            player.animations.play('left_blink')
+            player.animations.play('left_blink')// makes the player blink indicating invincibility
         }
         else{
             player.animations.play('left')
@@ -281,12 +281,9 @@ function collectDiamond(player, diamond) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
-    if (state >= 2) {
+    if (player.state >= 2) {
 
-        state--
-        //player.position.x = player.position.x - 15;
-        console.log("State:"+state)
-        //player.loadTexture('woof')
+        player.state--
        
         lastHit = timing
         console.log(lastHit)
@@ -297,14 +294,11 @@ function kill_mario(player, hazard) {
          
         player.isInvincible = true
 
-      
-       
-        
 
     } else {
         //life is lost
-        lives--
-        if (lives == 0) {
+        player.lives--
+        if (player.lives == 0) {
             //needs to be across the screen in big red letters
             alert("All lives lost! Game over");
             this.input.keyboard.enabled = false
@@ -318,7 +312,7 @@ function kill_mario(player, hazard) {
 
         location.reload();
         create()
-        state = 1
+        player.state = 1
     }
 }
 
@@ -437,6 +431,6 @@ function falloutofworld(player) {
 function powerUp_ingest(player, powerUp) {
     console.log(powerUp)
     powerUp.kill()
-    state++
+    player.state++
 
 }
