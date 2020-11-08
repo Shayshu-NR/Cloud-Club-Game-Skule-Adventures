@@ -16,7 +16,7 @@ var player
 var enemy
 var text;
 var qBlock
-var timedEvent
+var timedEvent;
 var hazard;
 var powerUp
 var state = 3
@@ -36,34 +36,34 @@ function preload() {
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
     //~~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
     game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     //~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Enemies ~~~~~
     game.load.image('steve', './assets/steve.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-    game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
+    game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
     //~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Power ups ~~~~~
     game.load.image('fireflower', './assets/fireflower.png')
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
     //~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
     //~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     //~~~~~~~~~~~~~~~~~
@@ -72,7 +72,6 @@ function preload() {
 function create() {
     //~~~~~ Loading json file ~~~~~
     json_parsed = JSON.parse(game.cache.getText('emily_test'))
-    console.log("Json file structure: ", json_parsed)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Physics engine ~~~~~
@@ -80,7 +79,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
-    sky = game.add.tileSprite(0, 0, 800, 600, json_parsed.Background)
+    sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
     //~~~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +108,7 @@ function create() {
 
     //~~~~~ Ground/ledge creation ~~~~~
     const ground = platforms.create(0, game.world.height - 64, 'ground')
-    ground.scale.setTo(6, 2)
+    ground.scale.setTo(5, 2)
     ground.body.immovable = true
 
     let ledge = platforms.create(400, 450, 'ground')
@@ -119,13 +118,14 @@ function create() {
     //~~~~~ Player attributes ~~~~~
     player = game.add.sprite(32, game.world.height - 150, 'player')
     game.physics.arcade.enable(player)
-    player.lives = 3
-    player.state = 3
-    player.facing = 1;
     player.body.bounce.y = 0
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
+    player.lives = 3
+    player.state = 3
+    player.facing = 1;
     player.currentState = 'small'
+
 
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
     player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
@@ -154,7 +154,7 @@ function create() {
         space: 'spacebar'
     })
     //~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Brick and Qblock parsing from json file ~~~~~
     var brick_location = json_parsed.Bricks
     for (var i = 0; i < brick_location.length; i++) {
@@ -178,17 +178,18 @@ function create() {
         question_block.broken = false
         question_block.body.immovable = true
         question_block.animations.add('q_break', [0, 1, 2, 3], 150, true)
+        console.log(question_block)
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~~~~~~~ Enemy creation ~~~~~~~~~~~~~~~
-    astronaut = enemy.create(400, 386, 'astronaut')
+    astronaut = enemy.create(400, 418, 'astronaut')
     astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
     astronaut.animations.play('walk')
 
     walking_astronaut = game.add.tween(astronaut)
     walking_astronaut.loop = -1
-    walking_astronaut.to({ x: 700, y: 386 }, 10000, null, true, 0, 100000000, true)
+    walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ World and camera settings ~~~~~
@@ -217,7 +218,7 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {enemy.kill(); fireballs.kill();}, null, this)
+    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) { enemy.kill(); fireballs.kill(); }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
 
     if (!player.isInvincible)
@@ -271,12 +272,13 @@ function update() {
     if (player.currentState == 'fireflower') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
-            Fireballs(fireballs, player)
+            Fireballs(fireballs, player);
+            console.log("is down 1");
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
             keyReset = false;
         }
-          
+
     }
 
     this.timeText.x = 700 + this.camera.view.x
@@ -428,7 +430,7 @@ function question_break(player, block) {
         // block.loadTexture('iron')
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
-        
+
         //get powerup to slide up from question mark brick
         const new_powerUp = powerUp.create(block_x, block_y - 32, block.powerUp)
         new_powerUp.power_type = block.powerUp
@@ -468,14 +470,14 @@ function powerUp_ingest(player, powerUp) {
 
 //mario shooting fireballs function
 function Fireballs(fireballs, player) {
-    
+
     console.log(player.body.velocity)
     const f = fireballs.create(player.position.x, player.position.y, "fireball")
     f.body.gravity.y = 400;
     f.body.velocity.y = 0;
     f.bounce = 0;
     f.body.velocity.x = 400 * player.facing;
-    
+
 }
 
 function fireballKill(platforms, fireballs) {
@@ -484,5 +486,4 @@ function fireballKill(platforms, fireballs) {
     if (fireballs.bounce == 5) {
         fireballs.kill();
     }
-
 }

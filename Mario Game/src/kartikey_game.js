@@ -16,7 +16,7 @@ var player
 var enemy
 var text;
 var qBlock
-var timedEvent
+var timedEvent;
 var hazard;
 var powerUp
 var state = 3
@@ -72,7 +72,6 @@ function preload() {
 function create() {
     //~~~~~ Loading json file ~~~~~
     json_parsed = JSON.parse(game.cache.getText('emily_test'))
-    console.log("Json file structure: ", json_parsed)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Physics engine ~~~~~
@@ -80,7 +79,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
-    sky = game.add.tileSprite(0, 0, 800, 600, json_parsed.Background)
+    sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
     //~~~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +108,7 @@ function create() {
 
     //~~~~~ Ground/ledge creation ~~~~~
     const ground = platforms.create(0, game.world.height - 64, 'ground')
-    ground.scale.setTo(6, 2)
+    ground.scale.setTo(5, 2)
     ground.body.immovable = true
 
     let ledge = platforms.create(400, 450, 'ground')
@@ -126,6 +125,7 @@ function create() {
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
     player.currentState = 'small'
+
 
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
     player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
@@ -178,6 +178,7 @@ function create() {
         question_block.broken = false
         question_block.body.immovable = true
         question_block.animations.add('q_break', [0, 1, 2, 3], 150, true)
+        console.log(question_block)
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -271,7 +272,8 @@ function update() {
     if (player.currentState == 'fireflower') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
-            Fireballs(fireballs, player)
+            Fireballs(fireballs, player);
+            console.log("is down 1");
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
             keyReset = false;
