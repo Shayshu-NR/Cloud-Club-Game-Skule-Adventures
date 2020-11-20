@@ -38,6 +38,8 @@ function preload() {
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
+    game.load.spritesheet('midastronaut', './assets/frosh_astronaut48x48.png', 48, 48)
+    game.load.spritesheet('bigastronaut', './assets/frosh_astronaut64x64.png', 64, 64)
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
 }
 
@@ -186,6 +188,16 @@ function create() {
     walking_astronaut = game.add.tween(astronaut)
     walking_astronaut.loop = -1
     walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
+
+    //~~~~~~~~~~~Mid Astronaut~~~~~~~~~~~~~~~
+    midastronaut = hazard.create(400, 504, 'midastronaut')
+    midastronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
+    midastronaut.animations.play('walk')
+    midastronaut.body.gravity.y = 0
+
+    walking_midastronaut = game.add.tween(midastronaut)
+    walking_midastronaut.loop = -1
+    walking_midastronaut.to({ x: 700, y: 504 }, 10000, null, true, 0, 100000000, true)
 
     //~~~~~ World and camera settings ~~~~~
     game.world.setBounds(0, 0, 8000, 600)

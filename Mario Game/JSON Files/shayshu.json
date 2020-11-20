@@ -1,0 +1,86 @@
+{
+    "World" : {
+        "x" :3250,
+        "y" : 600 
+    },
+
+    "Background": "sky",
+
+    "FlagPole" : {
+        "x" : 3000, 
+        "y" : 240,
+        "src" : "flag_pole"
+    },
+
+    "Ground": [{
+            "start_x": 0,
+            "end_x": 1000,
+            "src": "ground"
+        },
+        {
+            "start_x": 1150,
+            "end_x": 2000,
+            "src": "ground"
+        },
+        {
+            "start_x": 2200,
+            "end_x": 4000,
+            "src": "ground"
+        }
+
+    ],
+
+    "Platform": [{
+        "x": 400,
+        "y": 400,
+        "src": "ground"
+    }],
+
+    "QBlocks": [{
+        "x": 146,
+        "y": 420,
+        "powerUp": "fireflower"
+    }],
+
+    "Bricks": [{
+            "x": 50,
+            "y": 420,
+            "counter": 5
+        },
+        {
+            "x": 82,
+            "y": 420,
+            "counter": 0
+        },
+        {
+            "x": 114,
+            "y": 420,
+            "counter": 0
+        }
+
+    ],
+
+    "Enemies": [{
+            "src": "astronaut",
+            "x": 400,
+            "y": 336,
+            "tween_x": 700,
+            "tween_y": 336,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4
+            }
+        },
+        {
+            "src": "spike",
+            "x": 900,
+            "y": 504,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false
+        }
+    ]
+}

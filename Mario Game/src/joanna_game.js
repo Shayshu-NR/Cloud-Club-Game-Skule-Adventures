@@ -16,7 +16,7 @@ var player
 var enemy
 var text;
 var qBlock
-var timedEvent
+var timedEvent;
 var hazard;
 var powerUp
 var state = 3
@@ -30,42 +30,40 @@ var lastHit = 520
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/shayshu.json")
+    game.load.text("emily_test", "./JSON Files/game.json")
     //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
     //~~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
     game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
-    game.load.image('flag_pole', './assets/flag_pole.png')
     //~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Enemies ~~~~~
     game.load.image('steve', './assets/steve.png')
-    game.load.image('spike', './assets/spike.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-    game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
+    game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
     //~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Power ups ~~~~~
     game.load.image('fireflower', './assets/fireflower.png')
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
     //~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
     //~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     //~~~~~~~~~~~~~~~~~
@@ -73,8 +71,7 @@ function preload() {
 
 function create() {
     //~~~~~ Loading json file ~~~~~
-    json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
-    console.log("Json file structure: ", json_parsed)
+    json_parsed = JSON.parse(game.cache.getText('emily_test'))
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Physics engine ~~~~~
@@ -82,7 +79,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
-    sky = game.add.tileSprite(0, 0, 800, 600, json_parsed.Background)
+    sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
     //~~~~~~~~~~~~~~~~~~~~~~
@@ -96,7 +93,6 @@ function create() {
     enemy = game.add.group()
     fireballs = game.add.group()
     hazard = game.add.group()
-    flag = game.add.group()
     //~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enable body ~~~~~
@@ -108,42 +104,28 @@ function create() {
     enemy.enableBody = true
     fireballs.enableBody = true
     hazard.enableBody = true
-    flag.enableBody = true
     //~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Ground/ledge creation ~~~~~
-    var ground_location = json_parsed.Ground
-    for (var i = 0; i < ground_location.length; i++){
-        var grnd_start_x = ground_location[i].start_x
-        var grnd_end_x = ground_location[i].end_x
-        var grnd_src = ground_location[i].src
+    const ground = platforms.create(0, game.world.height - 64, 'ground')
+    ground.scale.setTo(5, 2)
+    ground.body.immovable = true
 
-        const ground = platforms.create(grnd_start_x, game.world.height - 64, grnd_src);
-        ground.scale.setTo((grnd_end_x - grnd_start_x)/400, 2);
-        ground.body.immovable = true
-    }
-    var platform_location = json_parsed.Platform
-    for (var i = 0; i < platform_location.length; i++){
-        var plt_x = platform_location[i].x
-        var plt_y = platform_location[i].y
-        var plt_src = platform_location[i].src
-
-        const ground = platforms.create(plt_x, plt_y, plt_src);
-        ground.body.immovable = true
-    }
-
+    let ledge = platforms.create(400, 450, 'ground')
+    ledge.body.immovable = true
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player attributes ~~~~~
     player = game.add.sprite(32, game.world.height - 150, 'player')
     game.physics.arcade.enable(player)
-    player.lives = 3
-    player.state = 3
-    player.facing = 1;
     player.body.bounce.y = 0
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
+    player.lives = 3
+    player.state = 3
+    player.facing = 1;
     player.currentState = 'small'
+
 
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
     player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
@@ -172,8 +154,19 @@ function create() {
         space: 'spacebar'
     })
     //~~~~~~~~~~~~~~~~~~~
-    
+
     //~~~~~ Brick and Qblock parsing from json file ~~~~~
+    var brick_location = json_parsed.Bricks
+    for (var i = 0; i < brick_location.length; i++) {
+        var brick_x = brick_location[i].x
+        var brick_y = brick_location[i].y
+        var brick_counter = brick_location[i].counter
+
+        const block = brick.create(brick_x, brick_y, 'brick')
+        block.body.immovable = true
+        block.counter = brick_counter
+    }
+
     var qBlock_location = json_parsed.QBlocks
     for (var i = 0; i < qBlock_location.length; i++) {
         var qBlock_x = qBlock_location[i].x
@@ -185,55 +178,22 @@ function create() {
         question_block.broken = false
         question_block.body.immovable = true
         question_block.animations.add('q_break', [0, 1, 2, 3], 150, true)
-    }
-
-    var brick_location = json_parsed.Bricks
-    for (var i = 0; i < brick_location.length; i++) {
-        var brick_x = brick_location[i].x
-        var brick_y = brick_location[i].y
-        var brick_counter = brick_location[i].counter
-
-        const block = brick.create(brick_x, brick_y, 'brick')
-        block.body.immovable = true
-        block.counter = brick_counter
+        console.log(question_block)
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~~~~~~~ Enemy creation ~~~~~~~~~~~~~~~
-    var enemy_location = json_parsed.Enemies
-    for (var i = 0; i< enemy_location.length; i++){
-        var nme_x = enemy_location[i].x
-        var nme_y = enemy_location[i].y
-        var nme_src = enemy_location[i].src
-        var nme_tween_x = enemy_location[i].tween_x
-        var nme_tween_y = enemy_location[i].tween_y
-        var nme_tween_speed = enemy_location[i].tween_speed
-        const nme_animate = enemy_location[i].animate
+    astronaut = enemy.create(400, 418, 'astronaut')
+    astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
+    astronaut.animations.play('walk')
 
-        const new_nme = enemy.create(nme_x, nme_y, nme_src)
-
-
-        if (nme_tween_x != false){
-            var new_tween = game.add.tween(new_nme)
-            new_tween.to({ x: nme_tween_x, y: nme_tween_y }, nme_tween_speed, null, true, 0, 100000000, true)
-        }
-
-        if (nme_animate != false){
-            new_nme.animations.add(nme_animate.name, nme_animate.frames, nme_animate.delay, true)
-            new_nme.animations.play(nme_animate.name)
-        }
-    }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    //~~~~~ Add Flag pole for end of level ~~~~~
-    var flag_position = json_parsed.FlagPole
-    const end_of_level = flag.create(flag_position.x, flag_position.y, flag_position.src)
-    end_of_level.scale.setTo(1.5, 1.5)
+    walking_astronaut = game.add.tween(astronaut)
+    walking_astronaut.loop = -1
+    walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ World and camera settings ~~~~~
-    var world_bounds = json_parsed.World
-    game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
+    game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
@@ -258,9 +218,8 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {enemy.kill(); fireballs.kill();}, null, this)
+    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) { enemy.kill(); fireballs.kill(); }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
-    game.physics.arcade.collide(player, flag, function next_level(player, flag){alert("You won"); location.reload(true);}, null, this)
 
     if (!player.isInvincible)
         game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
@@ -307,18 +266,19 @@ function update() {
 
 
     if (player.position.y >= 568) {
-        falloutofworld(player);
+        falloutofworld(player)
     }
 
     if (player.currentState == 'fireflower') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
-            Fireballs(fireballs, player)
+            Fireballs(fireballs, player);
+            console.log("is down 1");
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
             keyReset = false;
         }
-          
+
     }
 
     this.timeText.x = 700 + this.camera.view.x
@@ -356,15 +316,21 @@ function kill_mario(player, hazard) {
     if (powerUpHierarchy[player.currentState] >= 2) {
 
         state--
+        //player.position.x = player.position.x - 15;
         console.log("State:" + state)
+        //player.loadTexture('woof')
+
         lastHit = timing
+        console.log(lastHit)
+
+        console.log(hazard.position.x, player.position.x)
+        //console.log(lastHit - timer)
+
         player.isInvincible = true
-
-
     } else {
         //life is lost
         lives--
-        if (lives <= 0) {
+        if (lives == 0) {
             //needs to be across the screen in big red letters
             alert("All lives lost! Game over");
             this.input.keyboard.enabled = false
@@ -374,7 +340,7 @@ function kill_mario(player, hazard) {
         var die_noise = game.add.audio("mario_die");
         //die_noise.play();
 
-        location.reload(true);
+        location.reload();
     }
 }
 
@@ -407,8 +373,7 @@ function falloutofworld(player) {
     player.kill();
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
-    alert("Restart?")
-    location.reload(true);
+    location.reload();
 }
 
 function brick_break(player, block) {
@@ -465,7 +430,7 @@ function question_break(player, block) {
         // block.loadTexture('iron')
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
-        
+
         //get powerup to slide up from question mark brick
         const new_powerUp = powerUp.create(block_x, block_y - 32, block.powerUp)
         new_powerUp.power_type = block.powerUp
@@ -488,9 +453,9 @@ function falloutofworld(player) {
 
 function powerUp_ingest(player, powerUp) {
     console.log(player)
-    
+    player.body.height = 64
+
     if (powerUpHierarchy[player.currentState] < powerUpHierarchy[powerUp.power_type]) {
-        player.body.height = 64
         player.currentState = powerUp.power_type
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
@@ -505,14 +470,14 @@ function powerUp_ingest(player, powerUp) {
 
 //mario shooting fireballs function
 function Fireballs(fireballs, player) {
-    
+
     console.log(player.body.velocity)
     const f = fireballs.create(player.position.x, player.position.y, "fireball")
     f.body.gravity.y = 400;
     f.body.velocity.y = 0;
     f.bounce = 0;
     f.body.velocity.x = 400 * player.facing;
-    
+
 }
 
 function fireballKill(platforms, fireballs) {
@@ -521,5 +486,4 @@ function fireballKill(platforms, fireballs) {
     if (fireballs.bounce == 5) {
         fireballs.kill();
     }
-
 }

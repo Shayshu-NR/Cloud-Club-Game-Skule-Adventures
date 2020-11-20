@@ -1,147 +1,166 @@
-// Linted with standardJS - https://standardjs.com/
-
 // Initialize the Phaser Game object and set default game window size
 const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
     preload: preload,
     create: create,
-    update: update
+    update: update,
+    render: render
 })
 
 // Declare shared variables at the top so all methods can access them
-let score = 0
-let scoreText
-let platforms
-let diamonds
-let cursors
-let player
+var score = 0
+var scoreText
+var platforms
+var diamonds
+var cursors
+var player
+var enemy
 var text;
-var timedEvent;
 var qBlock
-var powerUp;
-var powerUpHierarchy = { 'fireflower': 3, 'mushroom': 2, 'small': 0 }
+var timedEvent;
+var hazard;
+var powerUp
+var state = 3
+var lives = 3
+var timing
+var powerUpHierarchy = { 'fireflower': 4, 'hammer_powerUp': 3, 'mushroom': 2, 'small': 1 }
+var fireballs;
+var hammer;
+var playerPowerUp;
+var keyReset = false
+var lastHit = 520
+var hammerReturn = false;
 
 function preload() {
-    // Load & Define our game assets
-    game.load.text("emily_test", "./JSON Files/emily_test.json")
+    //~~~~~ Json file ~~~~~
+    game.load.text("emily_test", "./JSON Files/game.json")
+    //~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
+    //~~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
-    game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('woof', './assets/woof.png', 32, 32)
-    game.load.image('steve', './assets/steve.png')
-    game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.image('brick', './assets/brick.png')
-    game.load.image('qBlock', './assets/question-block.png')
+    game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
-    game.load.image('fireflower', './assets/fireflower.png')
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Enemies ~~~~~
+    game.load.image('steve', './assets/steve.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
+    //~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Power ups ~~~~~
+    game.load.image('fireflower', './assets/fireflower.png')
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
-    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
+    game.load.image('coffee', './asssets/powerups/coffee_1.png')
+    //~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Player model ~~~~~
+    game.load.image('diamond', './assets/diamond.png')
+    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
+    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    //~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Sound ~~~~~
+    game.load.audio("mario_die", './assets/smb_mariodie.wav')
+    //~~~~~~~~~~~~~~~~~
 }
 
 function create() {
+    //~~~~~ Loading json file ~~~~~
     json_parsed = JSON.parse(game.cache.getText('emily_test'))
-    console.log(json_parsed)
-        //  We're going to be using physics, so enable the Arcade Physics system
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Physics engine ~~~~~
     game.physics.startSystem(Phaser.Physics.ARCADE)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //  A simple background for our game
-    game.add.sprite(0, 0, 'sky')
+    //~~~~~ Background ~~~~~
+    sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
+    sky.fixedToCamera = true
+    sky.tilePosition.x = game.camera.x * -0.2
+    //~~~~~~~~~~~~~~~~~~~~~~
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
+    //~~~~~ Groups ~~~~~
     platforms = game.add.group()
+    brick = game.add.group()
+    qBlock = game.add.group()
+    diamonds = game.add.group()
+    powerUp = game.add.group()
+    enemy = game.add.group()
+    fireballs = game.add.group()
+    hammer = game.add.group()
+    hazard = game.add.group()
+    //~~~~~~~~~~~~~~~~~~
 
-    //  We will enable physics for any object that is created in this group
+    //~~~~~ Enable body ~~~~~
     platforms.enableBody = true
+    brick.enableBody = true
+    qBlock.enableBody = true
+    diamonds.enableBody = true
+    powerUp.enableBody = true
+    enemy.enableBody = true
+    fireballs.enableBody = true
+    hammer.enableBody = true
+    hazard.enableBody = true
+    //~~~~~~~~~~~~~~~~~~~~~~~
 
-    // Here we create the ground.
+    //~~~~~ Ground/ledge creation ~~~~~
     const ground = platforms.create(0, game.world.height - 64, 'ground')
-
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2)
-
-    //  This stops it from falling away when you jump on it
+    ground.scale.setTo(5, 2)
     ground.body.immovable = true
 
-    //  Now let's create two ledges
     let ledge = platforms.create(400, 450, 'ground')
     ledge.body.immovable = true
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //ledge = platforms.create(-75, 350, 'ground')
-    //ledge.body.immovable = true
-
-    // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'woof')
-
-    //  We need to enable physics on the player
+    //~~~~~ Player attributes ~~~~~
+    player = game.add.sprite(32, game.world.height - 150, 'player')
     game.physics.arcade.enable(player)
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.2
+    player.lives = 3
+    player.state = 3
+    player.facing = 1;
+    player.body.bounce.y = 0
     player.body.gravity.y = 980
     player.body.collideWorldBounds = true
     player.currentState = 'small'
 
-    //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1], 10, true)
-    player.animations.add('right', [2, 3], 10, true)
 
-    //  Finally some diamonds to collect
-    diamonds = game.add.group()
+    player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
+    player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
+    player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
+    player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
+    player.animations.add('stop', [5], 10, true)
+    player.animations.add('stop_blink', [20, 5, 20], 10, true)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //  Enable physics for any object that is created in this group
-    diamonds.enableBody = true
-
-    // //  Create 12 diamonds evenly spaced apart
-    // for (var i = 0; i < 12; i++) {
-    //     const diamond = diamonds.create(i * 70, 0, 'diamond')
-
-    //     //  Drop em from the sky and bounce a bit
-    //     diamond.body.gravity.y = 1000
-    //     diamond.body.bounce.y = 0.3 + Math.random() * 0.2
-    // }
-
-    //Adding an enemey to the level
-    enemy = game.add.group();
-
-    enemy.enableBody = true;
-
-    const steve = enemy.create(350, 350, 'steve');
-
-
-    //  Create the score text
+    //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
-
-    //  And bootstrap our controls
-    cursors = game.input.keyboard.createCursorKeys()
-
     scoreText.text = 'Score: 0';
 
+    this.timeLimit = 500
+    this.timeText = game.add.text(700, 20, "00:00")
+    this.timeText.fill = "#000000"
+    this.timer = game.time.events.loop(1000, tick, this)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //~~~~~ Demo of timer ~~~~~
-    //Creating a timer...
-    // 2:30 in seconds
-    this.timeLimit = 30;
-    this.timeText = game.add.text(700, 20, "00:00");
-    this.timeText.fill = "#000000";
-    this.timer = game.time.events.loop(1000, tick, this);
-
-    console.log(this)
-        //Start the timer once everyting is loaded...
-        //~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-    //~~~~~ Demo of birck ~~~~~
-
-    brick = game.add.group()
-    brick.enableBody = true
-
-    //const block = brick.create(50, game.world.height - 150, 'brick')
-    //block.body.immovable = true
-    //block.counter = 5;
-
+    //~~~~~ Cursors ~~~~~
+    cursors = game.input.keyboard.createCursorKeys({
+        up: 'up',
+        down: 'down',
+        left: 'left',
+        right: 'right',
+        space: 'spacebar'
+    })
+    //~~~~~~~~~~~~~~~~~~~
+    
+    //~~~~~ Brick and Qblock parsing from json file ~~~~~
     var brick_location = json_parsed.Bricks
     for (var i = 0; i < brick_location.length; i++) {
         var brick_x = brick_location[i].x
@@ -152,18 +171,6 @@ function create() {
         block.body.immovable = true
         block.counter = brick_counter
     }
-    game.world.setBounds(0, 0, 8000, 600)
-    game.camera.follow(player);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    //~~~~~~ question block ~~~~~
-    qBlock = game.add.group()
-    qBlock.enableBody = true
-
-    //const questionBlock = qBlock.create(100, game.world.height - 150, 'qBlock')
-    //questionBlock.body.immovable = true
-    //questionBlock.powerUp = 'mushroom'
-    // questionBlock.broken = false
 
     var qBlock_location = json_parsed.QBlocks
     for (var i = 0; i < qBlock_location.length; i++) {
@@ -175,28 +182,57 @@ function create() {
         question_block.powerUp = power_Up
         question_block.broken = false
         question_block.body.immovable = true
+        question_block.animations.add('q_break', [0, 1, 2, 3], 150, true)
         console.log(question_block)
     }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //~~~~~ power ups ~~~~~
-    powerUp = game.add.group()
-    powerUp.enableBody = true
+    //~~~~~~~~~~~ Enemy creation ~~~~~~~~~~~~~~~
+    astronaut = enemy.create(400, 418, 'astronaut')
+    astronaut.animations.add('walk', [2, 0, 3, 0], 4, true)
+    astronaut.animations.play('walk')
+
+    walking_astronaut = game.add.tween(astronaut)
+    walking_astronaut.loop = -1
+    walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~ World and camera settings ~~~~~
+    game.world.setBounds(0, 0, 8000, 600)
+    game.camera.follow(player)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function update() {
     //  We want the player to stop when not moving
     player.body.velocity.x = 0
 
+    timing = Math.floor(this.timeLimit)
+    if ((lastHit - timing) > 2) {
+        player.isInvincible = false
+    }
+
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
     game.physics.arcade.collide(enemy, platforms)
-    game.physics.arcade.collide(player, brick, brick_break, null, this)
     game.physics.arcade.collide(player, qBlock, question_break, null, this)
+    game.physics.arcade.collide(player, brick, brick_break, null, this)
     game.physics.arcade.collide(diamonds, qBlock)
-    game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(powerUp, qBlock)
+    game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
+    game.physics.arcade.collide(hazard, platforms)
+    game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
+    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {enemy.kill(); fireballs.kill();}, null, this)
+    game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
+    game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
+        enemy.kill();
+        hammer.body.velocity.x *= -1;
+    }, null, this)
+    game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
+
+    if (!player.isInvincible)
+        game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -205,33 +241,76 @@ function update() {
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
-    //
-    game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
 
     // Configure the controls!
     if (cursors.left.isDown) {
+        player.facing = -1;
         player.body.velocity.x = -300
-        player.animations.play('left')
+        if (player.isInvincible) {
+            player.animations.play('left_blink')
+        } else {
+            player.animations.play('left')
+        }
     } else if (cursors.right.isDown) {
+        player.facing = 1;
         player.body.velocity.x = 300
-        player.animations.play('right')
+        if (player.isInvincible) {
+            player.animations.play('right_blink')
+        } else {
+            player.animations.play('right')
+        }
     } else {
         // If no movement keys are pressed, stop the player
-        player.animations.stop()
+
+        if (player.isInvincible) {
+            player.animations.play('stop_blink')
+        } else {
+            player.animations.play('stop')
+        }
     }
 
     //  This allows the player to jump!
     if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -500
     }
-    // Show an alert modal when score reaches 120
-    if (score === 120) {
-        alert('You win!')
-        score = 0
+
+
+    if (player.position.y >= 568) {
+        falloutofworld(player)
     }
+
+    if (player.currentState == 'fireflower') {
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
+            keyReset = true;
+            Fireballs(fireballs, player);
+            console.log("is down 1");
+        }
+        if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
+            keyReset = false;
+        }
+          
+    }
+
+    if (player.currentState == 'hammer_powerUp'){
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset){
+            keyReset = true;
+            hammerTime(hammer, player);
+        }
+    }
+
+    this.timeText.x = 700 + this.camera.view.x
+    scoreText.x = 16 + this.camera.view.x
+
+}
+
+function render() {
+    this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
+    this.game.debug.cameraInfo(this.game.camera, 200, 32);
+    this.game.debug.spriteInfo(player, 500, 32);
 }
 
 function collectDiamond(player, diamond) {
+    console.log("Unique ID for diamound: ", diamond.unique)
     // Removes the diamond from the screen
     diamond.kill()
 
@@ -249,19 +328,40 @@ function collectBDiamond(brick, diamond) {
     scoreText.text = 'Score: ' + score
 }
 
-function kill_mario(player, enemy) {
-    enemy.kill();
-    player.kill();
+function kill_mario(player, hazard) {
+    //this checks whether mario has a power up or not.
+    if (state >= 2) {
 
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
+        state--
+        //player.position.x = player.position.x - 15;
+        console.log("State:" + state)
+        //player.loadTexture('woof')
 
-    alert("Game over");
+        lastHit = timing
+        console.log(lastHit)
 
-    location.reload();
+        console.log(hazard.position.x, player.position.x)
+        //console.log(lastHit - timer)
+
+        player.isInvincible = true
+    } else {
+        //life is lost
+        lives--
+        if (lives == 0) {
+            //needs to be across the screen in big red letters
+            alert("All lives lost! Game over");
+            this.input.keyboard.enabled = false
+        }
+        player.kill();
+
+        var die_noise = game.add.audio("mario_die");
+        //die_noise.play();
+
+        location.reload();
+    }
 }
 
-var tick = function() {
+var tick = function () {
     this.timeLimit--;
     var minutes = Math.floor(this.timeLimit / 60);
     var seconds = this.timeLimit - (minutes * 60);
@@ -272,17 +372,24 @@ var tick = function() {
     }
 };
 
-var addZeros = function(num) {
+var addZeros = function (num) {
     if (num < 10) {
         num = "0" + num;
     }
     return num;
 };
 
-var outofTime = function() {
+var outofTime = function () {
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
     alert("Out of Time!");
+    location.reload();
+}
+
+function falloutofworld(player) {
+    player.kill();
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
     location.reload();
 }
 
@@ -306,7 +413,7 @@ function brick_break(player, block) {
         return
     } else if (block.counter > 0) {
         block.counter--
-            var break_sound = game.add.audio('brick_sound')
+        var break_sound = game.add.audio('brick_sound')
         break_sound.play()
         const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
@@ -335,27 +442,30 @@ function question_break(player, block) {
     } else if (player_x < block_x - 16) {
         return
     } else if (!block.broken) {
-        console.log("block: ", block)
-        block.loadTexture('iron')
-            //~~~~~ replace w/ question mark audio sound
+        console.log(block)
+        block.animations.play('q_break', 60, false)
+        // block.loadTexture('iron')
         var break_sound = game.add.audio('brick_sound')
-            //is that the same sound as the brick or nah
         break_sound.play()
-            //get powerup to slide up from question mark brick
+        
+        //get powerup to slide up from question mark brick
         const new_powerUp = powerUp.create(block_x, block_y - 32, block.powerUp)
         new_powerUp.power_type = block.powerUp
         new_powerUp.body.gravity.y = 0.98
         new_powerUp.body.bounce.y = 0.3 + Math.random() * 0.2
         block.broken = true
-
-        // const diamond = diamonds.create(block_x, block_y - 32, 'diamond')
-        // diamond.body.gravity.y = 1000
-        // diamond.body.bounce.y = 0.3 + Math.random() * 0.2
-
     } else {
         return
     }
 
+}
+
+function falloutofworld(player) {
+    player.kill();
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+    alert("Game over");
+    location.reload();
 }
 
 function powerUp_ingest(player, powerUp) {
@@ -366,11 +476,67 @@ function powerUp_ingest(player, powerUp) {
         player.currentState = powerUp.power_type
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
+        } else if (powerUp.power_type == 'hammer_powerUp'){
+            player.loadTexture('big_player')
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
-
         }
     }
+
     powerUp.kill()
 
+}
+
+//mario shooting fireballs function
+function Fireballs(fireballs, player) {
+    
+    console.log(player.body.velocity)
+    const f = fireballs.create(player.position.x, player.position.y, "fireball")
+    f.body.gravity.y = 400;
+    f.body.velocity.y = 0;
+    f.bounce = 0;
+    f.body.velocity.x = 400 * player.facing;
+    
+}
+
+function fireballKill(platforms, fireballs) {
+    fireballs.body.velocity.y = -100;
+    fireballs.bounce++;
+    if (fireballs.bounce == 5) {
+        fireballs.kill();
+    }
+
+}
+
+//player shooting hammer like a boomerang when space is pressed
+//can only shoot 1 at a time
+function hammerTime(hammer, player){
+    var player_x = player.position.x;
+    var player_y = player.position.y;
+    //var limit;
+    //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
+    const h = hammer.create(player_x, player_y+16, 'hammer_powerUp')
+    h.limit = player_x+300*player.facing;
+    console.log(h.limit)
+    var count = 0;
+    //adding some spin
+    h.body.angularVelocity = 1000;
+    h.body.velocity.y = 0;
+    h.body.velocity.x = 200*player.facing;
+    do {
+        count++
+        console.log(h.position.x)
+    } while(count != 5)
+    //ideas
+    //loop ? x
+    //when the hammer returns to the player
+    //h.body.velocity.x *=-1
+    //how to keep track of projectile position
+    console.log(h.position.x)
+    
+}
+
+function hammerGrab(player, hammer){
+    hammer.kill();
+    keyReset = false;
 }
