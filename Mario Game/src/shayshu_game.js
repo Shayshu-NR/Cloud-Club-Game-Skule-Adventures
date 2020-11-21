@@ -122,6 +122,7 @@ function create() {
         ground.scale.setTo((grnd_end_x - grnd_start_x)/400, 2);
         ground.body.immovable = true
     }
+    
     var platform_location = json_parsed.Platform
     for (var i = 0; i < platform_location.length; i++){
         var plt_x = platform_location[i].x
@@ -131,7 +132,6 @@ function create() {
         const ground = platforms.create(plt_x, plt_y, plt_src);
         ground.body.immovable = true
     }
-
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player attributes ~~~~~

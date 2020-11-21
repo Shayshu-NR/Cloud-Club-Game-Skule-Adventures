@@ -1,15 +1,15 @@
 {
-    "World" : {
-        "x" :3250,
-        "y" : 600 
+    "World": {
+        "x": 3250,
+        "y": 600
     },
 
     "Background": "sky",
 
-    "FlagPole" : {
-        "x" : 3000, 
-        "y" : 240,
-        "src" : "flag_pole"
+    "FlagPole": {
+        "x": 3000,
+        "y": 240,
+        "src": "flag_pole"
     },
 
     "Ground": [{
@@ -27,7 +27,6 @@
             "end_x": 4000,
             "src": "ground"
         }
-
     ],
 
     "Platform": [{
