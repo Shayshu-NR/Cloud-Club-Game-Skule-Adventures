@@ -25,6 +25,7 @@ var lives = 1
 var fireballs;
 var playerPowerUp;
 var keyReset = false;
+var jumpCount = 0;
 
 function preload() {
     // Load & Define our game assets
@@ -207,9 +208,13 @@ function update() {
         player.animations.play('stop')
     }
 
-    //  This allows the player to jump!
-    if (cursors.up.isDown && player.body.touching.down) {
-        player.body.velocity.y = -500
+    //  This allows the player to jump! (added double jump)
+    if (player.body.touching.down) {
+        jumpCount = 2;
+    }
+    if (cursors.up.isDown && jumpCount > 0) {
+        player.body.velocity.y = -500;
+        jumpCount--;
     }
 
 
