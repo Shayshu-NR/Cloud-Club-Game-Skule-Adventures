@@ -33,11 +33,11 @@ var hammerReturn = false;
 function preload() {
     //~~~~~ Json file ~~~~~
     game.load.text("shayshu_json", "./JSON Files/shayshu.json")
-    //~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
-    //~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
@@ -45,49 +45,49 @@ function preload() {
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
     game.load.image('steve', './assets/steve.png')
     game.load.image('spike', './assets/spike.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
-    //~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Power ups ~~~~~
     game.load.image('fireflower', './assets/fireflower.png')
     game.load.image('hammer', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
-    //~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
-    //~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
-    //~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~
 }
 
 function create() {
     //~~~~~ Loading json file ~~~~~
     json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
     console.log("Json file structure: ", json_parsed)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Physics engine ~~~~~
     game.physics.startSystem(Phaser.Physics.ARCADE)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     sky = game.add.tileSprite(0, 0, 800, 600, json_parsed.Background)
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
-    //~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Groups ~~~~~
     platforms = game.add.group()
@@ -100,7 +100,7 @@ function create() {
     hammer = game.add.group()
     hazard = game.add.group()
     flag = game.add.group()
-    //~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enable body ~~~~~
     platforms.enableBody = true
@@ -113,7 +113,7 @@ function create() {
     hammer.enableBody = true
     hazard.enableBody = true
     flag.enableBody = true
-    //~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
@@ -155,7 +155,7 @@ function create() {
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
     player.animations.add('stop_blink', [20, 5, 20], 10, true)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
@@ -165,17 +165,17 @@ function create() {
     this.timeText = game.add.text(700, 20, "00:00")
     this.timeText.fill = "#000000"
     this.timer = game.time.events.loop(1000, tick, this)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Cursors ~~~~~
     cursors = game.input.keyboard.createCursorKeys({
-        up: 'up',
-        down: 'down',
-        left: 'left',
-        right: 'right',
-        space: 'spacebar'
-    })
-    //~~~~~~~~~~~~~~~~~~~
+            up: 'up',
+            down: 'down',
+            left: 'left',
+            right: 'right',
+            space: 'spacebar'
+        })
+        //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Brick and Qblock parsing from json file ~~~~~
     var qBlock_location = json_parsed.QBlocks
@@ -233,13 +233,13 @@ function create() {
     var flag_position = json_parsed.FlagPole
     const end_of_level = flag.create(flag_position.x, flag_position.y, flag_position.src)
     end_of_level.scale.setTo(1.5, 1.5)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
     game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
     game.camera.follow(player)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function update() {
@@ -262,9 +262,15 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) { enemy.kill(); fireballs.kill(); }, null, this)
+    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
+        enemy.kill();
+        fireballs.kill();
+    }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
-    game.physics.arcade.collide(player, flag, function next_level(player, flag) { alert("You won"); location.reload(true); }, null, this)
+    game.physics.arcade.collide(player, flag, function next_level(player, flag) {
+        alert("You won");
+        location.reload(true);
+    }, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         enemy.kill();
         hammer.body.velocity.x *= -1;
@@ -334,7 +340,7 @@ function update() {
             keyReset = true;
             hammerTime(hammer, player, this);
             console.log(this);
-            var event = game.time.events.add(4000, function() {console.log("Return");}, this)
+            var event = game.time.events.add(1000, function() { console.log("Return"); }, this)
             console.log(event)
         }
     }
@@ -352,7 +358,7 @@ function render() {
 
 function collectDiamond(player, diamond) {
     console.log("Unique ID for diamound: ", diamond.unique)
-    // Removes the diamond from the screen
+        // Removes the diamond from the screen
     diamond.kill()
 
     //  And update the score
@@ -396,7 +402,7 @@ function kill_mario(player, hazard) {
     }
 }
 
-var tick = function () {
+var tick = function() {
     this.timeLimit--;
     var minutes = Math.floor(this.timeLimit / 60);
     var seconds = this.timeLimit - (minutes * 60);
@@ -407,14 +413,14 @@ var tick = function () {
     }
 };
 
-var addZeros = function (num) {
+var addZeros = function(num) {
     if (num < 10) {
         num = "0" + num;
     }
     return num;
 };
 
-var outofTime = function () {
+var outofTime = function() {
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
     alert("Out of Time!");
@@ -449,7 +455,7 @@ function brick_break(player, block) {
         return
     } else if (block.counter > 0) {
         block.counter--
-        var break_sound = game.add.audio('brick_sound')
+            var break_sound = game.add.audio('brick_sound')
         break_sound.play()
         const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
@@ -480,7 +486,7 @@ function question_break(player, block) {
     } else if (!block.broken) {
         console.log(block)
         block.animations.play('q_break', 60, false)
-        // block.loadTexture('iron')
+            // block.loadTexture('iron')
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
 
@@ -514,8 +520,7 @@ function powerUp_ingest(player, powerUp) {
             player.loadTexture('big_purple_player')
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
-        }
-        else if (powerUp.power_type == "hammer") {
+        } else if (powerUp.power_type == "hammer") {
             player.loadTexture("big_player")
             powerUp.kill()
         }
