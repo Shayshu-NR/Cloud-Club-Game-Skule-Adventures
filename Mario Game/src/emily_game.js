@@ -28,7 +28,6 @@ var hammer;
 var playerPowerUp;
 var keyReset = false
 var lastHit = 520
-var hammerReturn = false;
 
 function preload() {
     //~~~~~ Json file ~~~~~
@@ -225,10 +224,7 @@ function update() {
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {enemy.kill(); fireballs.kill();}, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
-    game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
-        enemy.kill();
-        hammer.body.velocity.x *= -1;
-    }, null, this)
+    game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {enemy.kill();hammer.body.velocity.x *= -1;}, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
 
     if (!player.isInvincible)
@@ -294,7 +290,10 @@ function update() {
     if (player.currentState == 'hammer_powerUp'){
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset){
             keyReset = true;
-            hammerTime(hammer, player);
+            var ham = hammerTime(hammer, player);
+            game.time.events.add(2500, function(){
+                ham.body.velocity.x *=-1;
+            }, this)
         }
     }
 
@@ -523,17 +522,12 @@ function hammerTime(hammer, player){
     h.body.angularVelocity = 1000;
     h.body.velocity.y = 0;
     h.body.velocity.x = 200*player.facing;
-    do {
-        count++
-        console.log(h.position.x)
-    } while(count != 5)
+    return h;
     //ideas
     //loop ? x
     //when the hammer returns to the player
     //h.body.velocity.x *=-1
-    //how to keep track of projectile position
-    console.log(h.position.x)
-    
+    //how to keep track of projectile position  
 }
 
 function hammerGrab(player, hammer){
