@@ -212,10 +212,10 @@ function update() {
     if (player.body.touching.down) {
         jumpCount = 2;
     }
-    if (cursors.up.isDown && jumpCount > 0) {
+    if (game.input.keyboard.justPressed(up) && jumpCount > 0) {
         player.body.velocity.y = -500;
         jumpCount--;
-    }
+    } 
 
 
     if (player.position.y > 536) {
