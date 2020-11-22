@@ -36,10 +36,16 @@
     }],
 
     "QBlocks": [{
-        "x": 146,
-        "y": 420,
-        "powerUp": "fireflower"
-    }],
+            "x": 146,
+            "y": 420,
+            "powerUp": "fireflower"
+        },
+        {
+            "x": 178,
+            "y": 420,
+            "powerUp": "hammer"
+        }
+    ],
 
     "Bricks": [{
             "x": 50,

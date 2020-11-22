@@ -52,7 +52,7 @@ function preload() {
     
     //~~~~~ Power ups ~~~~~
     game.load.image('fireflower', './assets/fireflower.png')
-    game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
+    game.load.image('hammer', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
     //~~~~~~~~~~~~~~~~~~~~~
