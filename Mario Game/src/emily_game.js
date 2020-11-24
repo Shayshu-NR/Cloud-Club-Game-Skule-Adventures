@@ -291,9 +291,19 @@ function update() {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset){
             keyReset = true;
             var ham = hammerTime(hammer, player);
-            game.time.events.add(2500, function(){
+            game.time.events.add(4000, function(){
                 ham.body.velocity.x *=-1;
             }, this)
+
+            //potential solution if the player doesn't catch the hammer
+            game.time.events.add(9000, function(){
+                if (!ham.return){
+                    ham.return = true;
+                    ham.kill();
+                    keyReset = false;
+                }
+            }, this)
+
         }
     }
 
@@ -519,6 +529,7 @@ function hammerTime(hammer, player){
     console.log(h.limit)
     var count = 0;
     //adding some spin
+    h.return = false;
     h.body.angularVelocity = 1000;
     h.body.velocity.y = 0;
     h.body.velocity.x = 200*player.facing;
@@ -531,6 +542,7 @@ function hammerTime(hammer, player){
 }
 
 function hammerGrab(player, hammer){
+    hammer.return = true;
     hammer.kill();
     keyReset = false;
 }

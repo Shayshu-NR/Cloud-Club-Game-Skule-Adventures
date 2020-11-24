@@ -4,7 +4,30 @@
         "y": 600
     },
 
-    "Background": "sky",
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "space",
+            "tile": true
+        }, {
+            "x": 1200,
+            "y": 400,
+            "height": 64,
+            "width": 64,
+            "src": "space_ship",
+            "tile": false
+        },
+        {
+            "x": 2400,
+            "y": 0,
+            "height": 800,
+            "width": 600,
+            "src": "sky",
+            "tile": false
+        }
+    ],
 
     "FlagPole": {
         "x": 3000,
@@ -15,25 +38,44 @@
     "Ground": [{
             "start_x": 0,
             "end_x": 1000,
+            "height": 536,
             "src": "ground"
         },
         {
             "start_x": 1150,
             "end_x": 2000,
+            "height": 536,
             "src": "ground"
         },
         {
             "start_x": 2200,
             "end_x": 4000,
+            "height": 536,
             "src": "ground"
         }
     ],
 
     "Platform": [{
-        "x": 400,
-        "y": 400,
-        "src": "ground"
-    }],
+            "x": 400,
+            "y": 400,
+            "height": 32,
+            "width": 400,
+            "src": "ground"
+        }, {
+            "x": 1615,
+            "y": 300,
+            "height": 100,
+            "width": 200,
+            "src": "ground"
+        },
+        {
+            "x": 1665,
+            "y": 250,
+            "height": 200,
+            "width": 100,
+            "src": "ground"
+        }
+    ],
 
     "QBlocks": [{
             "x": 146,
