@@ -37,6 +37,7 @@ function preload() {
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
+    game.load.image('space', './assets/Space/Space_Background.jpg')
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -71,6 +72,10 @@ function preload() {
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
         //~~~~~~~~~~~~~~~~~
+
+    //~~~~~ Misc ~~~~~
+    game.load.image("space_ship", './assets/spaceship.png')
+        //~~~~~~~~~~~~~~~~
 }
 
 function create() {
@@ -84,10 +89,24 @@ function create() {
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
-    sky = game.add.tileSprite(0, 0, 800, 600, json_parsed.Background)
-    sky.fixedToCamera = true
-    sky.tilePosition.x = game.camera.x * -0.2
-        //~~~~~~~~~~~~~~~~~~~~~~
+    var background_location = json_parsed.Background
+    for (var i = 0; i < background_location.length; i++) {
+        var bgd_x = background_location[i].x
+        var bgd_y = background_location[i].y
+        var bgd_src = background_location[i].src
+        var bgd_tile = background_location[i].tile
+
+
+        if (bgd_tile) {
+            var bgd_height = background_location[i].height
+            var bgd_width = background_location[i].width
+            const new_tile = game.add.tileSprite(bgd_x, bgd_y, bgd_width, bgd_height, bgd_src)
+            new_tile.fixedToCamera = true
+            new_tile.tilePosition.x = game.camera.x * -0.2
+        } else {
+            const new_background = game.add.image(bgd_x, bgd_y, bgd_src)
+        }
+    }
 
     //~~~~~ Groups ~~~~~
     platforms = game.add.group()
@@ -120,10 +139,11 @@ function create() {
     for (var i = 0; i < ground_location.length; i++) {
         var grnd_start_x = ground_location[i].start_x
         var grnd_end_x = ground_location[i].end_x
+        var grnd_height = ground_location[i].height
         var grnd_src = ground_location[i].src
 
-        const ground = platforms.create(grnd_start_x, game.world.height - 64, grnd_src);
-        ground.scale.setTo((grnd_end_x - grnd_start_x) / 400, 2);
+        const ground = platforms.create(grnd_start_x, grnd_height, grnd_src);
+        ground.scale.setTo((grnd_end_x - grnd_start_x) / 400, grnd_height / 32);
         ground.body.immovable = true
     }
 
@@ -132,8 +152,11 @@ function create() {
         var plt_x = platform_location[i].x
         var plt_y = platform_location[i].y
         var plt_src = platform_location[i].src
+        var plt_height = platform_location[i].height
+        var plt_width = platform_location[i].width
 
         const ground = platforms.create(plt_x, plt_y, plt_src);
+        ground.scale.setTo(plt_width / 400, plt_height / 32)
         ground.body.immovable = true
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
