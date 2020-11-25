@@ -31,65 +31,80 @@ var derivative
 var integral;
 var book
 var astronaut_bullet
+
 function preload() {
     //~~~~~ Json file ~~~~~
     game.load.text("emily_test", "./JSON Files/game.json")
-    //~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
-    //~~~~~~~~~~~~~~~~~~~~~~
-    
+        //~~~~~~~~~~~~~~~~~~~~~~
+
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
     game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     //~~~~~ Enemies ~~~~~
     game.load.image('steve', './assets/steve.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
-    game.load.image('bullet','./assets/frosh_astronaut.png',32,32)
-    //~~~~~~~~~~~~~~~~~~~
-    
+        //~~~~~~~~~~~~~~~~~~~
+    game.load.image('bullet', './assets/frosh_astronaut.png', 32, 32)
+        //~~~~~~~~~~~~~~~~~~~
+
     //~~~~~ Power ups ~~~~~
     game.load.image('fireflower', './assets/fireflower.png')
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
+<<<<<<< HEAD
     game.load.image('derivative','./assets/080ce64f6733919.png')
     game.load.image('integral','./assets/62ffe02791c2915.png')
     game.load.spritesheet('book','./assets/6fe45f57c2ab18e.png', 64, 64)
     //~~~~~~~~~~~~~~~~~~~~~
     
+=======
+    game.load.image('derivative', './assets/080ce64f6733919.png')
+    game.load.image('integral', './assets/integral.png')
+        //~~~~~~~~~~~~~~~~~~~~~
+
+    game.load.image('derivative', './assets/080ce64f6733919.png')
+    game.load.image('integral', './assets/62ffe02791c2915.png')
+    game.load.image('book', './assets/6fe45f57c2ab18e.png')
+        //~~~~~~~~~~~~~~~~~~~~~
+
+
+>>>>>>> 0c96a69aa22fa5c7a8395e0bc8b9a7dcd1b57152
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
-    //~~~~~~~~~~~~~~~~~~~~~~~~
-    
+        //~~~~~~~~~~~~~~~~~~~~~~~~
+
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
-    //~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~
 }
 
 function create() {
     //~~~~~ Loading json file ~~~~~
     json_parsed = JSON.parse(game.cache.getText('emily_test'))
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Physics engine ~~~~~
     game.physics.startSystem(Phaser.Physics.ARCADE)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
-    //~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Groups ~~~~~
     platforms = game.add.group()
@@ -102,9 +117,10 @@ function create() {
     hazard = game.add.group()
     derivative = game.add.group()
     integral = game.add.group()
+        //~~~~~~~~~~~~~~~~~~
     book = game.add.group()
     astronaut_bullet = game.add.group()
-    //~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enable body ~~~~~
     platforms.enableBody = true
@@ -119,7 +135,7 @@ function create() {
     integral.enableBody = true
     book.enableBody = true
     astronaut_bullet = true
-    //~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Ground/ledge creation ~~~~~
     const ground = platforms.create(0, game.world.height - 64, 'ground')
@@ -128,7 +144,7 @@ function create() {
 
     let ledge = platforms.create(400, 450, 'ground')
     ledge.body.immovable = true
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player attributes ~~~~~
     player = game.add.sprite(32, game.world.height - 150, 'player')
@@ -148,9 +164,10 @@ function create() {
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
     player.animations.add('stop_blink', [20, 5, 20], 10, true)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-//game.physics.arcade.enable(book)
-    
+    //game.physics.arcade.enable(book)
+
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,18 +180,18 @@ function create() {
     this.timeText = game.add.text(700, 20, "00:00")
     this.timeText.fill = "#000000"
     this.timer = game.time.events.loop(1000, tick, this)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Cursors ~~~~~
     cursors = game.input.keyboard.createCursorKeys({
-        up: 'up',
-        down: 'down',
-        left: 'left',
-        right: 'right',
-        space: 'spacebar'
-    })
-    //~~~~~~~~~~~~~~~~~~~
-    
+            up: 'up',
+            down: 'down',
+            left: 'left',
+            right: 'right',
+            space: 'spacebar'
+        })
+        //~~~~~~~~~~~~~~~~~~~
+
     //~~~~~ Brick and Qblock parsing from json file ~~~~~
     var brick_location = json_parsed.Bricks
     for (var i = 0; i < brick_location.length; i++) {
@@ -210,15 +227,15 @@ function create() {
     walking_astronaut = game.add.tween(astronaut)
     walking_astronaut.loop = -1
     walking_astronaut.to({ x: 700, y: 418 }, 10000, null, true, 0, 100000000, true)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ World and camera settings ~~~~~
     game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     //game.time.events.loop(1000, astronautshooting(), this);
-    game.time.events.loop(1000, function(){console.log("hi")}, this);
+    game.time.events.loop(1000, function() { console.log("hi") }, this);
     //runs only one before causing an error
     /**
      * game.time.events.loop(time, timerEvent, this);
@@ -245,9 +262,19 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {enemy.kill(); fireballs.kill();}, null, this)
-    game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {enemy.kill(); derivative.kill();}, null, this)
-    game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {enemy.kill(); integral.kill();}, null, this)
+    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
+        enemy.kill();
+        fireballs.kill();
+    }, null, this)
+    game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
+        enemy.kill();
+        derivative.kill();
+    }, null, this)
+    game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
+        enemy.kill();
+        integral.kill();
+    }, null, this)
+    game.physics.arcade.collide(integral, platforms, integralKill, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
@@ -304,8 +331,13 @@ function update() {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
             //Fireballs(fireballs, player);
+<<<<<<< HEAD
            // Integrals(integral,derivative,player)
             TextBook(book, player)
+=======
+            Integrals(integral, derivative, player)
+                //TextBook(book, player)
+>>>>>>> 0c96a69aa22fa5c7a8395e0bc8b9a7dcd1b57152
             console.log("is down 1");
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
@@ -331,7 +363,7 @@ function render() {
 
 function collectDiamond(player, diamond) {
     console.log("Unique ID for diamound: ", diamond.unique)
-    // Removes the diamond from the screen
+        // Removes the diamond from the screen
     diamond.kill()
 
     //  And update the score
@@ -355,13 +387,13 @@ function kill_mario(player, hazard) {
         state--
         //player.position.x = player.position.x - 15;
         console.log("State:" + state)
-        //player.loadTexture('woof')
+            //player.loadTexture('woof')
 
         lastHit = timing
         console.log(lastHit)
 
         console.log(hazard.position.x, player.position.x)
-        //console.log(lastHit - timer)
+            //console.log(lastHit - timer)
 
         player.isInvincible = true
     } else {
@@ -381,7 +413,7 @@ function kill_mario(player, hazard) {
     }
 }
 
-var tick = function () {
+var tick = function() {
     this.timeLimit--;
     var minutes = Math.floor(this.timeLimit / 60);
     var seconds = this.timeLimit - (minutes * 60);
@@ -392,14 +424,14 @@ var tick = function () {
     }
 };
 
-var addZeros = function (num) {
+var addZeros = function(num) {
     if (num < 10) {
         num = "0" + num;
     }
     return num;
 };
 
-var outofTime = function () {
+var outofTime = function() {
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
     alert("Out of Time!");
@@ -433,7 +465,7 @@ function brick_break(player, block) {
         return
     } else if (block.counter > 0) {
         block.counter--
-        var break_sound = game.add.audio('brick_sound')
+            var break_sound = game.add.audio('brick_sound')
         break_sound.play()
         const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
@@ -464,10 +496,10 @@ function question_break(player, block) {
     } else if (!block.broken) {
         console.log(block)
         block.animations.play('q_break', 60, false)
-        // block.loadTexture('iron')
+            // block.loadTexture('iron')
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
-        
+
         //get powerup to slide up from question mark brick
         const new_powerUp = powerUp.create(block_x, block_y - 32, block.powerUp)
         new_powerUp.power_type = block.powerUp
@@ -512,65 +544,68 @@ function Fireballs(fireballs, player) {
     f.body.gravity.y = 400;
     f.body.velocity.y = 0;
     f.bounce = 0;
-    f.body.velocity.x = 400 * player.facing;   
+    f.body.velocity.x = 400 * player.facing;
 }
-function Derivatives(derivative,player){
+
+function Derivatives(derivative, player) {
     console.log(player.body.velocity)
-    const d = derivative.create(player.position.x*10, player.position.y*10, "derivative")
-    derivative.scale.setTo(0.1,0.1)
+    const d = derivative.create(player.position.x * 10, player.position.y * 10, "derivative")
+    derivative.scale.setTo(0.1, 0.1)
     d.body.gravity.y = 300;
     d.body.velocity.y = 0;
     d.bounce = 0;
     d.body.velocity.x = 600 * player.facing;
 }
-function Integrals(integral,derivative,player){
+
+function Integrals(integral, derivative, player) {
     console.log(player.body.velocity)
-    const i = integral.create(player.position.x*10, player.position.y*10, "integral")
-    integral.scale.setTo(0.1,0.1)
+    const i = integral.create(player.position.x, player.position.y, "integral")
+    integral.scale.setTo(1, 1)
     i.body.gravity.y = 300;
     i.body.velocity.y = 0;
     i.bounce = 0;
     i.body.velocity.x = 600 * player.facing;
-    
+
     console.log(player.body.velocity)
-    const d = derivative.create(player.position.x*10, player.position.y*10, "derivative")
-    derivative.scale.setTo(0.1,0.1)
+    const d = derivative.create(player.position.x * 10, player.position.y * 10, "derivative")
+    derivative.scale.setTo(0.1, 0.1)
     d.body.gravity.y = 300;
     d.body.velocity.y = 0;
     d.bounce = 0;
     d.body.velocity.x = 600 * -player.facing
-}
-{
-function TextBook(book,player){
-    const t = derivative.create(player.position.x*10, player.position.y*10, 'book')
-    book.scale.setTo(0.1,0.1)
-    t.body.gravity.y = 300;
-    t.body.velocity.y = 0;
-    t.bounce = 0;
-    t.body.velocity.x = 600 * player.facing
-    //book.animations.add('rotate',[0, 1, 2, 3],10,true)
-    //book.animations.play('rotate')
-}
+} {
+    function TextBook(book, player) {
+        const t = derivative.create(player.position.x * 10, player.position.y * 10, 'book')
+        book.scale.setTo(0.1, 0.1)
+        t.body.gravity.y = 300;
+        t.body.velocity.y = 0;
+        t.bounce = 0;
+        t.body.velocity.x = 600 * player.facing
+            //book.animations.add('rotate',[0, 1, 2, 3],10,true)
+            //book.animations.play('rotate')
+    }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //~~~~~~~ Killing Projectiles ~~~~~~~~~~~~~~~~~~~~~~~~
 
-function derivativeKill(platforms,derivative){
+function derivativeKill(platforms, derivative) {
     derivative.body.velocity.y = -100;
     derivative.bounce++;
     if (derivative.bounce == 5) {
         derivative.kill();
     }
 }
-function integralKill(platforms,integral){
+
+function integralKill(platforms, integral) {
     integral.body.velocity.y = -100;
     integral.bounce++;
     if (integral.bounce == 5) {
         integral.kill();
     }
-    
+
 }
+
 function fireballKill(platforms, fireballs) {
     fireballs.body.velocity.y = -100;
     fireballs.bounce++;
@@ -578,9 +613,9 @@ function fireballKill(platforms, fireballs) {
         fireballs.kill();
     }
 
-function astronautshooting(){
+    function astronautshooting() {
         console.log("Hi")
-        
-    }   
+
+    }
 
 }
