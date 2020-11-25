@@ -61,24 +61,11 @@ function preload() {
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
-<<<<<<< HEAD
-    game.load.image('derivative','./assets/080ce64f6733919.png')
-    game.load.image('integral','./assets/62ffe02791c2915.png')
-    game.load.spritesheet('book','./assets/6fe45f57c2ab18e.png', 64, 64)
+    game.load.image('derivative','./assets/derivatives.png')
+    game.load.image('integral','./assets/integral.png')
+    game.load.spritesheet('text','./assets/textbook.png',32, 32)
     //~~~~~~~~~~~~~~~~~~~~~
     
-=======
-    game.load.image('derivative', './assets/080ce64f6733919.png')
-    game.load.image('integral', './assets/integral.png')
-        //~~~~~~~~~~~~~~~~~~~~~
-
-    game.load.image('derivative', './assets/080ce64f6733919.png')
-    game.load.image('integral', './assets/62ffe02791c2915.png')
-    game.load.image('book', './assets/6fe45f57c2ab18e.png')
-        //~~~~~~~~~~~~~~~~~~~~~
-
-
->>>>>>> 0c96a69aa22fa5c7a8395e0bc8b9a7dcd1b57152
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
@@ -150,7 +137,7 @@ function create() {
     player = game.add.sprite(32, game.world.height - 150, 'player')
     game.physics.arcade.enable(player)
     player.lives = 3
-    player.state = 3
+    player.state = 1
     player.facing = 1;
     player.body.bounce.y = 0
     player.body.gravity.y = 980
@@ -274,7 +261,6 @@ function update() {
         enemy.kill();
         integral.kill();
     }, null, this)
-    game.physics.arcade.collide(integral, platforms, integralKill, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
@@ -282,6 +268,16 @@ function update() {
     if (!player.isInvincible)
         game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
 
+    /**game.physics.arcade.collide(ledge, fireballs, function fireballsKill(fireballs) {
+        fireballs.kill();
+    }, null, this)
+    game.physics.arcade.collide(ledge, integral,function integralsKill(integral) {
+        integral.kill();
+    }, null, this)
+    game.physics.arcade.collide(ledge, derivative, function derivativesKill(derivative) {
+        derivative.kill();
+    }, null, this)
+ */
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
     game.physics.arcade.collide(brick, diamonds, collectBDiamond, null, this)
@@ -331,13 +327,9 @@ function update() {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
             //Fireballs(fireballs, player);
-<<<<<<< HEAD
-           // Integrals(integral,derivative,player)
-            TextBook(book, player)
-=======
-            Integrals(integral, derivative, player)
-                //TextBook(book, player)
->>>>>>> 0c96a69aa22fa5c7a8395e0bc8b9a7dcd1b57152
+            Integrals(integral,derivative,player)
+            Derivatives(derivative, player)
+            //TextBook(book, player)
             console.log("is down 1");
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
@@ -382,31 +374,39 @@ function collectBDiamond(brick, diamond) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
-    if (state >= 2) {
+    if (player.state >= 2) {
 
-        state--
-        //player.position.x = player.position.x - 15;
-        console.log("State:" + state)
-            //player.loadTexture('woof')
+        player.state--
+        
+        console.log("State:" + player.state)
 
         lastHit = timing
         console.log(lastHit)
-
+    for(var key in powerUpHierarchy)
+        {
+    if(powerUpHierarchy[key]==player.state)
+         console.log(key);
+         if(key == 'mushroom'){
+             player.loadTexture("big_player")
+             break
+         }
+         if(key == 'small'){
+            player.loadTexture("player")
+         }
+        }
         console.log(hazard.position.x, player.position.x)
-            //console.log(lastHit - timer)
-
         player.isInvincible = true
     } else {
         //life is lost
-        lives--
-        if (lives == 0) {
+        player.lives--
+        if (player.lives == 0) {
             //needs to be across the screen in big red letters
             alert("All lives lost! Game over");
             this.input.keyboard.enabled = false
         }
         player.kill();
 
-        var die_noise = game.add.audio("mario_die");
+        //var die_noise = game.add.audio("mario_die");
         //die_noise.play();
 
         location.reload();
@@ -528,8 +528,10 @@ function powerUp_ingest(player, powerUp) {
         player.currentState = powerUp.power_type
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
+            player.state = 3
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
+            player.state = 3
         }
     }
 
@@ -549,41 +551,37 @@ function Fireballs(fireballs, player) {
 
 function Derivatives(derivative, player) {
     console.log(player.body.velocity)
-    const d = derivative.create(player.position.x * 10, player.position.y * 10, "derivative")
-    derivative.scale.setTo(0.1, 0.1)
-    d.body.gravity.y = 300;
+    const d = derivative.create(player.position.x, player.position.y, "derivative")
+    d.body.gravity.y = 400;
     d.body.velocity.y = 0;
     d.bounce = 0;
-    d.body.velocity.x = 600 * player.facing;
+    d.body.velocity.x = 500 * player.facing;
 }
 
 function Integrals(integral, derivative, player) {
     console.log(player.body.velocity)
     const i = integral.create(player.position.x, player.position.y, "integral")
-    integral.scale.setTo(1, 1)
-    i.body.gravity.y = 300;
+    i.body.gravity.y = 400;
     i.body.velocity.y = 0;
     i.bounce = 0;
-    i.body.velocity.x = 600 * player.facing;
+    i.body.velocity.x = 500 * -player.facing;
 
-    console.log(player.body.velocity)
-    const d = derivative.create(player.position.x * 10, player.position.y * 10, "derivative")
-    derivative.scale.setTo(0.1, 0.1)
+    /*console.log(player.body.velocity)
+    const d = derivative.create(player.position.x , player.position.y, "derivative")
     d.body.gravity.y = 300;
     d.body.velocity.y = 0;
     d.bounce = 0;
-    d.body.velocity.x = 600 * -player.facing
-} {
+    d.body.velocity.x = 600 * -player.facing*/
+} 
     function TextBook(book, player) {
-        const t = derivative.create(player.position.x * 10, player.position.y * 10, 'book')
-        book.scale.setTo(0.1, 0.1)
+        const t = derivative.create(player.position.x , player.position.y, 'text')
         t.body.gravity.y = 300;
         t.body.velocity.y = 0;
         t.bounce = 0;
         t.body.velocity.x = 600 * player.facing
-            //book.animations.add('rotate',[0, 1, 2, 3],10,true)
-            //book.animations.play('rotate')
-    }
+        t.animations.add('rotate',[0, 1, 2, 3],500,true)
+        t.animations.play('rotate')
+    
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
