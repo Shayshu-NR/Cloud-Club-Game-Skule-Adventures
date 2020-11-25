@@ -61,7 +61,7 @@ function preload() {
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
     game.load.image('derivative','./assets/080ce64f6733919.png')
     game.load.image('integral','./assets/62ffe02791c2915.png')
-    game.load.image('book','./assets/6fe45f57c2ab18e.png')
+    game.load.spritesheet('book','./assets/6fe45f57c2ab18e.png', 64, 64)
     //~~~~~~~~~~~~~~~~~~~~~
     
     //~~~~~ Player model ~~~~~
@@ -304,8 +304,8 @@ function update() {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
             //Fireballs(fireballs, player);
-            Integrals(integral,derivative,player)
-            //TextBook(book, player)
+           // Integrals(integral,derivative,player)
+            TextBook(book, player)
             console.log("is down 1");
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
