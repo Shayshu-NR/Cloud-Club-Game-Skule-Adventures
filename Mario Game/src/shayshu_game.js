@@ -19,6 +19,7 @@ var qBlock
 var timedEvent
 var hazard
 var hammer
+var lazer
 var powerUp
 var state = 3
 var lives = 3
@@ -46,6 +47,7 @@ function preload() {
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
+    game.load.image('asteroid', './assets/Space/Asteroid.png')
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
@@ -119,6 +121,7 @@ function create() {
     hammer = game.add.group()
     hazard = game.add.group()
     flag = game.add.group()
+    lazer = game.add.group()
         //~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enable body ~~~~~
@@ -132,6 +135,7 @@ function create() {
     hammer.enableBody = true
     hazard.enableBody = true
     flag.enableBody = true
+    lazer.enableBody = true
         //~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Ground/ledge creation ~~~~~
@@ -249,6 +253,16 @@ function create() {
             new_nme.animations.add(nme_animate.name, nme_animate.frames, nme_animate.delay, true)
             new_nme.animations.play(nme_animate.name)
         }
+
+        if (enemy_location[i].lazer) {
+            var event = game.time.events.loop(2500, function(enemy_projectile) {
+                const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, "space_ship");
+                new_lazer.body.velocity.x = -500;
+                console.log("Lazer: ", enemy_projectile[0].position);
+            }, this, [new_nme])
+
+            new_nme.lazer_timer = event
+        }
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -288,6 +302,9 @@ function update() {
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
         enemy.kill();
         fireballs.kill();
+        if (enemy.lazer_timer) {
+            enemy.lazer_timer.loop = false
+        }
     }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
@@ -296,9 +313,13 @@ function update() {
     }, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         enemy.kill();
+        if (enemy.lazer_timer) {
+            enemy.lazer_timer.loop = false
+        }
         hammer.body.velocity.x *= -1;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
+    game.physics.arcade.collide(player, lazer, kill_mario, null, this)
 
     if (!player.isInvincible)
         game.physics.arcade.overlap(player, enemy, kill_mario, null, this);

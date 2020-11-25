@@ -44,7 +44,7 @@
         {
             "start_x": 1150,
             "end_x": 2000,
-            "height": 536,
+            "height": 500,
             "src": "ground"
         },
         {
@@ -56,26 +56,18 @@
     ],
 
     "Platform": [{
-            "x": 400,
-            "y": 400,
-            "height": 32,
-            "width": 400,
-            "src": "ground"
-        }, {
-            "x": 1615,
-            "y": 300,
-            "height": 100,
-            "width": 200,
-            "src": "ground"
-        },
-        {
-            "x": 1665,
-            "y": 250,
-            "height": 200,
-            "width": 100,
-            "src": "ground"
-        }
-    ],
+        "x": 400,
+        "y": 400,
+        "height": 32,
+        "width": 400,
+        "src": "ground"
+    }, {
+        "x": 1600,
+        "y": 300,
+        "height": 32,
+        "width": 400,
+        "src": "asteroid"
+    }],
 
     "QBlocks": [{
             "x": 146,
@@ -118,7 +110,8 @@
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
                 "delay": 4
-            }
+            },
+            "lazer": true
         },
         {
             "src": "spike",
@@ -127,7 +120,8 @@
             "tween_x": false,
             "tween_y": false,
             "tween_speed": false,
-            "animate": false
+            "animate": false,
+            "lazer": false
         }
     ]
 }
