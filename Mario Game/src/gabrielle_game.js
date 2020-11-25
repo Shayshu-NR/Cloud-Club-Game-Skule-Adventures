@@ -51,36 +51,26 @@ function preload() {
     //~~~~~ Enemies ~~~~~
     game.load.image('steve', './assets/steve.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-    game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32) <<
-        << << < HEAD
+    game.load.spritesheet('astronaut', './assets/frosh_astronaut.png', 32, 32)
+        //~~~~~~~~~~~~~~~~~~~
+    game.load.image('bullet', './assets/frosh_astronaut.png', 32, 32)
         //~~~~~~~~~~~~~~~~~~~
 
-        ===
-        === =
-        game.load.image('bullet', './assets/frosh_astronaut.png', 32, 32)
-        //~~~~~~~~~~~~~~~~~~~
-
-    >>>
-    >>> > 688 fb98d84f0d692a3921b78717e3795bbdf8b83
     //~~~~~ Power ups ~~~~~
     game.load.image('fireflower', './assets/fireflower.png')
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
-    game.load.image('fireball', './assets/5d08f167c3a6a5d.png') <<
-        << << < HEAD
+    game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
     game.load.image('derivative', './assets/080ce64f6733919.png')
     game.load.image('integral', './assets/integral.png')
         //~~~~~~~~~~~~~~~~~~~~~
 
-    ===
-    === =
     game.load.image('derivative', './assets/080ce64f6733919.png')
     game.load.image('integral', './assets/62ffe02791c2915.png')
     game.load.image('book', './assets/6fe45f57c2ab18e.png')
         //~~~~~~~~~~~~~~~~~~~~~
 
-    >>>
-    >>> > 688 fb98d84f0d692a3921b78717e3795bbdf8b83
+
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
@@ -118,16 +108,11 @@ function create() {
     fireballs = game.add.group()
     hazard = game.add.group()
     derivative = game.add.group()
-    integral = game.add.group() <<
-        << << < HEAD
+    integral = game.add.group()
         //~~~~~~~~~~~~~~~~~~
-        ===
-        === =
-        book = game.add.group()
+    book = game.add.group()
     astronaut_bullet = game.add.group()
         //~~~~~~~~~~~~~~~~~~
-        >>>
-        >>> > 688 fb98d84f0d692a3921b78717e3795bbdf8b83
 
     //~~~~~ Enable body ~~~~~
     platforms.enableBody = true
@@ -139,16 +124,10 @@ function create() {
     fireballs.enableBody = true
     hazard.enableBody = true
     derivative.enableBody = true
-    integral.enableBody = true <<
-        << << < HEAD
-        //~~~~~~~~~~~~~~~~~~~~~~~
-        ===
-        === =
-        book.enableBody = true
+    integral.enableBody = true
+    book.enableBody = true
     astronaut_bullet = true
         //~~~~~~~~~~~~~~~~~~~~~~~
-        >>>
-        >>> > 688 fb98d84f0d692a3921b78717e3795bbdf8b83
 
     //~~~~~ Ground/ledge creation ~~~~~
     const ground = platforms.create(0, game.world.height - 64, 'ground')
@@ -176,19 +155,14 @@ function create() {
     player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-    player.animations.add('stop_blink', [20, 5, 20], 10, true) <<
-        << << < HEAD
+    player.animations.add('stop_blink', [20, 5, 20], 10, true)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        ===
-        === =
 
-        //game.physics.arcade.enable(book)
+    //game.physics.arcade.enable(book)
 
 
 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        >>>
-        >>> > 688 fb98d84f0d692a3921b78717e3795bbdf8b83
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
