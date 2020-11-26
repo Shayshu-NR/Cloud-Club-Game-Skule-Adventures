@@ -303,13 +303,24 @@ function update() {
     }
 
     if (hammer_instance != 0) {
-        if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
-            hammer_instance.body.velocity.x *= -1
-        } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
-            console.log("Reached backwards limit")
-            hammer_instance.kill()
-            keyReset = false
-            hammer_instance = 0
+        if (hammer_instance.limit > 0){
+            if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
+                hammer_instance.body.velocity.x *= -1
+            } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
+                console.log("Reached backwards limit")
+                hammer_instance.kill()
+                keyReset = false
+                hammer_instance = 0
+            }
+        } else {
+            if (hammer_instance.body.position.x <= hammer_instance.forward_limit) {
+                hammer_instance.body.velocity.x *= -1
+            } else if (hammer_instance.body.position.x > hammer_instance.backwards_limit) {
+                console.log("Reached backwards limit")
+                hammer_instance.kill()
+                keyReset = false
+                hammer_instance = 0
+            }
         }
     }
 
@@ -531,7 +542,7 @@ function hammerTime(hammer, player) {
 
     //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
     const h = hammer.create(player_x, player_y + 16, 'hammer_powerUp')
-
+    h.limit = 300 * player.facing;
     h.forward_limit = player_x + (300 * player.facing)
     h.backwards_limit = player_x
         //adding some spin
