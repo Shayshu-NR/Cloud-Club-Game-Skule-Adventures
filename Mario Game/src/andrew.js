@@ -22,7 +22,7 @@ var powerUp
 var state = 3
 var lives = 3
 var timing
-var powerUpHierarchy = { 'fireflower': 3, 'coffee':3,'mushroom': 2, 'small': 1 }
+var powerUpHierarchy = { 'fireflower': 3, 'coffee': 3, 'mushroom': 2, 'small': 1 }
 
 function preload() {
     // Load & Define our game assets
@@ -219,12 +219,11 @@ function update() {
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
-    velocity_x = 300;
-    velocity_y = 500
-    // Configure the controls!
-    if(player.currentState == 'coffee')
-    {
-        velocity == 500;
+    var velocity_x = 300;
+    var velocity_y = 500
+        // Configure the controls!
+    if (player.currentState == 'coffee') {
+        velocity_x = 500;
     }
     if (cursors.left.isDown) {
         player.body.velocity.x = -velocity_x;
@@ -249,8 +248,7 @@ function update() {
             player.animations.play('stop')
         }
     }
-    if(player.currentState=='coffee')
-    {
+    if (player.currentState == 'coffee') {
         velocity_y = 700
     }
     //  This allows the player to jump!
@@ -443,9 +441,12 @@ function powerUp_ingest(player, powerUp) {
             player.loadTexture('big_purple_player')
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
-        }
-        else if(powerUp.power_type == 'coffee'){ //Makes player have coffee powerup when they eat coffee
+        } else if (powerUp.power_type == 'coffee') { //Makes player have coffee powerup when they eat coffee
             player.loadTexture('big_player');
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of coffee")
+                player[0].currentState = "mushroom";
+            }, this, [player])
             console.log("coffeee powerup is working")
         }
     }

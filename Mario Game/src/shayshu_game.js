@@ -570,6 +570,7 @@ function powerUp_ingest(player, powerUp) {
     if (powerUpHierarchy[player.currentState] < powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
         player.currentState = powerUp.power_type
+
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
         } else if (powerUp.power_type == 'mushroom') {
@@ -580,9 +581,7 @@ function powerUp_ingest(player, powerUp) {
         }
 
     }
-
     powerUp.kill()
-
 }
 
 //mario shooting fireballs function

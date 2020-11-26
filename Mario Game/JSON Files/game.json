@@ -8,12 +8,12 @@
         {
             "x": 100,
             "y": 420,
-            "powerUp": "hammer_powerUp"
+            "powerUp": "fireflower"
         },
         {
             "x": 500,
             "y": 300,
-            "powerUp": "hammer_powerUp"
+            "powerUp": "text"
         }
     ],
     "Bricks": [{
