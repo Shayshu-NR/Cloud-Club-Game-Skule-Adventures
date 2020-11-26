@@ -19,6 +19,7 @@ var qBlock
 var timedEvent
 var hazard
 var hammer
+var hammer_instance = 0
 var lazer
 var powerUp
 var state = 3
@@ -382,10 +383,19 @@ function update() {
     if (player.currentState == 'hammer') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
-            hammerTime(hammer, player, this);
-            console.log(this);
-            var event = game.time.events.add(1000, function() { console.log("Return"); }, this)
-            console.log(event)
+            console.log("Make hammer")
+            hammer_instance = hammerTime(hammer, player)
+        }
+    }
+
+    if (hammer_instance != 0) {
+        if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
+            hammer_instance.body.velocity.x *= -1
+        } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
+            console.log("Reached backwards limit")
+            hammer_instance.kill()
+            keyReset = false
+            hammer_instance = 0
         }
     }
 
@@ -589,28 +599,22 @@ function Fireballs(fireballs, player) {
 
 //player shooting hammer like a boomerang when space is pressed
 //can only shoot 1 at a time
-function hammerTime(hammer, player, game) {
+function hammerTime(hammer, player) {
     var player_x = player.position.x;
     var player_y = player.position.y;
 
     //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
     const h = hammer.create(player_x, player_y + 16, 'hammer')
-    h.limit = player_x + 300 * player.facing;
-    console.log(h.limit)
-    var count = 0;
 
-    //adding some spin
+    h.forward_limit = player_x + (300 * player.facing)
+    h.backwards_limit = player_x
+        //adding some spin
+
+    h.return = false;
     h.body.angularVelocity = 1000;
     h.body.velocity.y = 0;
     h.body.velocity.x = 200 * player.facing;
-
-    //ideas
-    //loop ? x
-    //when the hammer returns to the player
-    //h.body.velocity.x *=-1
-    //how to keep track of projectile position
-    console.log(this)
-
+    return h;
 }
 
 function hammerGrab(player, hammer) {
