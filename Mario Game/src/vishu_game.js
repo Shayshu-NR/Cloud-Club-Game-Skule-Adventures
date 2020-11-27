@@ -9,11 +9,11 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 })
 
 // Declare shared variables at the top so all methods can access them
-let score = 0
-let scoreText
-let platforms
-let diamonds
-let cursors
+var score = 0
+var scoreText
+var platforms
+var diamonds
+var cursors
 let player
 var text;
 var timedEvent;
@@ -178,10 +178,14 @@ function create() {
 
 function update() {
     //  We want the player to stop when not moving
+    // cursors.up.duration = 0
+
     player.body.velocity.x = 0
 
     //  Setup collisions for the player, diamonds, and our platforms
-    game.physics.arcade.collide(player, platforms)
+    game.physics.arcade.collide(player, platforms, function() {
+        cursors.up.duration = 0
+    }, null, this)
     game.physics.arcade.collide(diamonds, platforms)
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) { enemy.kill() }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
@@ -204,7 +208,7 @@ function update() {
         player.animations.play('right')
     } else {
         // If no movement keys are pressed, stop the player
-
+        cursors.up.duration = 0
         player.animations.stop()
         player.animations.play('stop')
     }
@@ -216,16 +220,23 @@ function update() {
     }
     if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) && jumpCount > 0 && !keyResetJump) {
         keyResetJump = true;
-        player.body.velocity.y = -500;
+        console.log(cursors.up.duration)
+        if (cursors.up.duration < 100) {
+            player.body.velocity.y = -300;
+        } else {
+            player.body.velocity.y = -500;
+        }
         jumpCount--;
     }
-    
+
+
     if (game.input.keyboard.justReleased(Phaser.Keyboard.UP)) {
         keyResetJump = false;
     }
 
 
-    console.log("Jump count: ", jumpCount)
+    // console.log("Jump count: ", jumpCount)
+    // console.log(cursors.up.duration)
 
 
     if (player.position.y > 536) {
