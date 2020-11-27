@@ -214,13 +214,13 @@ function update() {
     if (player.body.touching.down) {
         jumpCount = 2;
     }
-    if (game.input.keyboard.justPressed(up) && jumpCount > 0 && !keyResetJump) {
+    if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) && jumpCount > 0 && !keyResetJump) {
         keyResetJump = true;
         player.body.velocity.y = -500;
         jumpCount--;
     }
     
-    if (game.input.keyboard.justReleased(up)) {
+    if (game.input.keyboard.justReleased(Phaser.Keyboard.UP)) {
         keyResetJump = false;
     }
 
@@ -426,7 +426,7 @@ function Fireballs(fireballs, player) {
 
 }
 
-//function fireballKill(platforms, fireballs) {
+function fireballKill(platforms, fireballs) {
     fireballs.body.velocity.y = -100;
     fireballs.bounce++;
     if (fireballs.bounce == 5) {
