@@ -26,6 +26,7 @@ var fireballs;
 var playerPowerUp;
 var keyReset = false;
 var jumpCount = 0;
+var keyResetJump = false;
 
 function preload() {
     // Load & Define our game assets
@@ -213,10 +214,15 @@ function update() {
     if (player.body.touching.down) {
         jumpCount = 2;
     }
-    if (game.input.keyboard.justPressed(up) && jumpCount > 0) {
+    if (game.input.keyboard.justPressed(up) && jumpCount > 0 && !keyResetJump) {
+        keyResetJump = true;
         player.body.velocity.y = -500;
         jumpCount--;
-    } 
+    }
+    
+    if (game.input.keyboard.justReleased(up)) {
+        keyResetJump = false;
+    }
 
 
     console.log("Jump count: ", jumpCount)
@@ -320,7 +326,7 @@ function falloutofworld(player) {
 }
 
 function brick_break(player, block) {
-    //Only break the brick when the player is below 
+    //Only break the brick when the player is below
     //and not hittin gon the sides
     var player_x = player.position.x
     var player_y = player.position.y
@@ -350,7 +356,7 @@ function brick_break(player, block) {
 }
 
 function question_break(player, block) {
-    //Only break the question mark block when the player is below 
+    //Only break the question mark block when the player is below
     //and not hittin on the sides
 
     var player_x = player.position.x
@@ -420,7 +426,7 @@ function Fireballs(fireballs, player) {
 
 }
 
-function fireballKill(platforms, fireballs) {
+//function fireballKill(platforms, fireballs) {
     fireballs.body.velocity.y = -100;
     fireballs.bounce++;
     if (fireballs.bounce == 5) {
