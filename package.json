@@ -1,0 +1,26 @@
+{
+  "name": "cloud-club-game",
+  "version": "1.0.0",
+  "description": "Cloud Club Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shayshu-NR/Cloud-Club-Game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shayshu-NR/Cloud-Club-Game/issues"
+  },
+  "homepage": "https://github.com/Shayshu-NR/Cloud-Club-Game#readme",
+  "engines": {
+    "node": "12.16.0"
+  },
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
