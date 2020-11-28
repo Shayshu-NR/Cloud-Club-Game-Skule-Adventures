@@ -70,6 +70,10 @@
     }],
 
     "QBlocks": [{
+            "x": 114,
+            "y": 420,
+            "powerUp": "coffee"
+        }, {
             "x": 146,
             "y": 420,
             "powerUp": "fireflower"
@@ -78,6 +82,21 @@
             "x": 178,
             "y": 420,
             "powerUp": "hammer"
+        },
+        {
+            "x": 210,
+            "y": 420,
+            "powerUp": "text"
+        },
+        {
+            "x": 242,
+            "y": 420,
+            "powerUp": "derivative"
+        },
+        {
+            "x": 274,
+            "y": 420,
+            "powerUp": "integral"
         }
     ],
 
@@ -88,11 +107,6 @@
         },
         {
             "x": 82,
-            "y": 420,
-            "counter": 0
-        },
-        {
-            "x": 114,
             "y": 420,
             "counter": 0
         }
