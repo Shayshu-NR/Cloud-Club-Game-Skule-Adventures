@@ -61,11 +61,11 @@ function preload() {
     game.load.image('hammer_powerUp', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
-    game.load.image('derivative','./assets/derivatives.png')
-    game.load.image('integral','./assets/integral.png')
-    game.load.spritesheet('text','./assets/textbook.png',32, 32)
-    //~~~~~~~~~~~~~~~~~~~~~
-    
+    game.load.image('derivative', './assets/derivatives.png')
+    game.load.image('integral', './assets/integral.png')
+    game.load.spritesheet('text', './assets/textbook.png', 32, 32)
+        //~~~~~~~~~~~~~~~~~~~~~
+
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/MainSprite2.png', 32, 32)
@@ -327,9 +327,9 @@ function update() {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
             //Fireballs(fireballs, player);
-            Integrals(integral,derivative,player)
+            Integrals(integral, derivative, player)
             Derivatives(derivative, player)
-            //TextBook(book, player)
+                //TextBook(book, player)
             console.log("is down 1");
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
@@ -377,32 +377,31 @@ function kill_mario(player, hazard) {
     if (player.state >= 2) {
 
         player.state--
-        
-        console.log("State:" + player.state)
+
+            console.log("State:" + player.state)
 
         lastHit = timing
         console.log(lastHit)
-    for(var key in powerUpHierarchy)
-        {
-    if(powerUpHierarchy[key]==player.state){
-         console.log(key);
-         if(key == 'mushroom'){
-             player.loadTexture("big_player")
-         }
-         if(key == 'small'){
-            player.loadTexture("player")
-         }
-        }
+        for (var key in powerUpHierarchy) {
+            if (powerUpHierarchy[key] == player.state) {
+                console.log(key);
+                if (key == 'mushroom') {
+                    player.loadTexture("big_player")
+                }
+                if (key == 'small') {
+                    player.loadTexture("player")
+                }
+            }
         }
         console.log(hazard.position.x, player.position.x)
         player.isInvincible = true
     } else {
         //life is lost
         player.lives--
-        if (player.lives == 0) {
-            //needs to be across the screen in big red letters
-            alert("All lives lost! Game over");
-        }
+            if (player.lives == 0) {
+                //needs to be across the screen in big red letters
+                alert("All lives lost! Game over");
+            }
         player.kill();
 
         //var die_noise = game.add.audio("mario_die");
@@ -571,16 +570,17 @@ function Integrals(integral, derivative, player) {
     d.body.velocity.y = 0;
     d.bounce = 0;
     d.body.velocity.x = 600 * -player.facing*/
-} 
-    function TextBook(book, player) {
-        const t = derivative.create(player.position.x , player.position.y, 'text')
-        t.body.gravity.y = 300;
-        t.body.velocity.y = 0;
-        t.bounce = 0;
-        t.body.velocity.x = 600 * player.facing
-        t.animations.add('rotate',[0, 1, 2, 3],500,true)
-        t.animations.play('rotate')
-    
+}
+
+function TextBook(book, player) {
+    const t = derivative.create(player.position.x, player.position.y, 'text')
+    t.body.gravity.y = 300;
+    t.body.velocity.y = 0;
+    t.bounce = 0;
+    t.body.velocity.x = 600 * player.facing
+    t.animations.add('rotate', [0, 1, 2, 3], 500, true)
+    t.animations.play('rotate')
+
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

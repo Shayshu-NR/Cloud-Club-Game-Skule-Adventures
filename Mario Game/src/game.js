@@ -52,7 +52,7 @@ function preload() {
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
     game.load.image('bahen_platform', './assets/Bahen/bahen_platform.png')
-    game.load.image('brick', './assets/brick.png')
+    game.load.image('brick', './assets/Brown_Brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
@@ -493,7 +493,12 @@ function update() {
 }
 
 //~~~~~ Render ~~~~~
-function render() {}
+function render() {
+    this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
+    this.game.debug.cameraInfo(this.game.camera, 200, 32);
+    this.game.debug.spriteInfo(player, 500, 32);
+}
+
 //~~~~~~~~~~~~~~~~~~
 
 
@@ -537,7 +542,7 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
-    if (powerUpHierarchy[player.currentState] >= 2) {
+    if (powerUpHierarchy[player.currentState] >= 1) {
 
         state--
         console.log("State:" + state)
@@ -549,6 +554,7 @@ function kill_mario(player, hazard) {
             player.loadTexture("big_player");
         } else if (powerUpHierarchy[player.currentState] >= 1) {
             player.currentState = "small";
+            player.body.height = 32
             player.loadTexture("player");
         }
 
@@ -580,17 +586,17 @@ function brick_break(player, block) {
     console.log('Player (x,y):', "(", player.position.x, player.position.y, ")")
     console.log('Block (x,y):', "(", block.position.x, block.position.y, ")")
 
-    var player_x = player.position.x
-    var player_y = player.position.y
+    var player_x = player.position.x + 16
+    var player_y = player.position.y + 16
 
     var block_x = block.position.x
     var block_y = block.position.y
 
     if (player_y < block_y) {
         return
-    } else if (player_x > block_x + 16) {
+    } else if (player_x > block_x + 32) {
         return
-    } else if (player_x < block_x - 16) {
+    } else if (player_x < block_x) {
         return
     } else if (block.counter > 0) {
         block.counter--
@@ -610,17 +616,17 @@ function question_break(player, block) {
     //Only break the question mark block when the player is below 
     //and not hittin on the sides
 
-    var player_x = player.position.x
-    var player_y = player.position.y
+    var player_x = player.position.x + 16
+    var player_y = player.position.y + 16
 
     var block_x = block.position.x
     var block_y = block.position.y
 
     if (player_y < block_y) {
         return
-    } else if (player_x > block_x + 16) {
+    } else if (player_x > block_x + 32) {
         return
-    } else if (player_x < block_x - 16) {
+    } else if (player_x < block_x) {
         return
     } else if (!block.broken) {
         console.log(block)
