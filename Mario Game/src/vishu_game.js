@@ -9,11 +9,11 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 })
 
 // Declare shared variables at the top so all methods can access them
-let score = 0
-let scoreText
-let platforms
-let diamonds
-let cursors
+var score = 0
+var scoreText
+var platforms
+var diamonds
+var cursors
 let player
 var text;
 var timedEvent;
@@ -26,6 +26,7 @@ var fireballs;
 var playerPowerUp;
 var keyReset = false;
 var jumpCount = 0;
+var keyResetJump = false;
 
 function preload() {
     // Load & Define our game assets
@@ -177,10 +178,14 @@ function create() {
 
 function update() {
     //  We want the player to stop when not moving
+    // cursors.up.duration = 0
+
     player.body.velocity.x = 0
 
     //  Setup collisions for the player, diamonds, and our platforms
-    game.physics.arcade.collide(player, platforms)
+    game.physics.arcade.collide(player, platforms, function() {
+        cursors.up.duration = 0
+    }, null, this)
     game.physics.arcade.collide(diamonds, platforms)
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) { enemy.kill() }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
@@ -203,7 +208,7 @@ function update() {
         player.animations.play('right')
     } else {
         // If no movement keys are pressed, stop the player
-
+        cursors.up.duration = 0
         player.animations.stop()
         player.animations.play('stop')
     }
@@ -213,13 +218,25 @@ function update() {
     if (player.body.touching.down) {
         jumpCount = 2;
     }
-    if (game.input.keyboard.justPressed(up) && jumpCount > 0) {
-        player.body.velocity.y = -500;
+    if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) && jumpCount > 0 && !keyResetJump) {
+        keyResetJump = true;
+        console.log(cursors.up.duration)
+        if (cursors.up.duration < 100) {
+            player.body.velocity.y = -300;
+        } else {
+            player.body.velocity.y = -500;
+        }
         jumpCount--;
-    } 
+    }
 
 
-    console.log("Jump count: ", jumpCount)
+    if (game.input.keyboard.justReleased(Phaser.Keyboard.UP)) {
+        keyResetJump = false;
+    }
+
+
+    // console.log("Jump count: ", jumpCount)
+    // console.log(cursors.up.duration)
 
 
     if (player.position.y > 536) {
@@ -320,7 +337,7 @@ function falloutofworld(player) {
 }
 
 function brick_break(player, block) {
-    //Only break the brick when the player is below 
+    //Only break the brick when the player is below
     //and not hittin gon the sides
     var player_x = player.position.x
     var player_y = player.position.y
@@ -350,7 +367,7 @@ function brick_break(player, block) {
 }
 
 function question_break(player, block) {
-    //Only break the question mark block when the player is below 
+    //Only break the question mark block when the player is below
     //and not hittin on the sides
 
     var player_x = player.position.x

@@ -19,17 +19,23 @@ var qBlock
 var timedEvent
 var hazard
 var hammer
+var hammer_instance = 0
+var derivative
+var integral;
+var book
 var lazer
 var powerUp
 var state = 3
 var lives = 3
 var timing
-var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'mushroom': 2, 'small': 1 }
+var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'mushroom': 1, 'small': 0 }
 var fireballs;
 var playerPowerUp;
 var keyReset = false
+var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
+
 
 function preload() {
     //~~~~~ Json file ~~~~~
@@ -62,6 +68,10 @@ function preload() {
     game.load.image('hammer', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
+    game.load.spritesheet('text', './assets/textbook.png', 32, 32)
+    game.load.image('derivative', './assets/derivative_1.png')
+    game.load.image('integral', './assets/integral_1.png')
+    game.load.image('coffee', './assets/powerups/coffee_1_30x32.png')
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player model ~~~~~
@@ -76,12 +86,13 @@ function preload() {
         //~~~~~~~~~~~~~~~~~
 
     //~~~~~ Misc ~~~~~
-    game.load.image("space_ship", './assets/spaceship.png')
+    game.load.image("space_ship", './assets/lazer_red.png')
         //~~~~~~~~~~~~~~~~
 }
 
 function create() {
     //~~~~~ Loading json file ~~~~~
+    console.log(Phaser.Keyboard);
     json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
     console.log("Json file structure: ", json_parsed)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,6 +131,9 @@ function create() {
     fireballs = game.add.group()
     hammer = game.add.group()
     hazard = game.add.group()
+    derivative = game.add.group()
+    integral = game.add.group()
+    book = game.add.group()
     flag = game.add.group()
     lazer = game.add.group()
         //~~~~~~~~~~~~~~~~~~
@@ -136,6 +150,9 @@ function create() {
     hazard.enableBody = true
     flag.enableBody = true
     lazer.enableBody = true
+    derivative.enableBody = true
+    integral.enableBody = true
+    book.enableBody = true
         //~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Ground/ledge creation ~~~~~
@@ -172,7 +189,7 @@ function create() {
     player.state = 3
     player.facing = 1;
     player.body.bounce.y = 0
-    player.body.gravity.y = 980
+    player.body.gravity.y = 1000
     player.body.collideWorldBounds = true
     player.currentState = 'small'
 
@@ -306,11 +323,21 @@ function update() {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
+    game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
+        enemy.kill();
+        derivative.kill();
+    }, null, this)
+    game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
+        enemy.kill();
+        integral.kill();
+    }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
         alert("You won");
-        location.reload(true);
+        location.reload();
     }, null, this)
+    game.physics.arcade.collide(platforms, integral, integralKill, null, this)
+    game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         enemy.kill();
         if (enemy.lazer_timer) {
@@ -332,38 +359,50 @@ function update() {
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
 
-    // Configure the controls!
+
+    var velocity_x = 300
+    var velocity_y = -500
+        // Configure the controls!
+    if (player.currentState == 'coffee') {
+        velocity_x = 700;
+    }
     if (cursors.left.isDown) {
-        player.facing = -1;
-        player.body.velocity.x = -300
+        player.body.velocity.x = -velocity_x;
         if (player.isInvincible) {
             player.animations.play('left_blink')
         } else {
             player.animations.play('left')
         }
     } else if (cursors.right.isDown) {
-        player.facing = 1;
-        player.body.velocity.x = 300
+        player.body.velocity.x = velocity_x;
         if (player.isInvincible) {
             player.animations.play('right_blink')
         } else {
             player.animations.play('right')
         }
     } else {
-        // If no movement keys are pressed, stop the player
-
         if (player.isInvincible) {
             player.animations.play('stop_blink')
         } else {
             player.animations.play('stop')
         }
     }
-
-    //  This allows the player to jump!
-    if (cursors.up.isDown && player.body.touching.down) {
-        player.body.velocity.y = -500
+    if (player.currentState == 'coffee') {
+        velocity_y = -700
     }
 
+    //  This allows the player to jump!
+    if (player.body.touching.down) {
+        jumpCount = 2;
+    }
+    if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) && jumpCount > 0 && !keyResetJump) {
+        keyResetJump = true;
+        player.body.velocity.y = velocity_y;
+        jumpCount--;
+    }
+    if (game.input.keyboard.justReleased(Phaser.Keyboard.UP)) {
+        keyResetJump = false;
+    }
 
     if (player.position.y >= 568) {
         falloutofworld(player);
@@ -382,10 +421,60 @@ function update() {
     if (player.currentState == 'hammer') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
-            hammerTime(hammer, player, this);
-            console.log(this);
-            var event = game.time.events.add(1000, function() { console.log("Return"); }, this)
-            console.log(event)
+            console.log("Make hammer")
+            hammer_instance = hammerTime(hammer, player)
+        }
+    }
+
+    if (player.currentState == 'text') {
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
+            keyReset = true;
+            TextBook(book, player)
+        }
+        if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
+            keyReset = false;
+        }
+
+    }
+
+    if (player.currentState == 'text') {
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
+            keyReset = true;
+            TextBook(book, player)
+        }
+        if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
+            keyReset = false;
+        }
+    }
+
+    if (player.currentState == 'derivative') {
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
+            keyReset = true;
+            Derivatives(derivative, player)
+        }
+        if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
+            keyReset = false;
+        }
+    }
+
+    if (player.currentState == 'integral') {
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
+            keyReset = true;
+            Integrals(integral, derivative, player)
+        }
+        if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
+            keyReset = false;
+        }
+    }
+
+    if (hammer_instance != 0) {
+        if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
+            hammer_instance.body.velocity.x *= -1
+        } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
+            console.log("Reached backwards limit")
+            hammer_instance.kill()
+            keyReset = false
+            hammer_instance = 0
         }
     }
 
@@ -394,29 +483,51 @@ function update() {
 
 }
 
+//~~~~~ Render ~~~~~
 function render() {
     this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
     this.game.debug.cameraInfo(this.game.camera, 200, 32);
     this.game.debug.spriteInfo(player, 500, 32);
 }
+//~~~~~~~~~~~~~~~~~~
 
-function collectDiamond(player, diamond) {
-    console.log("Unique ID for diamound: ", diamond.unique)
-        // Removes the diamond from the screen
-    diamond.kill()
 
-    //  And update the score
-    score += 10
-    scoreText.text = 'Score: ' + score
+
+//~~~~~ Timer and score ~~~~~
+var tick = function() {
+    this.timeLimit--;
+    var minutes = Math.floor(this.timeLimit / 60);
+    var seconds = this.timeLimit - (minutes * 60);
+    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
+    this.timeText.text = timeString;
+    if (this.timeLimit === 0) {
+        outofTime();
+    }
+};
+
+var addZeros = function(num) {
+    if (num < 10) {
+        num = "0" + num;
+    }
+    return num;
+};
+
+var outofTime = function() {
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+    alert("Out of Time!");
+    location.reload();
 }
 
-function collectBDiamond(brick, diamond) {
-    // Removes the diamond from the screen for the brick and diamond interaction
-    diamond.kill()
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //  And update the score
-    score += 10
-    scoreText.text = 'Score: ' + score
+//~~~~~ Death Scripts ~~~~~
+function falloutofworld(player) {
+    player.kill();
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+    alert("Game over");
+    location.reload();
 }
 
 function kill_mario(player, hazard) {
@@ -446,39 +557,9 @@ function kill_mario(player, hazard) {
     }
 }
 
-var tick = function() {
-    this.timeLimit--;
-    var minutes = Math.floor(this.timeLimit / 60);
-    var seconds = this.timeLimit - (minutes * 60);
-    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
-    this.timeText.text = timeString;
-    if (this.timeLimit === 0) {
-        outofTime();
-    }
-};
+//~~~~~~~~~~~~~~~~~~~~~~~~~
 
-var addZeros = function(num) {
-    if (num < 10) {
-        num = "0" + num;
-    }
-    return num;
-};
-
-var outofTime = function() {
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-    alert("Out of Time!");
-    location.reload();
-}
-
-function falloutofworld(player) {
-    player.kill();
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-    alert("Restart?")
-    location.reload(true);
-}
-
+//~~~~~ Neutral Block Collision ~~~~~
 function brick_break(player, block) {
     //Only break the brick when the player is below 
     //and not hittin gon the sides
@@ -546,20 +627,35 @@ function question_break(player, block) {
 
 }
 
-function falloutofworld(player) {
-    player.kill();
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-    alert("Game over");
-    location.reload();
+function collectDiamond(player, diamond) {
+    console.log("Unique ID for diamound: ", diamond.unique)
+        // Removes the diamond from the screen
+    diamond.kill()
+
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
 }
 
+function collectBDiamond(brick, diamond) {
+    // Removes the diamond from the screen for the brick and diamond interaction
+    diamond.kill()
+
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~ Power Up Ingestion ~~~~~
 function powerUp_ingest(player, powerUp) {
     console.log(player)
 
-    if (powerUpHierarchy[player.currentState] < powerUpHierarchy[powerUp.power_type]) {
+    if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
         player.currentState = powerUp.power_type
+
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
         } else if (powerUp.power_type == 'mushroom') {
@@ -567,15 +663,75 @@ function powerUp_ingest(player, powerUp) {
         } else if (powerUp.power_type == "hammer") {
             player.loadTexture("big_player")
             powerUp.kill()
+        } else if (powerUp.power_type == "text") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "derivative") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "integral") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == 'coffee') {
+            player.loadTexture('big_player');
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of coffee")
+                player[0].currentState = "mushroom";
+            }, this, [player])
         }
-
     }
-
     powerUp.kill()
-
+    console.log(player.currentState)
 }
 
-//mario shooting fireballs function
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~ Player Projectiles ~~~~~
+function Derivatives(derivative, player) {
+    console.log(player.body.velocity)
+    const d = derivative.create(player.position.x, player.position.y, "derivative")
+    d.body.gravity.y = 400;
+    d.body.velocity.y = 0;
+    d.bounce = 0;
+    d.body.velocity.x = 500 * player.facing;
+}
+
+function Integrals(integral, derivative, player) {
+    console.log(player.body.velocity)
+    const i = integral.create(player.position.x, player.position.y, "integral")
+    i.body.gravity.y = 400;
+    i.body.velocity.y = 0;
+    i.bounce = 0;
+    i.body.velocity.x = 500 * player.facing;
+}
+
+function TextBook(book, player) {
+    const t = derivative.create(player.position.x, player.position.y, 'text')
+    t.body.velocity.y = 0;
+    t.bounce = 0;
+    t.body.velocity.x = 600 * player.facing
+    t.animations.add('rotate', [0, 1, 2, 3], 10, true)
+    t.animations.play('rotate')
+}
+
+function hammerTime(hammer, player) {
+    var player_x = player.position.x;
+    var player_y = player.position.y;
+
+    //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
+    const h = hammer.create(player_x, player_y + 16, 'hammer')
+
+    h.forward_limit = player_x + (300 * player.facing)
+    h.backwards_limit = player_x
+        //adding some spin
+
+    h.return = false;
+    h.body.angularVelocity = 1000;
+    h.body.velocity.y = 0;
+    h.body.velocity.x = 200 * player.facing;
+    return h;
+}
+
 function Fireballs(fireballs, player) {
 
     console.log(player.body.velocity)
@@ -587,29 +743,29 @@ function Fireballs(fireballs, player) {
 
 }
 
-//player shooting hammer like a boomerang when space is pressed
-//can only shoot 1 at a time
-function hammerTime(hammer, player, game) {
-    var player_x = player.position.x;
-    var player_y = player.position.y;
+function fireballKill(platforms, fireballs) {
+    fireballs.body.velocity.y = -100;
+    fireballs.bounce++;
+    if (fireballs.bounce == 5) {
+        fireballs.kill();
+    }
 
-    //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
-    const h = hammer.create(player_x, player_y + 16, 'hammer')
-    h.limit = player_x + 300 * player.facing;
-    console.log(h.limit)
-    var count = 0;
+}
 
-    //adding some spin
-    h.body.angularVelocity = 1000;
-    h.body.velocity.y = 0;
-    h.body.velocity.x = 200 * player.facing;
+function derivativeKill(platforms, derivative) {
+    derivative.body.velocity.y = -100;
+    derivative.bounce++;
+    if (derivative.bounce == 5) {
+        derivative.kill();
+    }
+}
 
-    //ideas
-    //loop ? x
-    //when the hammer returns to the player
-    //h.body.velocity.x *=-1
-    //how to keep track of projectile position
-    console.log(this)
+function integralKill(platforms, integral) {
+    integral.body.velocity.y = -100;
+    integral.bounce++;
+    if (integral.bounce == 5) {
+        integral.kill();
+    }
 
 }
 
@@ -622,11 +778,4 @@ function hammerReturn() {
     console.log("Return");
 }
 
-function fireballKill(platforms, fireballs) {
-    fireballs.body.velocity.y = -100;
-    fireballs.bounce++;
-    if (fireballs.bounce == 5) {
-        fireballs.kill();
-    }
-
-}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
