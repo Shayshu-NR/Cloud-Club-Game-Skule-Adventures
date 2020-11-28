@@ -22,7 +22,7 @@ var powerUp
 var state = 3
 var lives = 3
 var timing
-var powerUpHierarchy = { 'fireflower': 3, 'coffee': 3, 'mushroom': 2, 'small': 1 }
+var powerUpHierarchy = { 'fireflower': 3, 'coffee': 3, 'bubbletea':3, 'mushroom': 2, 'small': 1 }
 
 function preload() {
     // Load & Define our game assets
@@ -45,6 +45,7 @@ function preload() {
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
 
     game.load.image('coffee', './assets/powerups/coffee_1.png')
+    game.load.image('bubbletea', './assets/powerups/bbt.png')
 }
 
 function create() {
@@ -248,7 +249,7 @@ function update() {
             player.animations.play('stop')
         }
     }
-    if (player.currentState == 'coffee') {
+    if (player.currentState == 'bubbletea') {
         velocity_y = 700
     }
     //  This allows the player to jump!
@@ -448,6 +449,13 @@ function powerUp_ingest(player, powerUp) {
                 player[0].currentState = "mushroom";
             }, this, [player])
             console.log("coffeee powerup is working")
+        }
+        else if(powerUp.power_type == 'bubbletea'){ //Make player have bubble tea powerup
+            player.loadTexture('big_player')
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of bubbletea")
+                player[0].currentState = "mushroom";
+            }, this, [player])
         }
     }
 

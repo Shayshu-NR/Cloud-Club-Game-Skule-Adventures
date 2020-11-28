@@ -3,7 +3,7 @@
     "QBlocks": [{
             "x": 200,
             "y": 420,
-            "powerUp": "coffee"
+            "powerUp": "bubbletea"
         },
         {
             "x": 100,
@@ -13,7 +13,7 @@
         {
             "x": 500,
             "y": 300,
-            "powerUp": "coffee"
+            "powerUp": "bubbletea"
         }
     ],
     "Bricks": [{
