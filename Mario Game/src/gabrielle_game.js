@@ -68,9 +68,9 @@ function preload() {
     
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('player', './assets/MainSprite2.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
-    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    game.load.spritesheet('big_player', './assets/bigmainsprite2.png', 32, 64)
         //~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Sound ~~~~~
@@ -146,11 +146,11 @@ function create() {
 
 
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
-    player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
-    player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
+    player.animations.add('left_blink', [10, 23, 9, 23, 8, 23, 10, 23, 7, 23, 6, 23, 10, 23], 10, true)
+    player.animations.add('right_blink', [0, 23, 1, 23, 2, 23, 0, 23, 3, 23, 4, 23, 0, 23], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-    player.animations.add('stop_blink', [20, 5, 20], 10, true)
+    player.animations.add('stop_blink', [23, 5, 23], 10, true)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //game.physics.arcade.enable(book)
@@ -384,15 +384,15 @@ function kill_mario(player, hazard) {
         console.log(lastHit)
     for(var key in powerUpHierarchy)
         {
-    if(powerUpHierarchy[key]==player.state)
+    if(powerUpHierarchy[key]==player.state){
          console.log(key);
          if(key == 'mushroom'){
              player.loadTexture("big_player")
-             break
          }
          if(key == 'small'){
             player.loadTexture("player")
          }
+        }
         }
         console.log(hazard.position.x, player.position.x)
         player.isInvincible = true
@@ -402,7 +402,6 @@ function kill_mario(player, hazard) {
         if (player.lives == 0) {
             //needs to be across the screen in big red letters
             alert("All lives lost! Game over");
-            this.input.keyboard.enabled = false
         }
         player.kill();
 
