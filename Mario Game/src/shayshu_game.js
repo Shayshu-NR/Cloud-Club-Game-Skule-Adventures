@@ -387,7 +387,7 @@ function update() {
             player.animations.play('stop')
         }
     }
-    if (player.currentState == 'coffee') {
+    if (player.currentState == 'bubbletea') {
         velocity_y = -700
     }
 
@@ -539,6 +539,13 @@ function kill_mario(player, hazard) {
         lastHit = timing
         player.isInvincible = true
 
+        if (powerUpHierarchy[player.currentState] >= 2) {
+            player.currentState = "mushroom";
+            player.loadTexture("big_player");
+        } else if (powerUpHierarchy[player.currentState] >= 1) {
+            player.currentState = "small";
+            player.loadTexture("player");
+        }
 
     } else {
         //life is lost
@@ -555,6 +562,8 @@ function kill_mario(player, hazard) {
 
         location.reload(true);
     }
+
+    hazard.kill();
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -703,6 +712,12 @@ function Integrals(integral, derivative, player) {
     i.body.velocity.y = 0;
     i.bounce = 0;
     i.body.velocity.x = 500 * player.facing;
+
+    const d = derivative.create(player.position.x, player.position.y, "derivative")
+    d.body.gravity.y = 300;
+    d.body.velocity.y = 0;
+    d.bounce = 0;
+    d.body.velocity.x = 600 * -player.facing
 }
 
 function TextBook(book, player) {
@@ -744,6 +759,12 @@ function Fireballs(fireballs, player) {
 }
 
 function fireballKill(platforms, fireballs) {
+    console.log("Platfors in FBK: ", platforms.position.y, fireballs.position.y)
+    if (fireballs.position.y + 28 >= platforms.position.y) {
+        fireballs.kill();
+        return;
+    }
+
     fireballs.body.velocity.y = -100;
     fireballs.bounce++;
     if (fireballs.bounce == 5) {
