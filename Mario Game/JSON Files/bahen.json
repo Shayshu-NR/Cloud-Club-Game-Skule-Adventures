@@ -11,7 +11,7 @@
             "width": 800,
             "src": "bahen",
             "tile": false
-        }, 
+        },
         {
             "x": 800,
             "y": 0,
@@ -19,7 +19,7 @@
             "width": 800,
             "src": "bahen",
             "tile": false
-        }, 
+        },
         {
             "x": 1600,
             "y": 0,
@@ -77,13 +77,13 @@
         "y": 400,
         "height": 32,
         "width": 400,
-        "src": "ground"
+        "src": "bahen_platform"
     }, {
         "x": 1600,
         "y": 300,
         "height": 32,
         "width": 400,
-        "src": "asteroid"
+        "src": "bahen_platform"
     }],
 
     "QBlocks": [{
@@ -156,4 +156,3 @@
         }
     ]
 }
-    
