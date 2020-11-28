@@ -329,10 +329,16 @@ function update() {
     game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
         enemy.kill();
         derivative.kill();
+        if (enemy.lazer_timer) {
+            enemy.lazer_timer.loop = false
+        }
     }, null, this)
     game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
         enemy.kill();
         integral.kill();
+        if (enemy.lazer_timer) {
+            enemy.lazer_timer.loop = false
+        }
     }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
