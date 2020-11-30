@@ -69,19 +69,16 @@ function preload() {
     game.load.image('hammer', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png') <<
-        <<
-        << < HEAD
+       
     game.load.image('derivative', './assets/derivatives.png')
     game.load.image('integral', './assets/integral.png')
     game.load.spritesheet('text', './assets/textbook.png', 32, 32) ===
-        ===
-        =
+      
         game.load.spritesheet('text', './assets/textbook.png', 32, 32)
     game.load.image('derivative', './assets/derivative_1.png')
     game.load.image('integral', './assets/integral_1.png')
     game.load.image('coffee', './assets/powerups/coffee_1_30x32.png') >>>
-        >>>
-        > 6026928 d2522080fb09270e6f6fb1a8ab77c78c5
+     
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player model ~~~~~
@@ -361,7 +358,10 @@ function update() {
     game.physics.arcade.collide(player, lazer, kill_mario, null, this)
 
     if (!player.isInvincible)
-        game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
+        game.physics.arcade.overlap(player, enemy, function(enemy, player){
+            kill_mario(enemy, player)
+            //enemy.lazer_timer.loop = false
+        }, null, this);
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -544,6 +544,12 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
+    if(hazard.position.y>player.position.y){
+        console.log(hazard.position.y , player.position.y)
+        
+        hazard.kill()
+    }
+    else {
     if (powerUpHierarchy[player.currentState] >= 1) {
 
         player.state--
@@ -574,8 +580,7 @@ function kill_mario(player, hazard) {
 
         location.reload(true);
     }
-
-    hazard.kill();
+    }
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -728,10 +733,8 @@ function Integrals(integral, derivative, player) {
     const d = derivative.create(player.position.x, player.position.y, "derivative")
     d.body.gravity.y = 300;
     d.body.velocity.y = 0;
-    d.bounce = 0; <<
-    <<
-    << < HEAD
-    d.body.velocity.x = 600 * -player.facing * /
+    d.bounce = 0; 
+    d.body.velocity.x = 600 * -player.facing 
 }
 
 function TextBook(book, player) {
@@ -743,12 +746,8 @@ function TextBook(book, player) {
     t.animations.add('rotate', [0, 1, 2, 3], 500, true)
     t.animations.play('rotate')
 
-    ===
-    ===
-    =
-    d.body.velocity.x = 600 * -player.facing >>>
-        >>>
-        > 6026928 d2522080fb09270e6f6fb1a8ab77c78c5
+    d.body.velocity.x = 600 * -player.facing 
+        
 }
 
 function TextBook(book, player) {
