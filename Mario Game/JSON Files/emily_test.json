@@ -2,7 +2,7 @@
     "QBlocks": [{
             "x": 200,
             "y": 420,
-            "powerUp": "mushroom"
+            "powerUp": "hammer_powerUp"
         },
         {
             "x": 100,

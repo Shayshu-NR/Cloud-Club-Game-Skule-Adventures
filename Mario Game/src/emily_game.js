@@ -8,7 +8,10 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 
 // Declare shared variables at the top so all methods can access them
 var score = 0
+var coins = 0
+var coinsText
 var scoreText
+var livesText
 var platforms
 var diamonds
 var cursors
@@ -29,14 +32,19 @@ var hammer_instance = 0;
 var playerPowerUp;
 var keyReset = false
 var lastHit = 520
+var progress
+var totalDistance = 800
+var enemyPoints = 100
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("emily_test", "./JSON Files/game.json")
+    game.load.text("emily_test", "./JSON Files/emily_test.json")
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
+    game.load.image('coin', './assets/SF Pit/coin.png')
+    game.load.image('playerFace', './assets/Main Sprite.png')
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -85,6 +93,8 @@ function create() {
     sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
+    
+    //totalDistance =
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Groups ~~~~~
@@ -144,6 +154,13 @@ function create() {
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
     scoreText.text = 'Score: 0';
 
+    livesText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
+    livesText.text = lives;
+    face = game.add.tileSprite(12, 50, 32, 32, 'playerFace')
+    coin = game.add.tileSprite(12, 85, 32, 30, 'coin')
+    coinsText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
+    coinsText.text = '0';
+
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
     this.timeText.fill = "#000000"
@@ -201,6 +218,8 @@ function create() {
     game.world.setBounds(0, 0, 8000, 600)
     game.camera.follow(player)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    
 }
 
 function update() {
@@ -225,12 +244,20 @@ function update() {
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
         enemy.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         fireballs.kill();
     }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         enemy.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         hammer.body.velocity.x *= -1;
+    }, null, this)
+    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer){
+        hammer.kill();
+        keyReset = false;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
 
@@ -281,6 +308,9 @@ function update() {
     if (player.position.y >= 568) {
         falloutofworld(player)
     }
+    
+    //Progress bar
+    progress = player.body.position.x/totalDistance
 
     if (player.currentState == 'fireflower') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
@@ -326,6 +356,14 @@ function update() {
 
     this.timeText.x = 700 + this.camera.view.x
     scoreText.x = 16 + this.camera.view.x
+    livesText.x = 50 + this.camera.view.x
+    livesText.y = 50 + this.camera.view.y
+    coinsText.x = 50 + this.camera.view.x
+    coinsText.y = 85 + this.camera.view.y
+    face.x = 12+this.camera.view.x
+    face.y = 50+this.camera.view.y
+    coin.x = 12+this.camera.view.x
+    coin.y = 85+this.camera.view.y
 
 }
 
@@ -343,6 +381,8 @@ function collectDiamond(player, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+    coins += 1
+    coinsText.text = ''+coins
 }
 
 function collectBDiamond(brick, diamond) {
@@ -352,6 +392,8 @@ function collectBDiamond(brick, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+    coins += 1
+    coinsText.text = ''+coins
 }
 
 function kill_mario(player, hazard) {
@@ -548,7 +590,7 @@ function hammerTime(hammer, player) {
         //adding some spin
 
     h.return = false;
-    h.body.angularVelocity = 1000;
+    //h.body.angularVelocity = 1000;
     h.body.velocity.y = 0;
     h.body.velocity.x = 200 * player.facing;
     return h;
