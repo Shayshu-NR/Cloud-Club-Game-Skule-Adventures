@@ -69,12 +69,9 @@ function preload() {
     game.load.image('hammer', './assets/32x32_hammer.png')
     game.load.image('mushroom', './assets/temp_mushroom.png')
     game.load.image('fireball', './assets/5d08f167c3a6a5d.png') <<
-       
-    game.load.image('derivative', './assets/derivatives.png')
-    game.load.image('integral', './assets/integral.png')
-    game.load.spritesheet('text', './assets/textbook.png', 32, 32) ===
+    
       
-        game.load.spritesheet('text', './assets/textbook.png', 32, 32)
+    game.load.spritesheet('text', './assets/textbook.png', 32, 32)
     game.load.image('derivative', './assets/derivative_1.png')
     game.load.image('integral', './assets/integral_1.png')
     game.load.image('coffee', './assets/powerups/coffee_1_30x32.png') >>>
@@ -161,6 +158,7 @@ function create() {
     integral.enableBody = true
     book.enableBody = true
         //~~~~~~~~~~~~~~~~~~~~~~~
+    
 
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
@@ -349,19 +347,19 @@ function update() {
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         enemy.kill();
-
         enemy.lazer_timer.loop = false
-
         hammer.body.velocity.x *= -1;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
-    game.physics.arcade.collide(player, lazer, kill_mario, null, this)
+    
 
-    if (!player.isInvincible)
+    if (!player.isInvincible){
         game.physics.arcade.overlap(player, enemy, function(enemy, player){
             kill_mario(enemy, player)
             //enemy.lazer_timer.loop = false
         }, null, this);
+        game.physics.arcade.collide(player, lazer, kill_mario, null, this)
+    }
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -544,9 +542,10 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
-    if(hazard.position.y>player.position.y){
-        console.log(hazard.position.y , player.position.y)
-        
+    if(hazard.position.y>player.position.y + player.height){
+        console.log(hazard.position.y-32 , player.position.y)
+            console.log(hazard.texture.key)
+    
         hazard.kill()
     }
     else {
