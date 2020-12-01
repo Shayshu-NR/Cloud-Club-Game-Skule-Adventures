@@ -39,7 +39,7 @@ var hammerReturn = false;
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/bahen.json")
+    game.load.text("shayshu_json", "./JSON Files/space.json")
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
@@ -51,12 +51,14 @@ function preload() {
 
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
+    game.load.image('moon_ground', './assets/Space/Moon_platform.jpg')
     game.load.image('bahen_platform', './assets/Bahen/bahen_platform.png')
     game.load.image('brick', './assets/Brown_Brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
     game.load.image('asteroid', './assets/Space/Asteroid.png')
+    game.load.image('ufo', './assets/Space/UFO.png')
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
@@ -89,7 +91,9 @@ function preload() {
         //~~~~~~~~~~~~~~~~~
 
     //~~~~~ Misc ~~~~~
-    game.load.image("space_ship", './assets/lazer_red.png')
+    game.load.image("space_ship", './assets/spaceship.png')
+    game.load.image("red_lazer", './assets/lazer_red.png')
+    game.load.image("blue_lazer", './assets/lazer.png')
         //~~~~~~~~~~~~~~~~
 }
 
@@ -182,11 +186,17 @@ function create() {
         const ground = platforms.create(plt_x, plt_y, plt_src);
         ground.scale.setTo(plt_width / 400, plt_height / 32)
         ground.body.immovable = true
+
+        if (platform_location[i].tween) {
+            var new_tween = game.add.tween(ground)
+
+            new_tween.to({ x: platform_location[i].tween.x, y: platform_location[i].tween.y }, platform_location[i].tween.speed, null, true, 0, 100000000, true)
+        }
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player attributes ~~~~~
-    player = game.add.sprite(32, game.world.height - 150, 'player')
+    player = game.add.sprite(32, 0, 'player')
     game.physics.arcade.enable(player)
     player.lives = 3
     player.state = 3
@@ -262,6 +272,7 @@ function create() {
         const nme_animate = enemy_location[i].animate
 
         const new_nme = enemy.create(nme_x, nme_y, nme_src)
+        new_nme.static = enemy_location[i].static
 
 
         if (nme_tween_x != false) {
@@ -270,15 +281,21 @@ function create() {
         }
 
         if (nme_animate != false) {
-            new_nme.animations.add(nme_animate.name, nme_animate.frames, nme_animate.delay, true)
-            new_nme.animations.play(nme_animate.name)
+            console.log(nme_animate)
+            for (var y = 0; y < nme_animate.length; y++) {
+                new_nme.animations.add(nme_animate[y].name, nme_animate[y].frames, nme_animate[y].delay, true)
+                if (nme_animate[y].play) {
+                    new_nme.animations.play(nme_animate[y].name)
+                }
+            }
         }
 
         if (enemy_location[i].lazer) {
-            var event = game.time.events.loop(2500, function(enemy_projectile) {
-                const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, "space_ship");
+            new_nme.lazer_src = enemy_location[i].lazer.src
+
+            var event = game.time.events.loop(enemy_location[i].lazer.frequency, function(enemy_projectile) {
+                const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, enemy_projectile[0].lazer_src);
                 new_lazer.body.velocity.x = -500;
-                console.log("Lazer: ", enemy_projectile[0].position);
             }, this, [new_nme])
 
             new_nme.lazer_timer = event
@@ -494,9 +511,9 @@ function update() {
 
 //~~~~~ Render ~~~~~
 function render() {
-    this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
-    this.game.debug.cameraInfo(this.game.camera, 200, 32);
-    this.game.debug.spriteInfo(player, 500, 32);
+    // this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
+    // this.game.debug.cameraInfo(this.game.camera, 200, 32);
+    // this.game.debug.spriteInfo(player, 500, 32);
 }
 
 //~~~~~~~~~~~~~~~~~~
@@ -541,6 +558,19 @@ function falloutofworld(player) {
 }
 
 function kill_mario(player, hazard) {
+    // Make sure the player is overtop the hazard 
+    if (player.position.y + player.body.height <= hazard.position.y) {
+
+        if (!hazard.static) {
+            if (hazard.lazer_timer) {
+                hazard.lazer_timer.loop = false
+            }
+            hazard.kill()
+
+            return
+        }
+    }
+
     //this checks whether mario has a power up or not.
     if (powerUpHierarchy[player.currentState] >= 1) {
 
@@ -616,15 +646,15 @@ function question_break(player, block) {
     //Only break the question mark block when the player is below 
     //and not hittin on the sides
 
-    var player_x = player.position.x + 16
-    var player_y = player.position.y + 16
+    var player_x = player.position.x
+    var player_y = player.position.y
 
     var block_x = block.position.x
     var block_y = block.position.y
 
     if (player_y < block_y) {
         return
-    } else if (player_x > block_x + 32) {
+    } else if (player_x > block_x + 33) {
         return
     } else if (player_x < block_x) {
         return
@@ -785,6 +815,11 @@ function fireballKill(platforms, fireballs) {
 }
 
 function derivativeKill(platforms, derivative) {
+    if (derivative.position.y + 28 >= platforms.position.y) {
+        derivative.kill();
+        return;
+    }
+
     derivative.body.velocity.y = -100;
     derivative.bounce++;
     if (derivative.bounce == 5) {
@@ -793,6 +828,11 @@ function derivativeKill(platforms, derivative) {
 }
 
 function integralKill(platforms, integral) {
+    if (integral.position.y + 28 >= platforms.position.y) {
+        integral.kill();
+        return;
+    }
+
     integral.body.velocity.y = -100;
     integral.bounce++;
     if (integral.bounce == 5) {
