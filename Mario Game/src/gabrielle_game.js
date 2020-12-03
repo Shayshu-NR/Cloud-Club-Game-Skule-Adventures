@@ -37,7 +37,10 @@ var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
 
-
+/**
+ * put check enemies height in the collision
+ * try lazer.false
+ */
 function preload() {
     //~~~~~ Json file ~~~~~
     game.load.text("shayshu_json", "./JSON Files/shayshu.json")
@@ -340,8 +343,8 @@ function update() {
     }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
-        alert("You won");
-        location.reload();
+        //alert("You won");
+        location.reload(true);
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
@@ -545,7 +548,8 @@ function kill_mario(player, hazard) {
     if(hazard.position.y>player.position.y + player.height){
         console.log(hazard.position.y-32 , player.position.y)
             console.log(hazard.texture.key)
-    
+            //add if the sprite is a certain texture kill the event for that texture
+            // bullets for astronauts
         hazard.kill()
     }
     else {
