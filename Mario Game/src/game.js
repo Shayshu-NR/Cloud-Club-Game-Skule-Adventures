@@ -39,7 +39,7 @@ var hammerReturn = false;
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/space.json")
+    game.load.text("shayshu_json", "./JSON Files/game.json")
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
@@ -88,6 +88,7 @@ function preload() {
 
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
+    game.load.audio("lofi-hiphop", './assets/mario_theme_song.mp3')
         //~~~~~~~~~~~~~~~~~
 
     //~~~~~ Misc ~~~~~
@@ -103,6 +104,10 @@ function create() {
     json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
     console.log("Json file structure: ", json_parsed)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    var music = game.add.audio('lofi-hiphop')
+    music.play();
+
 
     //~~~~~ Physics engine ~~~~~
     game.physics.startSystem(Phaser.Physics.ARCADE)
@@ -196,7 +201,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player attributes ~~~~~
-    player = game.add.sprite(32, 0, 'player')
+    player = game.add.sprite(json_parsed.Player.x, json_parsed.Player.y, 'player')
     game.physics.arcade.enable(player)
     player.lives = 3
     player.state = 3
@@ -282,11 +287,21 @@ function create() {
 
         if (nme_animate != false) {
             console.log(nme_animate)
+            var anims_name
+            var anims_frames
+            var anims_delay
+
             for (var y = 0; y < nme_animate.length; y++) {
-                new_nme.animations.add(nme_animate[y].name, nme_animate[y].frames, nme_animate[y].delay, true)
-                if (nme_animate[y].play) {
-                    new_nme.animations.play(nme_animate[y].name)
-                }
+                anims_name = nme_animate[y].name
+                anims_frames = nme_animate[y].frames
+                anims_delay = nme_animate[y].delay
+
+                new_nme.animations.add(anims_name, anims_frames, anims_delay, true)
+
+
+            }
+            if (nme_animate[0].play == true) {
+                new_nme.animations.play(nme_animate[0].name)
             }
         }
 
@@ -300,6 +315,8 @@ function create() {
 
             new_nme.lazer_timer = event
         }
+
+        console.log(new_nme)
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
