@@ -12,6 +12,7 @@ Mario_Game.Menu.prototype = {
 
     create: function() {
         game.add.tileSprite(0, 0, 800, 600, 'start_screen')
+        console.log(game)
     },
 
     update: function() {
@@ -21,6 +22,14 @@ Mario_Game.Menu.prototype = {
         }
         if (game.input.keyboard.justReleased(Phaser.Keyboard.ENTER)) {
             keyReset = false;
+        }
+
+        if (game.input.mousePointer.x > 313 && game.input.mousePointer.x < 481) {
+            if (game.input.mousePointer.y > 214 && game.input.mousePointer.y < 260) {
+                if (game.input.activePointer.isDown) {
+                    this.level_1()
+                }
+            }
         }
     },
 
