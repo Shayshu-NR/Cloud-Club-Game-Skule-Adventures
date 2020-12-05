@@ -1,0 +1,41 @@
+{
+    "World": {
+        "x": 3200,
+        "y": 600
+    }, 
+
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "library", 
+            "tile": false
+        },
+        {
+            "x": 800,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "library", 
+            "tile": false
+        },
+        {
+            "x": 1600,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "library", 
+            "tile": false
+        },
+        {
+            "x": 2400,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "library", 
+            "tile": false
+        }
+    ]
+
+}
