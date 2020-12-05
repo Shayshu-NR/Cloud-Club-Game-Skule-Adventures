@@ -1,4 +1,9 @@
 {
+    "Player": {
+        "x": 0,
+        "y": 400
+    },
+
     "World": {
         "x": 3250,
         "y": 600
@@ -60,7 +65,7 @@
         "y": 400,
         "height": 32,
         "width": 400,
-        "src": "moon_ground"
+        "src": "bahen_platform"
     }, {
         "x": 1600,
         "y": 300,
@@ -126,18 +131,16 @@
             "tween_y": 336,
             "tween_speed": 10000,
             "animate": [{
-                    "name": "walk",
-                    "frames": [2, 0, 3, 0],
-                    "delay": 4,
-                    "play": true
-                },
-                {
-                    "name": "die",
-                    "frames": [2, 0, 3, 0],
-                    "delay": 4,
-                    "play": false
-                }
-            ],
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 5,
+                "play": true
+            }, {
+                "name": "dies",
+                "frames": [4, 0, 4, 0],
+                "delay": 4,
+                "play": false
+            }],
             "lazer": {
                 "src": "red_lazer",
                 "frequency": 2500
