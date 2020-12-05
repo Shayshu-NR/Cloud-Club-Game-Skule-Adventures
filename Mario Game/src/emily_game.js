@@ -10,6 +10,7 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 var score = 0
 var coins = 0
 var coinsText
+var progressBar
 var scoreText
 var livesText
 var platforms
@@ -45,6 +46,7 @@ function preload() {
     game.load.image('sky', './assets/sky.png')
     game.load.image('coin', './assets/SF Pit/coin.png')
     game.load.image('playerFace', './assets/Main Sprite.png')
+    game.load.image('hourglass','./assets/hourglass.png')
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -153,16 +155,25 @@ function create() {
     //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
     scoreText.text = 'Score: 0';
+    scoreText.fixedToCamera = true
 
-    livesText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
+    livesText = game.add.text(50, 50, '', { fontSize: '32px', fill: '#000' })
     livesText.text = lives;
+    livesText.fixedToCamera = true;
+    progressBar = game.add.tileSprite(200, 10, 32, 32, 'playerFace')
+    //progressBar.fixedToCamera = true;
     face = game.add.tileSprite(12, 50, 32, 32, 'playerFace')
-    coin = game.add.tileSprite(12, 85, 32, 30, 'coin')
-    coinsText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
-    coinsText.text = '0';
-
+    face.fixedToCamera = true;
+    coin = game.add.tileSprite(12, 85, 32, 32, 'coin')
+    coin.fixedToCamera = true;
+    coinsText = game.add.text(50, 85, '', { fontSize: '32px', fill: '#000' })
+    coinsText.text = coins;
+    coinsText.fixedToCamera = true;
+    hourglass = game.add.tileSprite(665,20,32,32,'hourglass')
+    hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
+    this.timeText.fixedToCamera = true
     this.timeText.fill = "#000000"
     this.timer = game.time.events.loop(1000, tick, this)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,7 +321,8 @@ function update() {
     }
     
     //Progress bar
-    progress = player.body.position.x/totalDistance
+    progress = player.body.position.x/totalDistance*100+200
+    progressBar.x = progress+this.camera.view.x
 
     if (player.currentState == 'fireflower') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
@@ -353,18 +365,6 @@ function update() {
             }
         }
     }
-
-    this.timeText.x = 700 + this.camera.view.x
-    scoreText.x = 16 + this.camera.view.x
-    livesText.x = 50 + this.camera.view.x
-    livesText.y = 50 + this.camera.view.y
-    coinsText.x = 50 + this.camera.view.x
-    coinsText.y = 85 + this.camera.view.y
-    face.x = 12+this.camera.view.x
-    face.y = 50+this.camera.view.y
-    coin.x = 12+this.camera.view.x
-    coin.y = 85+this.camera.view.y
-
 }
 
 function render() {
