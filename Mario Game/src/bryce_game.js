@@ -47,7 +47,9 @@ function preload() {
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
-    game.load.image('ground', './assets/Bahen/bahen_platform.png')
+    game.load.image('ground', './assets/platform.png')
+    game.load.image('bahen_platform', './assets/Bahen/bahen_platform.png')
+    game.load.image('bahen_ground', './assets/Bahen/bahen_ground.png')
     game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
@@ -55,7 +57,7 @@ function preload() {
     game.load.image('blue_vending_machine', './assets/Bahen/blue_vending_machine.png')
     game.load.image('red_vending_machine', './assets/Bahen/red_vending_machine.png')
     game.load.image('garbage', './assets/Bahen/garbage.png')
-    game.load.image('garbage', './assets/Bahen/seats.png')
+    game.load.image('seats', './assets/Bahen/seats.png')
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
