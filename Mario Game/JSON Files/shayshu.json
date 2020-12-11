@@ -4,7 +4,30 @@
         "y": 600
     },
 
-    "Background": "sky",
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "space",
+            "tile": true
+        }, {
+            "x": 1200,
+            "y": 400,
+            "height": 64,
+            "width": 64,
+            "src": "space_ship",
+            "tile": false
+        },
+        {
+            "x": 2400,
+            "y": 0,
+            "height": 800,
+            "width": 600,
+            "src": "sky",
+            "tile": false
+        }
+    ],
 
     "FlagPole": {
         "x": 3000,
@@ -15,16 +38,19 @@
     "Ground": [{
             "start_x": 0,
             "end_x": 1000,
+            "height": 536,
             "src": "ground"
         },
         {
             "start_x": 1150,
             "end_x": 2000,
+            "height": 500,
             "src": "ground"
         },
         {
             "start_x": 2200,
             "end_x": 4000,
+            "height": 536,
             "src": "ground"
         }
     ],
@@ -32,14 +58,47 @@
     "Platform": [{
         "x": 400,
         "y": 400,
+        "height": 32,
+        "width": 400,
         "src": "ground"
+    }, {
+        "x": 1600,
+        "y": 300,
+        "height": 32,
+        "width": 400,
+        "src": "asteroid"
     }],
 
     "QBlocks": [{
-        "x": 146,
-        "y": 420,
-        "powerUp": "fireflower"
-    }],
+            "x": 114,
+            "y": 420,
+            "powerUp": "coffee"
+        }, {
+            "x": 146,
+            "y": 420,
+            "powerUp": "fireflower"
+        },
+        {
+            "x": 178,
+            "y": 420,
+            "powerUp": "hammer"
+        },
+        {
+            "x": 210,
+            "y": 420,
+            "powerUp": "text"
+        },
+        {
+            "x": 242,
+            "y": 420,
+            "powerUp": "derivative"
+        },
+        {
+            "x": 274,
+            "y": 420,
+            "powerUp": "integral"
+        }
+    ],
 
     "Bricks": [{
             "x": 50,
@@ -48,11 +107,6 @@
         },
         {
             "x": 82,
-            "y": 420,
-            "counter": 0
-        },
-        {
-            "x": 114,
             "y": 420,
             "counter": 0
         }
@@ -70,7 +124,8 @@
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
                 "delay": 4
-            }
+            },
+            "lazer": true
         },
         {
             "src": "spike",
@@ -79,7 +134,8 @@
             "tween_x": false,
             "tween_y": false,
             "tween_speed": false,
-            "animate": false
+            "animate": false,
+            "lazer": false
         }
     ]
 }

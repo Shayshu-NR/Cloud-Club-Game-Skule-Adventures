@@ -1,0 +1,412 @@
+{
+    "World": {
+        "x": 3200,
+        "y": 600
+    },
+
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "bahen",
+            "tile": false
+        },
+        {
+            "x": 800,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "bahen",
+            "tile": false
+        },
+        {
+            "x": 1600,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "bahen",
+            "tile": false
+        },
+        {
+            "x": 2400,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "bahen",
+            "tile": false
+        },
+        {
+            "x": 0,
+            "y": 504,
+            "height": 32,
+            "width": 32,
+            "src": "seats",
+            "tile": false
+        },
+        {
+            "x": 42,
+            "y": 504,
+            "height": 32,
+            "width": 32,
+            "src": "seats",
+            "tile": false
+        },
+        {
+            "x": 94,
+            "y": 504,
+            "height": 64,
+            "width": 32,
+            "src": "seats",
+            "tile": false
+        },
+        {
+            "x": 950,
+            "y": 488,
+            "height": 64,
+            "width": 32,
+            "src": "seats",
+            "tile": false
+        },
+        {
+            "x": 600,
+            "y": 336,
+            "height": 32,
+            "width": 32,
+            "src": "garbage",
+            "tile": false
+        },
+        {
+            "x": 650,
+            "y": 456,
+            "height": 32,
+            "width": 32,
+            "src": "garbage",
+            "tile": false
+        }
+    ],
+
+    "FlagPole": {
+        "x": 3000,
+        "y": 240,
+        "src": "flag_pole"
+    },
+
+    "Ground": [{
+            "start_x": 0,
+            "end_x": 250,
+            "height": 536,
+            "src": "bahen_ground"
+        },
+        {
+            "start_x": 400,
+            "end_x": 560,
+            "height": 568,
+            "src": "bahen_ground"
+        },
+        {
+            "start_x": 600,
+            "end_x": 1000,
+            "height": 520,
+            "src": "bahen_ground"
+        },
+        {
+            "start_x": 1250,
+            "end_x": 1800,
+            "height": 550,
+            "src": "bahen_ground"
+        },
+        {
+            "start_x": 2100,
+            "end_x": 3200,
+            "height": 536,
+            "src": "bahen_ground"
+        }
+    ],
+
+    "Platform": [{
+        "x": 400,
+        "y": 400,
+        "height": 32,
+        "width": 400,
+        "src": "bahen_platform"
+    },
+    {
+        "x": 900,
+        "y": 280,
+        "height": 32,
+        "width": 400,
+        "src": "bahen_platform"
+    }, 
+    {
+        "x": 1800,
+        "y": 400,
+        "height": 32,
+        "width": 400,
+        "src": "bahen_platform"
+    },
+    {
+        "x": 1600,
+        "y": 164,
+        "height": 32,
+        "width": 400,
+        "src": "bahen_platform"
+    },
+    {
+        "x": 218,
+        "y": 472,
+        "height": 32,
+        "width": 400,
+        "src": "blue_vending_machine"
+    }, 
+    {
+        "x": 186,
+        "y": 472,
+        "height": 32,
+        "width": 400,
+        "src": "red_vending_machine"
+    }, 
+    {
+        "x": 500,
+        "y": 504,
+        "height": 32,
+        "width": 400,
+        "src": "blue_vending_machine"
+    }, 
+    {
+        "x": 1550,
+        "y": 486,
+        "height": 32,
+        "width": 400,
+        "src": "blue_vending_machine"
+    },
+    {
+        "x": 1582,
+        "y": 486,
+        "height": 32,
+        "width": 400,
+        "src": "red_vending_machine"
+    },  
+    {
+        "x": 1614,
+        "y": 486,
+        "height": 32,
+        "width": 400,
+        "src": "red_vending_machine"
+    },  
+    {
+        "x": 2400,
+        "y": 236,
+        "height": 32,
+        "width": 400,
+        "src": "cube_cafe"
+    }
+],
+
+    "QBlocks": [{
+            "x": 496,
+            "y": 304,
+            "powerUp": "derivative"
+        }, 
+        {
+            "x": 800,
+            "y": 400,
+            "powerUp": "hammer"
+        },
+        {
+            "x": 1600,
+            "y": 64,
+            "powerUp": "fireflower"
+        },
+        {
+            "x": 1632,
+            "y": 64,
+            "powerUp": "text"
+        },
+        {
+            "x": 1378,
+            "y": 420,
+            "powerUp": "coffee"
+        },
+        {
+            "x": 1410,
+            "y": 420,
+            "powerUp": "integral"
+        }
+    ],
+
+    "Bricks": [{
+            "x": 432,
+            "y": 304,
+            "counter": 5
+        },
+        {
+            "x": 464,
+            "y": 304,
+            "counter": 0
+        },
+        {
+            "x": 1664,
+            "y": 64,
+            "counter": 10
+        },
+        {
+            "x": 1696,
+            "y": 64,
+            "counter": 5
+        },
+        {
+            "x": 1728,
+            "y": 64,
+            "counter": 5
+        },
+        {
+            "x": 1250,
+            "y": 420,
+            "counter": 5
+        },
+        {
+            "x": 1282,
+            "y": 420,
+            "counter": 5
+        },
+        {
+            "x": 1314,
+            "y": 420,
+            "counter": 5
+        },
+        {
+            "x": 1346,
+            "y": 420,
+            "counter": 5
+        }
+    ],
+
+    "Enemies": [{
+            "src": "astronaut",
+            "x": 400,
+            "y": 336,
+            "tween_x": 700,
+            "tween_y": 336,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4
+            },
+            "lazer": true
+        },
+        {
+            "src": "astronaut",
+            "x": 400,
+            "y": 336,
+            "tween_x": 700,
+            "tween_y": 336,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4
+            },
+            "lazer": true
+        },
+        {
+            "src": "astronaut",
+            "x": 1950,
+            "y": 336,
+            "tween_x": 2050,
+            "tween_y": 336,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4
+            },
+            "lazer": true
+        },
+        {
+            "src": "astronaut",
+            "x": 2850,
+            "y": 172,
+            "tween_x": 2950,
+            "tween_y": 172,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4
+            },
+            "lazer": true
+        },
+        {
+            "src": "astronaut",
+            "x": 900,
+            "y": 216,
+            "tween_x": 900,
+            "tween_y": 216,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [0],
+                "delay": 4
+            },
+            "lazer": true
+        },
+        {
+            "src": "goomba",
+            "x": 600,
+            "y": 488,
+            "tween_x": 900,
+            "tween_y": 488,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [0, 1, 2],
+                "delay": 4
+            },
+            "lazer": false
+        },
+        {
+            "src": "goomba",
+            "x": 1250,
+            "y": 518,
+            "tween_x": 1400,
+            "tween_y": 518,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [0, 1, 2],
+                "delay": 4
+            },
+            "lazer": false
+        },
+        {
+            "src": "goomba",
+            "x": 1500,
+            "y": 518,
+            "tween_x": 1750,
+            "tween_y": 518,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [0, 1, 2],
+                "delay": 4
+            },
+            "lazer": false
+        },
+        {
+            "src": "goomba",
+            "x": 2400,
+            "y": 204,
+            "tween_x": 2750,
+            "tween_y": 204,
+            "tween_speed": 10000,
+            "animate": {
+                "name": "walk",
+                "frames": [0, 1, 2],
+                "delay": 4
+            },
+            "lazer": false
+        }
+    ]
+}

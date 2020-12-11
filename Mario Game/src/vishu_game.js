@@ -9,11 +9,11 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 })
 
 // Declare shared variables at the top so all methods can access them
-let score = 0
-let scoreText
-let platforms
-let diamonds
-let cursors
+var score = 0
+var scoreText
+var platforms
+var diamonds
+var cursors
 let player
 var text;
 var timedEvent;
@@ -25,6 +25,8 @@ var lives = 1
 var fireballs;
 var playerPowerUp;
 var keyReset = false;
+var jumpCount = 0;
+var keyResetJump = false;
 
 function preload() {
     // Load & Define our game assets
@@ -176,12 +178,16 @@ function create() {
 
 function update() {
     //  We want the player to stop when not moving
+    // cursors.up.duration = 0
+
     player.body.velocity.x = 0
 
     //  Setup collisions for the player, diamonds, and our platforms
-    game.physics.arcade.collide(player, platforms)
+    game.physics.arcade.collide(player, platforms, function() {
+        cursors.up.duration = 0
+    }, null, this)
     game.physics.arcade.collide(diamonds, platforms)
-    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {enemy.kill()}, null, this)
+    game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) { enemy.kill() }, null, this)
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(enemy, platforms)
     game.physics.arcade.collide(player, qBlock, question_break, null, this)
@@ -202,15 +208,35 @@ function update() {
         player.animations.play('right')
     } else {
         // If no movement keys are pressed, stop the player
-
+        cursors.up.duration = 0
         player.animations.stop()
         player.animations.play('stop')
     }
 
-    //  This allows the player to jump!
-    if (cursors.up.isDown && player.body.touching.down) {
-        player.body.velocity.y = -500
+    //  This allows the player to jump! (added double jump)
+
+    if (player.body.touching.down) {
+        jumpCount = 2;
     }
+    if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) && jumpCount > 0 && !keyResetJump) {
+        keyResetJump = true;
+        console.log(cursors.up.duration)
+        if (cursors.up.duration < 100) {
+            player.body.velocity.y = -300;
+        } else {
+            player.body.velocity.y = -500;
+        }
+        jumpCount--;
+    }
+
+
+    if (game.input.keyboard.justReleased(Phaser.Keyboard.UP)) {
+        keyResetJump = false;
+    }
+
+
+    // console.log("Jump count: ", jumpCount)
+    // console.log(cursors.up.duration)
 
 
     if (player.position.y > 536) {
@@ -220,7 +246,7 @@ function update() {
     this.timeText.x = 700 + this.camera.view.x
     scoreText.x = 16 + this.camera.view.x
 
-    
+
     if (player.playerPowerUp == 3) {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
@@ -230,8 +256,8 @@ function update() {
         if (game.input.keyboard.justReleased(Phaser.Keyboard.SPACEBAR)) {
             keyReset = false;
         }
-          
-    } 
+
+    }
 }
 
 function render() {
@@ -311,7 +337,7 @@ function falloutofworld(player) {
 }
 
 function brick_break(player, block) {
-    //Only break the brick when the player is below 
+    //Only break the brick when the player is below
     //and not hittin gon the sides
     var player_x = player.position.x
     var player_y = player.position.y
@@ -341,7 +367,7 @@ function brick_break(player, block) {
 }
 
 function question_break(player, block) {
-    //Only break the question mark block when the player is below 
+    //Only break the question mark block when the player is below
     //and not hittin on the sides
 
     var player_x = player.position.x
@@ -395,20 +421,20 @@ function powerUp_ingest(player, powerUp) {
     player.playerPowerUp = 3;
     console.log(powerUp)
     powerUp.kill()
-    
-    
+
+
 
 }
 
 //mario shooting fireballs function
 function Fireballs(fireballs, player) {
-    
+
     const f = fireballs.create(player.position.x, player.position.y, "fireball")
     f.body.gravity.y = 400;
     f.body.velocity.y = 0;
     f.bounce = 0;
     f.body.velocity.x = 300;
-    
+
 }
 
 function fireballKill(platforms, fireballs) {
@@ -419,4 +445,3 @@ function fireballKill(platforms, fireballs) {
     }
 
 }
-

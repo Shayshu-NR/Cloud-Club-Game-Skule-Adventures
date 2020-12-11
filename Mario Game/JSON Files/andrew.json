@@ -1,0 +1,40 @@
+{
+    "Background": "sky",
+    "QBlocks": [{
+            "x": 200,
+            "y": 420,
+            "powerUp": "bubbletea"
+        },
+        {
+            "x": 100,
+            "y": 420,
+            "powerUp": "coffee"
+        },
+        {
+            "x": 500,
+            "y": 300,
+            "powerUp": "bubbletea"
+        }
+    ],
+    "Bricks": [{
+            "x": 50,
+            "y": 400,
+            "counter": 2
+        },
+        {
+            "x": 300,
+            "y": 400,
+            "counter": 1
+        },
+        {
+            "x": 500,
+            "y": 200,
+            "counter": 3
+        },
+        {
+            "x": 700,
+            "y": 300,
+            "counter": 3
+        }
+    ]
+}

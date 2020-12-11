@@ -22,6 +22,7 @@ var powerUp
 var state = 3
 var lives = 3
 var timing
+<<<<<<< HEAD
 var powerUpHierarchy = { 'fireflower': 4, 'coffee':3, 'mushroom': 2, 'small': 1 } //Added coffee to hierarchy
 var fireballs;
 var playerPowerUp;
@@ -34,6 +35,13 @@ function preload() {
     //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
+=======
+var powerUpHierarchy = { 'fireflower': 3, 'coffee': 3, 'bubbletea':3, 'mushroom': 2, 'small': 1 }
+
+function preload() {
+    // Load & Define our game assets
+    game.load.text("emily_test", "./JSON Files/andrew.json")
+>>>>>>> e661e3518f50129258a484682ff22db813bb4060
     game.load.image('sky', './assets/sky.png')
     //~~~~~~~~~~~~~~~~~~~~~~
     
@@ -67,12 +75,19 @@ function preload() {
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
+<<<<<<< HEAD
     game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
     //~~~~~~~~~~~~~~~~~~~~~~~~
     
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     //~~~~~~~~~~~~~~~~~
+=======
+
+    game.load.image('coffee', './assets/powerups/coffee_1.png')
+    game.load.image('bubbletea', './assets/powerups/bbt.png')
+    
+>>>>>>> e661e3518f50129258a484682ff22db813bb4060
 }
 
 function create() {
@@ -236,6 +251,7 @@ function update() {
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
+<<<<<<< HEAD
 
     // Configure the controls!
     if (cursors.left.isDown) 
@@ -245,11 +261,23 @@ function update() {
             player.facing = -1;
             player.body.velocity.x = -600
             if (player.isInvincible) {
+=======
+    var velocity_x = 300;
+    var velocity_y = 500
+        // Configure the controls!
+    if (player.currentState == 'coffee') {
+        velocity_x = 500;
+    }
+    if (cursors.left.isDown) {
+        player.body.velocity.x = -velocity_x;
+        if (player.isInvincible) {
+>>>>>>> e661e3518f50129258a484682ff22db813bb4060
             player.animations.play('left_blink')
         } else {
             player.animations.play('left')
         }  
         }
+<<<<<<< HEAD
         else
         {
             player.facing = -1;
@@ -267,6 +295,11 @@ function update() {
             player.facing = -1;
             player.body.velocity.x = 600
             if (player.isInvincible) {
+=======
+    } else if (cursors.right.isDown) {
+        player.body.velocity.x = velocity_x;
+        if (player.isInvincible) {
+>>>>>>> e661e3518f50129258a484682ff22db813bb4060
             player.animations.play('right_blink')
              } else {
             player.animations.play('right')
@@ -290,9 +323,12 @@ function update() {
             player.animations.play('stop')
         }
     }
-
+    if (player.currentState == 'bubbletea') {
+        velocity_y = 700
+    }
     //  This allows the player to jump!
     if (cursors.up.isDown && player.body.touching.down) {
+<<<<<<< HEAD
         
         if(player.currentState =='coffee') //Adding a y-velocity due to coffee
         {
@@ -302,6 +338,9 @@ function update() {
         {
             player.body.velocity.y = -500
         }
+=======
+        player.body.velocity.y = -velocity_y;
+>>>>>>> e661e3518f50129258a484682ff22db813bb4060
     }
 
 
@@ -494,12 +533,26 @@ function powerUp_ingest(player, powerUp) {
     console.log(player)
     player.body.height = 64
 
-    if (powerUpHierarchy[player.currentState] < powerUpHierarchy[powerUp.power_type]) {
+    if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.currentState = powerUp.power_type
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
+        } else if (powerUp.power_type == 'coffee') { //Makes player have coffee powerup when they eat coffee
+            player.loadTexture('big_player');
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of coffee")
+                player[0].currentState = "mushroom";
+            }, this, [player])
+            console.log("coffeee powerup is working")
+        }
+        else if(powerUp.power_type == 'bubbletea'){ //Make player have bubble tea powerup
+            player.loadTexture('big_player')
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of bubbletea")
+                player[0].currentState = "mushroom";
+            }, this, [player])
         }
         else if (powerUp.power_type == 'coffee') {
             player.loadTexture('big_player')
