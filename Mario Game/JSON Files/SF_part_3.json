@@ -3,6 +3,10 @@
         "x": 3200,
         "y": 600
     },
+    "Player": {
+        "x": 0,
+        "y": 0
+    },
 
     "Background": [{
             "x": 0,
@@ -104,91 +108,85 @@
 
     "Bricks": [],
 
-    "Enemies": [
-        {
-            "src": "lava",
-            "x": 300,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },{
-            "src": "lava",
-            "x": 700,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },{
-            "src": "lava",
-            "x": 1100,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },{
-            "src": "lava",
-            "x": 1500,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },{
-            "src": "lava",
-            "x": 1900,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },{
-            "src": "lava",
-            "x": 2300,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },{
-            "src": "lava",
-            "x": 2700,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },{
-            "src": "goomba",
-            "x": 2200,
-            "y": 398,
-            "tween_x": 2268,
-            "tween_y": 398,
-            "tween_speed": 3000,
-            "animate": {
-                "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
-            "lazer": false,
-            "static": false
-        }
-    ]
+    "Enemies": [{
+        "src": "lava",
+        "x": 300,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 700,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 1100,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 1500,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 1900,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 2300,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 2700,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "goomba",
+        "x": 2200,
+        "y": 398,
+        "tween_x": 2268,
+        "tween_y": 398,
+        "tween_speed": 3000,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    }]
 }
