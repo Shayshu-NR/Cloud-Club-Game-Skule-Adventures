@@ -34,6 +34,11 @@ var powerUpHierarchy = {
 var door;
 
 
+var Mario_Game = {};
+Mario_Game.Menu = function(game) {
+
+};
+
 Mario_Game.test1 = function(game) {
 
 }
@@ -283,7 +288,7 @@ function update() {
   //Placed before jump function
   if (player.position.x >= 1000 && player.position.x <= 1032) {
     console.log("door placement registered");
-    if (cursors.up.isDown) game.state.start("");
+    if (cursors.down.isDown) game.state.start("level2_BAHEN");
   }
 
   if (!player.isInvincible)
