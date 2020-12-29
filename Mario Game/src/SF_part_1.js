@@ -774,7 +774,7 @@ function collectBDiamond(brick, diamond) {
 
 //~~~~~ Power Up Ingestion ~~~~~
 function powerUp_ingest(player, powerUp) {
-    console.log("powerUp_ingest", player.position.y)
+    console.log("powerUp_ingest")
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         console.log(player.position)
