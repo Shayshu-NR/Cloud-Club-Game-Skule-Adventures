@@ -44,7 +44,7 @@ var enemyPoints = 10;
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/SF.json")
+    game.load.text("shayshu_json", "./JSON Files/game.json")
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
