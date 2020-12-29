@@ -3,6 +3,10 @@
         "x": 4800,
         "y": 600
     },
+    "Player":{
+        "x":0,
+        "y":0
+    },
     "Background": [{
         "x": 0,
         "y": 0,
@@ -16,7 +20,8 @@
         "y": 100,
         "src": "flag_pole"
     },
-    "Ground": [{
+    "Ground": [
+        {
             "start_x": 0,
             "end_x": 96,
             "height": 400,
@@ -131,7 +136,8 @@
             "src": "asteroid"
         }
     ],
-    "QBlocks": [{
+    "QBlocks": [
+        {
             "x": 165,
             "y": 275,
             "powerUp": "fireflower"
@@ -152,7 +158,8 @@
             "powerUp": "hammer"
         }
     ],
-    "Bricks": [{
+    "Bricks": [
+        {
             "x": 197,
             "y": 275,
             "counter": 3
@@ -188,7 +195,8 @@
             "counter": 5
         }
     ],
-    "Enemies": [{
+    "Enemies": [
+        {
             "src": "goomba",
             "x": 350,
             "y": 320,
