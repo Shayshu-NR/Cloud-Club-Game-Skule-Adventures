@@ -7,12 +7,11 @@ Mario_Game.Menu = function(game) {
 
 Mario_Game.Menu.prototype = {
     preload: function() {
-        game.load.image('start_screen', '../../assets/menu_screen_2.png')
+        game.load.image('start_screen', './assets/menu_screen_2.png')
     },
 
     create: function() {
         game.add.tileSprite(0, 0, 800, 600, 'start_screen')
-        console.log(game)
     },
 
     update: function() {
@@ -34,7 +33,6 @@ Mario_Game.Menu.prototype = {
     },
 
     level_1: function() {
-        console.log("Start Level 1");
-        this.state.start("Level_1");
+        this.state.start("SF_part_1");
     }
 }

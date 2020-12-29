@@ -3,6 +3,10 @@
         "x": 2850,
         "y": 600
     },
+    "Player": {
+        "x": 0,
+        "y": 0
+    },
 
     "Background": [{
             "x": 0,
@@ -147,6 +151,7 @@
         "static": true
     }, {
         "src": "goomba",
+        "health": 0,
         "x": 400,
         "y": 368,
         "tween_x": 768,
