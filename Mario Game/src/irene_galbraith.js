@@ -39,19 +39,19 @@ var hammerReturn = false;
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("space_json", "./JSON Files/space.json")
+    game.load.text("galbraith_json", "./JSON Files/galbraith.json")
     //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
-    game.load.image('space', './assets/Space/Space_Background.jpg')
+    game.load.image('brick_background', './assets/Galbraith/Galbraith_background.jpg')
 
     //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
-    game.load.image('moon_ground', './assets/Space/Moon_platform.jpg')
-    game.load.image('bahen_platform', './assets/Bahen/bahen_platform.png')
+    game.load.image('galbraith_ground', './assets/Galbraith/Brick_platform.jpg')
+    game.load.image('stone_platform', './assets/Galbraith/Stone_platform.jpg')
     game.load.image('brick', './assets/Brown_Brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
@@ -100,7 +100,7 @@ function preload() {
 function create() {
     //~~~~~ Loading json file ~~~~~
     console.log(Phaser.Keyboard);
-    json_parsed = JSON.parse(game.cache.getText('space_json'))
+    json_parsed = JSON.parse(game.cache.getText('galbraith_json'))
     console.log("Json file structure: ", json_parsed)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
