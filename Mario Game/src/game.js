@@ -789,11 +789,11 @@ function collectBDiamond(brick, diamond) {
 
 //~~~~~ Power Up Ingestion ~~~~~
 function powerUp_ingest(player, powerUp) {
-    console.log(player)
+    console.log(player.position.y)
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
-        player.position.y-=32
+        player.position.y -= 32
         player.currentState = powerUp.power_type
 
         if (powerUp.power_type == 'fireflower') {
@@ -846,7 +846,8 @@ function Integrals(integral, derivative, player) {
 
     const d = derivative.create(player.position.x, player.position.y, "derivative")
     d.body.gravity.y = 300;
-    d.body.velocity.y = 0;``
+    d.body.velocity.y = 0;
+    ``
     d.bounce = 0;
     d.body.velocity.x = 600 * -player.facing
 }

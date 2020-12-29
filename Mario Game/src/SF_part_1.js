@@ -774,12 +774,13 @@ function collectBDiamond(brick, diamond) {
 
 //~~~~~ Power Up Ingestion ~~~~~
 function powerUp_ingest(player, powerUp) {
-    console.log(player)
+    console.log("powerUp_ingest", player.position.y)
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
-        player.position.y = player.position.y - 32
         player.body.height = 64
+        player.position.y -= 32
         player.currentState = powerUp.power_type
+        console.log(player.position.y)
 
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
