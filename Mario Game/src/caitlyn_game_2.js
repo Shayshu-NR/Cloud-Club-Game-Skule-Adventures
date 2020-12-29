@@ -1,3 +1,5 @@
+// Linted with standardJS - https://standardjs.com/
+
 // Initialize the Phaser Game object and set default game window size
 const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
     preload: preload,
@@ -8,7 +10,6 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 
 // Declare shared variables at the top so all methods can access them
 var score = 0
-var coins = 0
 var scoreText
 var platforms
 var diamonds
@@ -36,41 +37,26 @@ var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
-var enemyPoints = 10;
-var progressBar
-var jumpCount = 0
-
 
 function preload() {
-    //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/SF_part_1.json")
-        //~~~~~~~~~~~~~~~~~~~~~
-
-    //~~~~~ Background ~~~~~
-    game.load.image('sky', './assets/sky.png')
-    game.load.image('space', './assets/Space/Space_Background.jpg')
-    game.load.image('bahen', './assets/Bahen/Bahen.png')
-    game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
-        //~~~~~~~~~~~~~~~~~~~~~~
+    // Load & Define our game assets
+    game.load.text("lassonde_json", "./JSON Files/lassonde.json")
+        //~~~~~ Background ~~~~~
+    game.load.image('L', './assets/lassonde/background.png')
+        //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
-    game.load.image('ground', './assets/platform.png')
-    game.load.image('moon_ground', './assets/Space/Moon_platform.jpg')
-    game.load.image('bahen_platform', './assets/Bahen/bahen_platform.png')
-    game.load.image('brick', './assets/Brown_Brick.png')
+    game.load.image('pipe', './assets/lassonde/pipe.png')
+    game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
-    game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
-    game.load.image('asteroid', './assets/Space/Asteroid.png')
-    game.load.image('ufo', './assets/Space/UFO.png')
-    game.load.image('pole', './assets/flag_pole.png')
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
-    game.load.image('steve', './assets/steve.png')
     game.load.image('spike', './assets/spike.png')
-    game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
+    game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
+    game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32)
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Power ups ~~~~~
@@ -86,41 +72,24 @@ function preload() {
 
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('player', './assets/MainSprite2.png', 32, 32)
+    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
-    game.load.spritesheet('big_player', './assets/bigmainsprite2.png', 32, 64)
+    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
         //~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
-    game.load.audio("lofi-hiphop", './assets/mario_theme_song.mp3')
-        //~~~~~~~~~~~~~~~~~
-
-    //~~~~~ Misc ~~~~~
-    game.load.image("space_ship", './assets/spaceship.png')
-    game.load.image("red_lazer", './assets/lazer_red.png')
-    game.load.image("blue_lazer", './assets/lazer.png')
-    game.load.image('tracks', './assets/progress_tracks.png')
-    game.load.image('coin', './assets/SF_Pit/coin.png')
-    game.load.image('playerFace', './assets/Main Sprite.png')
-    game.load.image('hourglass', './assets/hourglass.png')
-        //~~~~~~~~~~~~~~~~
 }
 
 function create() {
     //~~~~~ Loading json file ~~~~~
     console.log(Phaser.Keyboard);
-    json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
+    json_parsed = JSON.parse(game.cache.getText('lassonde_json'))
     console.log("Json file structure: ", json_parsed)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    var music = game.add.audio('lofi-hiphop')
-    music.play();
-
-
-    //~~~~~ Physics engine ~~~~~
+    //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     var background_location = json_parsed.Background
@@ -200,17 +169,11 @@ function create() {
         const ground = platforms.create(plt_x, plt_y, plt_src);
         ground.scale.setTo(plt_width / 400, plt_height / 32)
         ground.body.immovable = true
-
-        if (platform_location[i].tween) {
-            var new_tween = game.add.tween(ground)
-
-            new_tween.to({ x: platform_location[i].tween.x, y: platform_location[i].tween.y }, platform_location[i].tween.speed, null, true, 0, 100000000, true)
-        }
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player attributes ~~~~~
-    player = game.add.sprite(json_parsed.Player.x, json_parsed.Player.y, 'player')
+    player = game.add.sprite(32, game.world.height - 150, 'player')
     game.physics.arcade.enable(player)
     player.lives = 3
     player.state = 3
@@ -221,44 +184,20 @@ function create() {
     player.currentState = 'small'
 
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
-    player.animations.add('left_blink', [10, 23, 9, 23, 8, 23, 10, 23, 7, 23, 6, 23, 10, 23], 10, true)
-    player.animations.add('right_blink', [0, 23, 1, 23, 2, 23, 0, 23, 3, 23, 4, 23, 0, 23], 10, true)
+    player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
+    player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-    player.animations.add('stop_blink', [23, 5, 23], 10, true)
+    player.animations.add('stop_blink', [20, 5, 20], 10, true)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Create the score text and timer ~~~~~
-    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
+    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
     scoreText.text = 'Score: 0';
-    scoreText.fixedToCamera = true
 
-    livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
-    livesText.text = lives;
-    livesText.fixedToCamera = true;
-    progressBar = game.add.tileSprite(200, 16, 32, 32, 'playerFace')
-    face = game.add.tileSprite(10, 46, 32, 32, 'playerFace')
-    face.fixedToCamera = true;
-    coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
-    coin.fixedToCamera = true;
-    coinsText = game.add.text(55, 91, '', { fontSize: '32px', fill: '#FFFFFF' })
-    coinsText.text = coins;
-    coinsText.fixedToCamera = true;
-
-    //progress bar tracks
-    track = game.add.tileSprite(210, 35, 392, 16, 'tracks')
-    track.fixedToCamera = true;
-
-
-    pole = game.add.image(580, 12, 'pole')
-    pole.scale.setTo(0.2, 0.2)
-    pole.fixedToCamera = true;
-    hourglass = game.add.tileSprite(665, 14, 32, 32, 'hourglass')
-    hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
-    this.timeText.fixedToCamera = true;
-    this.timeText.fill = "#FFFFFF"
+    this.timeText.fill = "#000000"
     this.timer = game.time.events.loop(1000, tick, this)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -310,49 +249,27 @@ function create() {
         const nme_animate = enemy_location[i].animate
 
         const new_nme = enemy.create(nme_x, nme_y, nme_src)
-        new_nme.static = enemy_location[i].static
-        new_nme.health = enemy_location[i].health
 
-        if (new_nme.static) {
-            new_nme.body.immovable = true
-        }
+
         if (nme_tween_x != false) {
             var new_tween = game.add.tween(new_nme)
             new_tween.to({ x: nme_tween_x, y: nme_tween_y }, nme_tween_speed, null, true, 0, 100000000, true)
         }
 
         if (nme_animate != false) {
-            console.log(nme_animate)
-            var anims_name
-            var anims_frames
-            var anims_delay
-
-            for (var y = 0; y < nme_animate.length; y++) {
-                anims_name = nme_animate[y].name
-                anims_frames = nme_animate[y].frames
-                anims_delay = nme_animate[y].delay
-
-                new_nme.animations.add(anims_name, anims_frames, anims_delay, true)
-
-
-            }
-            if (nme_animate[0].play == true) {
-                new_nme.animations.play(nme_animate[0].name)
-            }
+            new_nme.animations.add(nme_animate.name, nme_animate.frames, nme_animate.delay, true)
+            new_nme.animations.play(nme_animate.name)
         }
 
         if (enemy_location[i].lazer) {
-            new_nme.lazer_src = enemy_location[i].lazer.src
-
-            var event = game.time.events.loop(enemy_location[i].lazer.frequency, function(enemy_projectile) {
-                const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, enemy_projectile[0].lazer_src);
+            var event = game.time.events.loop(2500, function(enemy_projectile) {
+                const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, "space_ship");
                 new_lazer.body.velocity.x = -500;
+                console.log("Lazer: ", enemy_projectile[0].position);
             }, this, [new_nme])
 
             new_nme.lazer_timer = event
         }
-
-        console.log(new_nme)
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -364,7 +281,6 @@ function create() {
 
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
-    totalDistance = world_bounds.x
     game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
     game.camera.follow(player)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -390,45 +306,21 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
-        if (!enemy.static) enemy.kill();
+        enemy.kill();
         fireballs.kill();
-        score += enemyPoints;
-        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
     game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
-        if (!enemy.static) enemy.kill();
+        enemy.kill();
         derivative.kill();
-        score += enemyPoints;
-        scoreText.text = 'Score: ' + score
-        if (enemy.lazer_timer) {
-            enemy.lazer_timer.loop = false
-        }
     }, null, this)
     game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
-        if (!enemy.static) enemy.kill();
+        enemy.kill();
         integral.kill();
-        score += enemyPoints;
-        scoreText.text = 'Score: ' + score
-        if (enemy.lazer_timer) {
-            enemy.lazer_timer.loop = false
-        }
     }, null, this)
-    game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
-        if (!enemy.static) enemy.kill();
-        score += enemyPoints;
-        scoreText.text = 'Score: ' + score
-        if (enemy.lazer_timer) {
-            enemy.lazer_timer.loop = false
-        }
-        hammer.body.velocity.x *= -1;
-    }, null, this)
-
-
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
         alert("You won");
@@ -436,20 +328,18 @@ function update() {
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
-    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer) {
-        hammer.kill();
-        keyReset = false;
+    game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
+        enemy.kill();
+        if (enemy.lazer_timer) {
+            enemy.lazer_timer.loop = false
+        }
+        hammer.body.velocity.x *= -1;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
+    game.physics.arcade.collide(player, lazer, kill_mario, null, this)
 
-
-    if (!player.isInvincible) {
-        game.physics.arcade.overlap(player, enemy, function(enemy, player) {
-            kill_mario(enemy, player)
-                //enemy.lazer_timer.loop = false
-        }, null, this);
-        game.physics.arcade.collide(player, lazer, kill_mario, null, this)
-    }
+    if (!player.isInvincible)
+        game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -458,6 +348,8 @@ function update() {
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
+
+
     var velocity_x = 300
     var velocity_y = -500
         // Configure the controls!
@@ -465,7 +357,6 @@ function update() {
         velocity_x = 700;
     }
     if (cursors.left.isDown) {
-        player.facing = -1;
         player.body.velocity.x = -velocity_x;
         if (player.isInvincible) {
             player.animations.play('left_blink')
@@ -473,7 +364,6 @@ function update() {
             player.animations.play('left')
         }
     } else if (cursors.right.isDown) {
-        player.facing = 1;
         player.body.velocity.x = velocity_x;
         if (player.isInvincible) {
             player.animations.play('right_blink')
@@ -503,10 +393,7 @@ function update() {
     if (game.input.keyboard.justReleased(Phaser.Keyboard.UP)) {
         keyResetJump = false;
     }
-    //Progress bar
-    progress = player.body.position.x / totalDistance * 400 + 200
 
-    progressBar.x = progress + this.camera.view.x
     if (player.position.y >= 568) {
         falloutofworld(player);
     }
@@ -571,24 +458,13 @@ function update() {
     }
 
     if (hammer_instance != 0) {
-        if (hammer_instance.limit > 0) {
-            if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
-                hammer_instance.body.velocity.x *= -1
-            } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
-                console.log("Reached backwards limit")
-                hammer_instance.kill()
-                keyReset = false
-                hammer_instance = 0
-            }
-        } else {
-            if (hammer_instance.body.position.x <= hammer_instance.forward_limit) {
-                hammer_instance.body.velocity.x *= -1
-            } else if (hammer_instance.body.position.x > hammer_instance.backwards_limit) {
-                console.log("Reached backwards limit")
-                hammer_instance.kill()
-                keyReset = false
-                hammer_instance = 0
-            }
+        if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
+            hammer_instance.body.velocity.x *= -1
+        } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
+            console.log("Reached backwards limit")
+            hammer_instance.kill()
+            keyReset = false
+            hammer_instance = 0
         }
     }
 
@@ -599,11 +475,10 @@ function update() {
 
 //~~~~~ Render ~~~~~
 function render() {
-    // this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
-    // this.game.debug.cameraInfo(this.game.camera, 200, 32);
-    // this.game.debug.spriteInfo(player, 500, 32);
+    this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
+    this.game.debug.cameraInfo(this.game.camera, 200, 32);
+    this.game.debug.spriteInfo(player, 500, 32);
 }
-
 //~~~~~~~~~~~~~~~~~~
 
 
@@ -646,31 +521,11 @@ function falloutofworld(player) {
 }
 
 function kill_mario(player, hazard) {
-    // Make sure the player is overtop the hazard 
-    if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
-        console.log("j")
-        if (!hazard.static) {
-            if (hazard.lazer_timer) {
-                hazard.lazer_timer.loop = false
-            }
-            if (hazard.health >= 0) {
-                player.body.velocity.y = -250
-                console.log(hazard.health)
-                if (hazard.health == 0) {
-                    hazard.kill()
-                } else {
-                    hazard.health--
-                }
-            }
-            return
-        }
-    }
+    //this checks whether mario has a power up or not.
+    if (powerUpHierarchy[player.currentState] >= 2) {
 
-    //this checks whether mario has a power up or not.    
-    else if (powerUpHierarchy[player.currentState] >= 1) {
-
-        player.state--
-            console.log("State:" + state)
+        state--
+        console.log("State:" + state)
         lastHit = timing
         player.isInvincible = true
 
@@ -679,7 +534,6 @@ function kill_mario(player, hazard) {
             player.loadTexture("big_player");
         } else if (powerUpHierarchy[player.currentState] >= 1) {
             player.currentState = "small";
-            player.body.height = 32
             player.loadTexture("player");
         }
 
@@ -699,6 +553,7 @@ function kill_mario(player, hazard) {
         location.reload(true);
     }
 
+    hazard.kill();
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -707,18 +562,20 @@ function kill_mario(player, hazard) {
 function brick_break(player, block) {
     //Only break the brick when the player is below 
     //and not hittin gon the sides
+    console.log('Player (x,y):', "(", player.position.x, player.position.y, ")")
+    console.log('Block (x,y):', "(", block.position.x, block.position.y, ")")
 
-    var player_x = player.position.x + 16
-    var player_y = player.position.y + 16
+    var player_x = player.position.x
+    var player_y = player.position.y
 
     var block_x = block.position.x
     var block_y = block.position.y
 
     if (player_y < block_y) {
         return
-    } else if (player_x > block_x + 32) {
+    } else if (player_x > block_x + 16) {
         return
-    } else if (player_x < block_x) {
+    } else if (player_x < block_x - 16) {
         return
     } else if (block.counter > 0) {
         block.counter--
@@ -746,9 +603,9 @@ function question_break(player, block) {
 
     if (player_y < block_y) {
         return
-    } else if (player_x > block_x + 33) {
+    } else if (player_x > block_x + 16) {
         return
-    } else if (player_x < block_x) {
+    } else if (player_x < block_x - 16) {
         return
     } else if (!block.broken) {
         console.log(block)
@@ -777,8 +634,6 @@ function collectDiamond(player, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
-    coins +=1
-    coinsText.text = coins
 }
 
 function collectBDiamond(brick, diamond) {
@@ -788,21 +643,17 @@ function collectBDiamond(brick, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
-    coins +=1
-    coinsText.text = coins
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //~~~~~ Power Up Ingestion ~~~~~
 function powerUp_ingest(player, powerUp) {
-    console.log(player.position.y)
+    console.log(player)
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
-        player.position.y -= 32
         player.currentState = powerUp.power_type
-        console.log(player.position.y)
 
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
@@ -855,7 +706,6 @@ function Integrals(integral, derivative, player) {
     const d = derivative.create(player.position.x, player.position.y, "derivative")
     d.body.gravity.y = 300;
     d.body.velocity.y = 0;
-    ``
     d.bounce = 0;
     d.body.velocity.x = 600 * -player.facing
 }
@@ -875,7 +725,6 @@ function hammerTime(hammer, player) {
 
     //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
     const h = hammer.create(player_x, player_y + 16, 'hammer')
-    h.limit = 300 * player.facing;
 
     h.forward_limit = player_x + (300 * player.facing)
     h.backwards_limit = player_x
@@ -915,11 +764,6 @@ function fireballKill(platforms, fireballs) {
 }
 
 function derivativeKill(platforms, derivative) {
-    if (derivative.position.y + 28 >= platforms.position.y) {
-        derivative.kill();
-        return;
-    }
-
     derivative.body.velocity.y = -100;
     derivative.bounce++;
     if (derivative.bounce == 5) {
@@ -928,11 +772,6 @@ function derivativeKill(platforms, derivative) {
 }
 
 function integralKill(platforms, integral) {
-    if (integral.position.y + 28 >= platforms.position.y) {
-        integral.kill();
-        return;
-    }
-
     integral.body.velocity.y = -100;
     integral.bounce++;
     if (integral.bounce == 5) {

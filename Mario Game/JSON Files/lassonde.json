@@ -1,0 +1,85 @@
+{
+    "World": {
+        "x": 3200,
+        "y": 600
+    },
+
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "L",
+            "tile": true
+        }
+    ],
+
+
+    "FlagPole": {
+        "x": 3000,
+        "y": 260,
+        "src": "flag_pole"
+    },
+
+    "Ground": [],
+
+    "Platform": [{
+        "x": 0,
+        "y": 560,
+        "height": 32,
+        "width": 400,
+        "src": "pipe"
+    },{
+        "x": 400,
+        "y": 400,
+        "height": 32,
+        "width": 400,
+        "src": "pipe"
+    }, {
+        "x": 1300,
+        "y": 300,
+        "height": 32,
+        "width": 200,
+        "src": "pipe"
+    }, {
+        "x": 2000,
+        "y": 300,
+        "height": 32,
+        "width": 200,
+        "src": "pipe"
+    }],
+
+    "QBlocks": [{
+        "x": 82,
+        "y": 450,
+        "powerUp": "fireflower"
+    }],
+
+    "Bricks": [{
+            "x": 50,
+            "y": 450,
+            "counter": 1
+        },
+        {
+            "x": 114,
+            "y": 450,
+            "counter": 5
+        }
+    ],
+
+    "Enemies": [{
+        "src": "goomba",
+        "x": 400,
+        "y": 368,
+        "tween_x": 768,
+        "tween_y": 368,
+        "tween_speed": 4000,
+        "animate": {
+            "name": "walk",
+            "frames": [0, 1, 2],
+            "delay": 4
+        },
+        "lazer": false,
+        "static": false
+    }]
+}
