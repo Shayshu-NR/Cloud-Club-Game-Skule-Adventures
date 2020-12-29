@@ -39,7 +39,7 @@ var hammerReturn = false;
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/game.json")
+    game.load.text("space_json", "./JSON Files/space.json")
     //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
@@ -101,7 +101,7 @@ function preload() {
 function create() {
     //~~~~~ Loading json file ~~~~~
     console.log(Phaser.Keyboard);
-    json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
+    json_parsed = JSON.parse(game.cache.getText('space_json'))
     console.log("Json file structure: ", json_parsed)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -216,13 +216,8 @@ function create() {
     player.animations.add('right_blink', [0, 23, 1, 23, 2, 23, 0, 23, 3, 23, 4, 23, 0, 23], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-<<<<<<< HEAD
     player.animations.add('stop_blink', [20, 5, 20], 10, true)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======
-    player.animations.add('stop_blink', [23, 5, 23], 10, true)
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>>>> e6c6e1a2249c5679ce335be542f3f978d33745a1
 
     //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
@@ -283,7 +278,6 @@ function create() {
 
         const new_nme = enemy.create(nme_x, nme_y, nme_src)
         new_nme.static = enemy_location[i].static
-        new_nme.health = enemy_location[i].health
 
 
         if (nme_tween_x != false) {
@@ -334,7 +328,6 @@ function create() {
 
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
-    totalDistance = world_bounds.x
     game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
     game.camera.follow(player)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -589,15 +582,8 @@ function kill_mario(player, hazard) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false
             }
-            if(hazard.health>=0){
-                console.log(hazard.health)
-                if(hazard.health==0){
-                    hazard.kill()
-                }
-                else{
-                    hazard.health--
-                }
-            }
+            hazard.kill()
+
             return
         }
     }
