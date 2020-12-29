@@ -102,7 +102,7 @@ function create() {
     console.log(Phaser.Keyboard);
     json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
     console.log("Json file structure: ", json_parsed)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Physics engine ~~~~~
     game.physics.startSystem(Phaser.Physics.ARCADE)
@@ -659,6 +659,7 @@ function question_break(player, block) {
     } else {
         return
     }
+
 }
 
 function collectDiamond(player, diamond) {
@@ -710,7 +711,6 @@ function powerUp_ingest(player, powerUp) {
             powerUp.kill()
         } else if (powerUp.power_type == 'coffee') {
             player.loadTexture('big_player');
-            powerUp.kill()
             game.time.events.add(10000, function(player) {
                 console.log("Getting rid of coffee")
                 player[0].currentState = "mushroom";
