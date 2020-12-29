@@ -334,6 +334,7 @@ function create() {
 
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
+    totalDistance = world_bounds.x
     game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
     game.camera.follow(player)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
