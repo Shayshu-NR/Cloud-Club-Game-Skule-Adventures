@@ -68,7 +68,11 @@
             "tween_x": 2268,
             "tween_y": 398,
             "tween_speed": 3000,
-            "animate": false,
+            "animate": {
+                "name": "walk",
+                "frames": [0, 1, 2],
+                "delay": 4
+            },
             "lazer": false,
             "static": false
         }

@@ -40,7 +40,7 @@
             "src": "ground"
         },
         {
-            "start_x": 200,
+            "start_x": 2500,
             "end_x": 2900,
             "height": 560,
             "src": "ground"
@@ -152,6 +152,20 @@
         "tween_x": 768,
         "tween_y": 368,
         "tween_speed": 4000,
+        "animate": {
+            "name": "walk",
+            "frames": [0, 1, 2],
+            "delay": 4
+        },
+        "lazer": false,
+        "static": false
+    }, {
+        "src": "derivative",
+        "x": 1000,
+        "y": 500,
+        "tween_x": 1000,
+        "tween_y": 200,
+        "tween_speed": 1500,
         "animate": false,
         "lazer": false,
         "static": false
