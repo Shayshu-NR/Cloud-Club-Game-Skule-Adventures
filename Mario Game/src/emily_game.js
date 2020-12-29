@@ -415,6 +415,7 @@ function update() {
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
         alert("You won");
+        game.player_attributes = [player.currentState, score, coins]
         location.reload();
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)

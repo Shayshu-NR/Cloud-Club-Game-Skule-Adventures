@@ -8,7 +8,6 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 
 // Declare shared variables at the top so all methods can access them
 var score = 0
-var coins = 0
 var scoreText
 var platforms
 var diamonds
@@ -36,7 +35,6 @@ var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
-var enemyPoints = 10;
 
 
 function preload() {
@@ -61,7 +59,6 @@ function preload() {
     game.load.image('flag_pole', './assets/flag_pole.png')
     game.load.image('asteroid', './assets/Space/Asteroid.png')
     game.load.image('ufo', './assets/Space/UFO.png')
-    game.load.image('pole', './assets/flag_pole.png')
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
@@ -98,10 +95,6 @@ function preload() {
     game.load.image("space_ship", './assets/spaceship.png')
     game.load.image("red_lazer", './assets/lazer_red.png')
     game.load.image("blue_lazer", './assets/lazer.png')
-    game.load.image('tracks', './assets/progress_tracks.png')
-    game.load.image('coin', './assets/SF_Pit/coin.png')
-    game.load.image('playerFace', './assets/Main Sprite.png')
-    game.load.image('hourglass', './assets/hourglass.png')
         //~~~~~~~~~~~~~~~~
 }
 
@@ -229,30 +222,7 @@ function create() {
     //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
     scoreText.text = 'Score: 0';
-    scoreText.fixedToCamera = true
 
-    livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
-    livesText.text = lives;
-    livesText.fixedToCamera = true;
-    progressBar = game.add.tileSprite(200, 16, 32, 32, 'playerFace')
-    face = game.add.tileSprite(10, 46, 32, 32, 'playerFace')
-    face.fixedToCamera = true;
-    coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
-    coin.fixedToCamera = true;
-    coinsText = game.add.text(55, 91, '', { fontSize: '32px', fill: '#FFFFFF' })
-    coinsText.text = coins;
-    coinsText.fixedToCamera = true;
-
-    //progress bar tracks
-    track = game.add.tileSprite(210, 35, 392, 16, 'tracks')
-    track.fixedToCamera = true;
-
-
-    pole = game.add.image(580, 12, 'pole')
-    pole.scale.setTo(0.2, 0.2)
-    pole.fixedToCamera = true;
-    hourglass = game.add.tileSprite(665, 14, 32, 32, 'hourglass')
-    hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
     this.timeText.fill = "#000000"
@@ -310,9 +280,7 @@ function create() {
         new_nme.static = enemy_location[i].static
         new_nme.health = enemy_location[i].health
 
-        if (new_nme.static) {
-            new_nme.body.immovable = true
-        }
+
         if (nme_tween_x != false) {
             var new_tween = game.add.tween(new_nme)
             new_tween.to({ x: nme_tween_x, y: nme_tween_y }, nme_tween_speed, null, true, 0, 100000000, true)
@@ -387,37 +355,27 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
-        if (!enemy.static) enemy.kill();
+        enemy.kill();
         fireballs.kill();
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
     game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
-        if (!enemy.static) enemy.kill();
+        enemy.kill();
         derivative.kill();
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
     game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
-        if (!enemy.static) enemy.kill();
+        enemy.kill();
         integral.kill();
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
-    game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
-        if (!enemy.static) enemy.kill();
-        if (enemy.lazer_timer) {
-            enemy.lazer_timer.loop = false
-        }
-        hammer.body.velocity.x *= -1;
-    }, null, this)
-
-
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
         alert("You won");
@@ -425,7 +383,13 @@ function update() {
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
-
+    game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
+        enemy.kill();
+        if (enemy.lazer_timer) {
+            enemy.lazer_timer.loop = false
+        }
+        hammer.body.velocity.x *= -1;
+    }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
 
 
