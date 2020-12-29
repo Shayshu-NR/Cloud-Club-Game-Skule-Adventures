@@ -52,11 +52,15 @@ function preload() {
     game.load.image('space', './assets/Space/Space_Background.jpg')
     game.load.image('bahen', './assets/Bahen/Bahen.png')
     game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
+    //~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~~Score board & Progress bar~~~~~
     game.load.image('coin', './assets/SF_Pit/coin.png')
     game.load.image('tracks', './assets/progress_tracks.png')
     game.load.image('playerFace', './assets/Main Sprite.png')
     game.load.image('hourglass', './assets/hourglass.png')
-        //~~~~~~~~~~~~~~~~~~~~~~
+    game.load.image('pole', './assets/flag_pole.png',32,32)
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
@@ -253,7 +257,7 @@ function create() {
     pole = game.add.image(580, 12, 'pole')
     pole.scale.setTo(0.2, 0.2)
     pole.fixedToCamera = true;
-    hourglass = game.add.tileSprite(665, 18, 32, 32, 'hourglass')
+    hourglass = game.add.tileSprite(665,14,32,32,'hourglass')
     hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
@@ -460,6 +464,7 @@ function update() {
         velocity_x = 700;
     }
     if (cursors.left.isDown) {
+        player.facing = -1;
         player.body.velocity.x = -velocity_x;
         if (player.isInvincible) {
             player.animations.play('left_blink')
@@ -467,6 +472,7 @@ function update() {
             player.animations.play('left')
         }
     } else if (cursors.right.isDown) {
+        player.facing = 1;
         player.body.velocity.x = velocity_x;
         if (player.isInvincible) {
             player.animations.play('right_blink')
