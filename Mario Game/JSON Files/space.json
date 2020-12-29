@@ -11,9 +11,12 @@
         "src": "space",
         "tile": true
     }],
-    "FlagPole": {},
-    "Ground": [
-        {
+    "FlagPole": {
+        "x": 2000,
+        "y": 240,
+        "src": "flag_pole"
+    },
+    "Ground": [{
             "start_x": 0,
             "end_x": 96,
             "height": 400,
@@ -108,8 +111,7 @@
             }
         }
     ],
-    "QBlocks": [
-        {
+    "QBlocks": [{
             "x": 165,
             "y": 275,
             "powerUp": "fireflower"
@@ -130,8 +132,7 @@
             "powerUp": "hammer"
         }
     ],
-    "Bricks": [
-        {
+    "Bricks": [{
             "x": 197,
             "y": 275,
             "counter": 3
@@ -167,8 +168,7 @@
             "counter": 5
         }
     ],
-    "Enemies": [
-        {
+    "Enemies": [{
             "src": "goomba",
             "x": 350,
             "y": 320,
