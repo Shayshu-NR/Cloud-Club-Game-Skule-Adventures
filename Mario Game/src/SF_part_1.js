@@ -777,6 +777,7 @@ function powerUp_ingest(player, powerUp) {
     console.log(player)
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
+        console.log(player.position)
         player.position.y = player.position.y - 32
         player.body.height = 64
         player.currentState = powerUp.power_type

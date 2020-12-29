@@ -789,7 +789,7 @@ function collectBDiamond(brick, diamond) {
 
 //~~~~~ Power Up Ingestion ~~~~~
 function powerUp_ingest(player, powerUp) {
-    console.log(player)
+    console.log(player.position.y)
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
