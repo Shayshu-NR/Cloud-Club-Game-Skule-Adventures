@@ -30,6 +30,9 @@
         }
     ],
 
+
+    "FlagPole": {},
+
     "Ground": [{
             "start_x": 0,
             "end_x": 300,
@@ -37,7 +40,7 @@
             "src": "ground"
         },
         {
-            "start_x": 2500,
+            "start_x": 200,
             "end_x": 2900,
             "height": 560,
             "src": "ground"
@@ -65,17 +68,16 @@
     }],
 
     "QBlocks": [{
-            "x": 82,
-            "y": 450,
-            "powerUp": "fireflower"
-        }
-    ],
+        "x": 82,
+        "y": 450,
+        "powerUp": "fireflower"
+    }],
 
     "Bricks": [{
             "x": 50,
             "y": 450,
             "counter": 1
-        }, 
+        },
         {
             "x": 114,
             "y": 450,
@@ -93,7 +95,7 @@
         "animate": false,
         "lazer": false,
         "static": true
-    },{
+    }, {
         "src": "lava",
         "x": 700,
         "y": 570,
@@ -103,7 +105,7 @@
         "animate": false,
         "lazer": false,
         "static": true
-    },{
+    }, {
         "src": "lava",
         "x": 1100,
         "y": 570,
@@ -113,7 +115,7 @@
         "animate": false,
         "lazer": false,
         "static": true
-    },{
+    }, {
         "src": "lava",
         "x": 1500,
         "y": 570,
@@ -123,7 +125,7 @@
         "animate": false,
         "lazer": false,
         "static": true
-    },{
+    }, {
         "src": "lava",
         "x": 1900,
         "y": 570,
@@ -133,7 +135,7 @@
         "animate": false,
         "lazer": false,
         "static": true
-    },{
+    }, {
         "src": "lava",
         "x": 2100,
         "y": 570,
@@ -144,15 +146,14 @@
         "lazer": false,
         "static": true
     }, {
-            "src": "goomba",
-            "x": 400,
-            "y": 368,
-            "tween_x": 768,
-            "tween_y": 368,
-            "tween_speed": 4000,
-            "animate": false,
-            "lazer": false,
-            "static": false
-        }
-    ]
+        "src": "goomba",
+        "x": 400,
+        "y": 368,
+        "tween_x": 768,
+        "tween_y": 368,
+        "tween_speed": 4000,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    }]
 }
