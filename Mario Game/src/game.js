@@ -29,7 +29,7 @@ var powerUp
 var state = 3
 var lives = 3
 var timing
-var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'bubbletea': 1, 'mushroom': 1, 'small': 0 }
+var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'mushroom': 1, 'small': 0 }
 var fireballs;
 var playerPowerUp;
 var keyReset = false
@@ -37,7 +37,6 @@ var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
 var enemyPoints = 10;
-var door;
 
 
 function preload() {
@@ -81,8 +80,6 @@ function preload() {
     game.load.image('derivative', './assets/derivative_1.png')
     game.load.image('integral', './assets/integral_1.png')
     game.load.image('coffee', './assets/powerups/coffee_1_30x32.png')
-    game.load.image("bubbletea", "./assets/powerups/bbt.png");
-
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player model ~~~~~
@@ -177,14 +174,6 @@ function create() {
     book.enableBody = true
         //~~~~~~~~~~~~~~~~~~~~~~~
 
-    //~~~~~~Door~~~~~~~~~~~~~
-
-    // doorx = 1000;
-    // doory = 465;
-    // const door_body = door.create(doorx, doory, "door");
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
     for (var i = 0; i < ground_location.length; i++) {
@@ -238,7 +227,7 @@ function create() {
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Create the score text and timer ~~~~~
-    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
+    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
     scoreText.text = 'Score: 0';
     scoreText.fixedToCamera = true
 
@@ -266,7 +255,7 @@ function create() {
     hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
-    this.timeText.fill = "#FFFFFF"
+    this.timeText.fill = "#000000"
     this.timer = game.time.events.loop(1000, tick, this)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -369,7 +358,7 @@ function create() {
     const end_of_level = flag.create(flag_position.x, flag_position.y, flag_position.src)
     end_of_level.scale.setTo(1.5, 1.5)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        
+
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
     totalDistance = world_bounds.x
@@ -455,17 +444,6 @@ function update() {
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
-    //~~~~~~~~~~~~~~~ *DOOR* Moving to Different State *DOOR* ~~~~~~~~~~~~~~
-    // if (player.position.x >= doorx - 20 && player.position.x <= doorx + 20) 
-    //   {
-    //     console.log("door placement registered");
-    //     if (cursors.up.isDown) 
-    //     {
-    //       game.state.start("level1");
-    //     }
-    //   }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     var velocity_x = 300
     var velocity_y = -500
         // Configure the controls!
@@ -510,11 +488,6 @@ function update() {
         keyResetJump = false;
     }
 
-    //Progress bar
-    progress = player.body.position.x / totalDistance * 400 + 200
-
-    progressBar.x = progress + this.camera.view.x
-    
     if (player.position.y >= 568) {
         falloutofworld(player);
     }
@@ -820,12 +793,7 @@ function powerUp_ingest(player, powerUp) {
                 console.log("Getting rid of coffee")
                 player[0].currentState = "mushroom";
             }, this, [player])
-        } else if (powerUp.power_type == 'bubbletea') {
-            player.loadTexture('big_player');
-            game.time.events.add(10000, function (player) {
-                console.log("Getting rid of bubbletea")
-                player[0].currentState = "mushroom";
-            }, this, [player])
+        }
     }
     powerUp.kill()
     console.log(player.currentState)
@@ -853,7 +821,7 @@ function Integrals(integral, derivative, player) {
 
     const d = derivative.create(player.position.x, player.position.y, "derivative")
     d.body.gravity.y = 300;
-    d.body.velocity.y = 0;
+    d.body.velocity.y = 0;``
     d.bounce = 0;
     d.body.velocity.x = 600 * -player.facing
 }
