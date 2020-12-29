@@ -45,8 +45,7 @@ function preload() {
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
     game.load.image('space', './assets/Space/Space_Background.jpg')
-    game.load.image('bahen', './assets/Bahen/Bahen.png')
-    game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
+
     //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -867,8 +866,4 @@ function hammerReturn() {
     console.log("Return");
 }
 
-<<<<<<< HEAD
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>>>> 8324305f0b89fe873a1d2f70a684862fba25fc10
