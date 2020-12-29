@@ -29,7 +29,7 @@ var powerUp
 var state = 3
 var lives = 3
 var timing
-var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'bubbletea': 1, 'mushroom': 1, 'small': 0 }
+var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'mushroom': 1, 'small': 0 }
 var fireballs;
 var playerPowerUp;
 var keyReset = false
@@ -37,7 +37,6 @@ var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
 var enemyPoints = 10;
-var door;
 
 
 function preload() {
@@ -81,8 +80,6 @@ function preload() {
     game.load.image('derivative', './assets/derivative_1.png')
     game.load.image('integral', './assets/integral_1.png')
     game.load.image('coffee', './assets/powerups/coffee_1_30x32.png')
-    game.load.image("bubbletea", "./assets/powerups/bbt.png");
-
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player model ~~~~~
@@ -176,14 +173,6 @@ function create() {
     integral.enableBody = true
     book.enableBody = true
         //~~~~~~~~~~~~~~~~~~~~~~~
-
-    //~~~~~~Door~~~~~~~~~~~~~
-
-    // doorx = 1000;
-    // doory = 465;
-    // const door_body = door.create(doorx, doory, "door");
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
@@ -455,17 +444,6 @@ function update() {
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
-    //~~~~~~~~~~~~~~~ *DOOR* Moving to Different State *DOOR* ~~~~~~~~~~~~~~
-    // if (player.position.x >= doorx - 20 && player.position.x <= doorx + 20) 
-    //   {
-    //     console.log("door placement registered");
-    //     if (cursors.up.isDown) 
-    //     {
-    //       game.state.start("level1");
-    //     }
-    //   }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     var velocity_x = 300
     var velocity_y = -500
         // Configure the controls!
@@ -645,17 +623,19 @@ function falloutofworld(player) {
 function kill_mario(player, hazard) {
     // Make sure the player is overtop the hazard 
     if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
+        console.log("j")
         if (!hazard.static) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false
             }
             if (hazard.health >= 0) {
-                player.body.velocity.y = -250 
                 console.log(hazard.health)
                 if (hazard.health == 0) {
                     hazard.kill()
                 } else {
                     hazard.health--
+                        lastHit = timing
+                    player.isInvincible = true
                 }
             }
             return
@@ -795,13 +775,11 @@ function powerUp_ingest(player, powerUp) {
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
         player.currentState = powerUp.power_type
-        player.position.y = player.position.y - 32
+
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
-            powerUp.kill()
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
-            powerUp.kill()
         } else if (powerUp.power_type == "hammer") {
             player.loadTexture("big_player")
             powerUp.kill()
@@ -820,12 +798,7 @@ function powerUp_ingest(player, powerUp) {
                 console.log("Getting rid of coffee")
                 player[0].currentState = "mushroom";
             }, this, [player])
-        } else if (powerUp.power_type == 'bubbletea') {
-            player.loadTexture('big_player');
-            game.time.events.add(10000, function (player) {
-                console.log("Getting rid of bubbletea")
-                player[0].currentState = "mushroom";
-            }, this, [player])
+        }
     }
     powerUp.kill()
     console.log(player.currentState)
