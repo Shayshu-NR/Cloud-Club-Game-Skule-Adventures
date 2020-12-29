@@ -12,6 +12,7 @@ Mario_Game.Menu.prototype = {
 
     create: function() {
         game.add.tileSprite(0, 0, 800, 600, 'start_screen')
+        game.player_attributes = { "current_state": 'small', "lives": 3, "score": 0, "coins": 0 }
     },
 
     update: function() {

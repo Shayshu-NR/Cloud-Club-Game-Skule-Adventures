@@ -37,6 +37,8 @@ var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
 var enemyPoints = 10;
+var progressBar
+var jumpCount = 0
 
 
 function preload() {
