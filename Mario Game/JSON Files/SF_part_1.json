@@ -1,0 +1,159 @@
+{
+    "World": {
+        "x": 2850,
+        "y": 600
+    },
+
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "SF",
+            "tile": true
+        },
+        {
+            "x": 2600,
+            "y": 470,
+            "height": 300,
+            "width": 600,
+            "src": "hard_hat_cafe",
+            "tile": false
+        },
+        {
+            "x": 2700,
+            "y": 505,
+            "height": 60,
+            "width": 35,
+            "src": "door",
+            "tile": false
+        }
+    ],
+
+
+    "FlagPole": {},
+
+    "Ground": [{
+            "start_x": 0,
+            "end_x": 300,
+            "height": 560,
+            "src": "ground"
+        },
+        {
+            "start_x": 200,
+            "end_x": 2900,
+            "height": 560,
+            "src": "ground"
+        }
+    ],
+
+    "Platform": [{
+        "x": 400,
+        "y": 400,
+        "height": 32,
+        "width": 400,
+        "src": "table"
+    }, {
+        "x": 1300,
+        "y": 300,
+        "height": 32,
+        "width": 200,
+        "src": "table"
+    }, {
+        "x": 2000,
+        "y": 300,
+        "height": 32,
+        "width": 200,
+        "src": "table"
+    }],
+
+    "QBlocks": [{
+        "x": 82,
+        "y": 450,
+        "powerUp": "fireflower"
+    }],
+
+    "Bricks": [{
+            "x": 50,
+            "y": 450,
+            "counter": 1
+        },
+        {
+            "x": 114,
+            "y": 450,
+            "counter": 5
+        }
+    ],
+
+    "Enemies": [{
+        "src": "lava",
+        "x": 300,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 700,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 1100,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 1500,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 1900,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "lava",
+        "x": 2100,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
+        "src": "goomba",
+        "x": 400,
+        "y": 368,
+        "tween_x": 768,
+        "tween_y": 368,
+        "tween_speed": 4000,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    }]
+}

@@ -1,0 +1,190 @@
+{
+    "World": {
+        "x": 3200,
+        "y": 600
+    },
+
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "SF",
+            "tile": true
+        },
+        {
+            "x": 30,
+            "y": 505,
+            "height": 60,
+            "width": 35,
+            "src": "door",
+            "tile": false
+        }
+    ],
+
+    "FlagPole": {
+        "x": 3000,
+        "y": 260,
+        "src": "flag_pole"
+    },
+
+    "Ground": [{
+        "start_x": 0,
+        "end_x": 300,
+        "height": 560,
+        "src": "ground"
+    }, {
+        "start_x": 3100,
+        "end_x": 3400,
+        "height": 560,
+        "src": "ground"
+    }],
+
+    "Platform": [{
+        "x": 400,
+        "y": 400,
+        "height": 32,
+        "width": 50,
+        "src": "table"
+    }, {
+        "x": 1000,
+        "y": 350,
+        "height": 32,
+        "width": 50,
+        "src": "table"
+    }, {
+        "x": 1500,
+        "y": 250,
+        "height": 32,
+        "width": 100,
+        "src": "table"
+    }, {
+        "x": 1700,
+        "y": 558,
+        "height": 32,
+        "width": 30,
+        "src": "table"
+    }, {
+        "x": 1800,
+        "y": 420,
+        "height": 32,
+        "width": 200,
+        "src": "table"
+    }, {
+        "x": 1900,
+        "y": 558,
+        "height": 32,
+        "width": 30,
+        "src": "table"
+    }, {
+        "x": 2050,
+        "y": 558,
+        "height": 32,
+        "width": 30,
+        "src": "table"
+    }, {
+        "x": 2200,
+        "y": 430,
+        "height": 32,
+        "width": 100,
+        "src": "table"
+    }, {
+        "x": 2600,
+        "y": 250,
+        "height": 32,
+        "width": 100,
+        "src": "table"
+    }],
+
+    "QBlocks": [{
+        "x": 82,
+        "y": 450,
+        "powerUp": "fireflower"
+    }],
+
+    "Bricks": [],
+
+    "Enemies": [
+        {
+            "src": "lava",
+            "x": 300,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 700,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 1100,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 1500,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 1900,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 2300,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 2700,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "goomba",
+            "x": 2200,
+            "y": 398,
+            "tween_x": 2268,
+            "tween_y": 398,
+            "tween_speed": 3000,
+            "animate": false,
+            "lazer": false,
+            "static": false
+        }
+    ]
+}

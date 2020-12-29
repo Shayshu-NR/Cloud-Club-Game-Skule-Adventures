@@ -33,7 +33,6 @@ Mario_Game.level_2 = function(game) {
 
 Mario_Game.level_2.prototype = {
     preload: function() {
-
         //~~~~~ Json file ~~~~~
         game.load.text("shayshu_json", "../../JSON Files/bahen.json")
             //~~~~~~~~~~~~~~~~~~~~~
@@ -49,7 +48,6 @@ Mario_Game.level_2.prototype = {
         game.load.image('ground', '../../assets/platform.png')
         game.load.image('moon_ground', '../../assets/Space/Moon_platform.jpg')
         game.load.image('bahen_platform', '../../assets/Bahen/bahen_platform.png')
-        game.load.image('bahen_ground', '../../assets/Bahen/bahen_ground.png')
         game.load.image('brick', '../../assets/Brown_Brick.png')
         game.load.spritesheet('qBlock', '../../assets/Question_block.png', 32, 32)
         game.load.image('iron', '../../assets/iron-block.png')
@@ -96,8 +94,6 @@ Mario_Game.level_2.prototype = {
     },
 
     create: function() {
-        console.log(game.player_attributes)
-
         //~~~~~ Loading json file ~~~~~
         console.log(Phaser.Keyboard);
         json_parsed = JSON.parse(game.cache.getText('shayshu_json'))

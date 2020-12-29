@@ -1,0 +1,76 @@
+{
+    "World": {
+        "x": 3200,
+        "y": 600
+    },
+
+    "Background": [{
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "SF",
+            "tile": true
+        },
+        {
+            "x": 30,
+            "y": 505,
+            "height": 60,
+            "width": 35,
+            "src": "door",
+            "tile": false
+        }
+    ],
+
+    "FlagPole": {},
+
+    "Ground": [{
+            "start_x": 0,
+            "end_x": 400,
+            "height": 560,
+            "src": "ground"
+        }
+    ],
+
+    "Platform": [{
+        "x": 400,
+        "y": 400,
+        "height": 32,
+        "width": 50,
+        "src": "table"
+    }, {
+        "x": 1000,
+        "y": 350,
+        "height": 32,
+        "width": 50,
+        "src": "table"
+    }, {
+        "x": 1500,
+        "y": 250,
+        "height": 32,
+        "width": 100,
+        "src": "table"
+    }],
+
+    "QBlocks": [{
+            "x": 82,
+            "y": 450,
+            "powerUp": "coffee"
+        }
+    ],
+
+    "Bricks": [],
+
+    "Enemies": [{
+            "src": "goomba",
+            "x": 2200,
+            "y": 398,
+            "tween_x": 2268,
+            "tween_y": 398,
+            "tween_speed": 3000,
+            "animate": false,
+            "lazer": false,
+            "static": false
+        }
+    ]
+}
