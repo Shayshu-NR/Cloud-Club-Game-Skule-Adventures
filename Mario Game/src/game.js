@@ -28,7 +28,7 @@ var powerUp
 var state = 3
 var lives = 3
 var timing
-var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'mushroom': 1, 'small': 0 }
+var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'bubbletea': 1, 'mushroom': 1, 'small': 0 }
 var fireballs;
 var playerPowerUp;
 var keyReset = false
@@ -36,6 +36,7 @@ var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
 var enemyPoints = 10;
+var door;
 
 
 function preload() {
@@ -78,6 +79,8 @@ function preload() {
     game.load.image('derivative', './assets/derivative_1.png')
     game.load.image('integral', './assets/integral_1.png')
     game.load.image('coffee', './assets/powerups/coffee_1_30x32.png')
+    game.load.image("bubbletea", "./assets/powerups/bbt.png");
+
     //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player model ~~~~~
@@ -167,6 +170,14 @@ function create() {
     integral.enableBody = true
     book.enableBody = true
     //~~~~~~~~~~~~~~~~~~~~~~~
+
+    //~~~~~~Door~~~~~~~~~~~~~
+
+    // doorx = 1000;
+    // doory = 465;
+    // const door_body = door.create(doorx, doory, "door");
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
@@ -437,6 +448,17 @@ function update() {
 
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
+
+    //~~~~~~~~~~~~~~~ *DOOR* Moving to Different State *DOOR* ~~~~~~~~~~~~~~
+    // if (player.position.x >= doorx - 20 && player.position.x <= doorx + 20) 
+    //   {
+    //     console.log("door placement registered");
+    //     if (cursors.up.isDown) 
+    //     {
+    //       game.state.start("level1");
+    //     }
+    //   }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     var velocity_x = 300
     var velocity_y = -500
@@ -788,7 +810,12 @@ function powerUp_ingest(player, powerUp) {
                 console.log("Getting rid of coffee")
                 player[0].currentState = "mushroom";
             }, this, [player])
-        }
+        } else if (powerUp.power_type == 'bubbletea') {
+            player.loadTexture('big_player');
+            game.time.events.add(10000, function (player) {
+                console.log("Getting rid of bubbletea")
+                player[0].currentState = "mushroom";
+            }, this, [player])
     }
     powerUp.kill()
     console.log(player.currentState)
