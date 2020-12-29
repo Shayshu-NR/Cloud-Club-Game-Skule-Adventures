@@ -248,8 +248,8 @@ function create() {
     track = game.add.tileSprite(210,35,392,16,'tracks')
     track.fixedToCamera = true;
 
-    
-    pole = game.add.image(580, 10, 'pole')
+
+    pole = game.add.image(580, 12, 'pole')
     pole.scale.setTo(0.2,0.2)
     pole.fixedToCamera = true;
     hourglass = game.add.tileSprite(665,18,32,32,'hourglass')
