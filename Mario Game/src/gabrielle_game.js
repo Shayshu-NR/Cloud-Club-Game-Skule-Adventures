@@ -265,9 +265,9 @@ function create() {
         var nme_tween_y = enemy_location[i].tween_y
         var nme_tween_speed = enemy_location[i].tween_speed
         const nme_animate = enemy_location[i].animate
-  
-
         const new_nme = enemy.create(nme_x, nme_y, nme_src)
+        new_nme.static = enemy_location[i].static
+        new_nme.health = enemy_location[i].health
 
 
         if (nme_tween_x != false) {
@@ -547,19 +547,24 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
-    console.log()
     if(hazard.position.y>player.position.y + player.height){
         console.log(hazard.position.y-32 , player.position.y)
-        //hazard 
         //add if the sprite is a certain texture kill the event for that texture
         // bullets for astronauts
-        hazard.kill()
+        if(hazard.health>=0){
+            console.log(hazard.health)
+            if(hazard.health!=0){
+                hazard.health--
+            }
+            else hazard.kill()
+        }
+        
     }
     else {
     if (powerUpHierarchy[player.currentState] >= 1) {
 
         player.state--
-            console.log("State:" + powerUpHierarchy[player.currentState])
+        console.log("State:" + powerUpHierarchy[player.currentState])
         lastHit = timing
         player.isInvincible = true
 

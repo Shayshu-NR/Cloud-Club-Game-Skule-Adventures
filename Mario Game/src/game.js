@@ -278,6 +278,7 @@ function create() {
 
         const new_nme = enemy.create(nme_x, nme_y, nme_src)
         new_nme.static = enemy_location[i].static
+        new_nme.health = enemy_location[i].health
 
 
         if (nme_tween_x != false) {
@@ -582,8 +583,15 @@ function kill_mario(player, hazard) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false
             }
-            hazard.kill()
-
+            if(hazard.health>=0){
+                console.log(hazard.health)
+                if(hazard.health==0){
+                    hazard.kill()
+                }
+                else{
+                    hazard.health--
+                }
+            }
             return
         }
     }
