@@ -648,13 +648,12 @@ function kill_mario(player, hazard) {
                 hazard.lazer_timer.loop = false
             }
             if (hazard.health >= 0) {
+                player.body.velocity.y = -250
                 console.log(hazard.health)
                 if (hazard.health == 0) {
                     hazard.kill()
                 } else {
                     hazard.health--
-                        lastHit = timing
-                    player.isInvincible = true
                 }
             }
             return
@@ -793,6 +792,7 @@ function powerUp_ingest(player, powerUp) {
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
+        player.position.y-=32
         player.currentState = powerUp.power_type
 
         if (powerUp.power_type == 'fireflower') {
