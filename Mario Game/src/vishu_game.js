@@ -176,15 +176,16 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~
     button = button.create(50, 515, 'button')
     button.body.immovable = true
-    
+
     for (var i = 0; i < 10; i++) {
         const coins = diamonds.create(i * 20, 400, 'diamond')
         coins.button = true
         arrayOfCoins.push(coins)
     }
-    
-    button.animations.add('button', [0, 1, 2, 3, 4], 20, false)
-     
+
+    button.animations.add('pressed', [0, 1, 2, 3, 4], 20, false)
+    button.animations.add('depressed', [4, 3, 2, 1, 0], 20, false)
+
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
     for (var i = 0; i < ground_location.length; i++) {
@@ -246,7 +247,7 @@ function create() {
     this.timeText.fill = "#000000"
     this.timer = game.time.events.loop(1000, tick, this)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-    
+
     //~~~~~ Cursors ~~~~~
     cursors = game.input.keyboard.createCursorKeys({
             up: 'up',
@@ -368,9 +369,9 @@ function update() {
             // button.animations.play('pressed')
 
             buttonPressed = true;
-            button.animations.play('button') 
+            button.animations.play('pressed')
             button.kill
-            
+
             if (isBrick == true) {
                 for (var i = 0; i < arrayOfCoins.length; i++) {
                     if (arrayOfCoins[i] != null) {
@@ -391,12 +392,12 @@ function update() {
                 isBrick = true
             }
 
-            game.time.events.add(1000, eswitch_timer, this, [])
+            game.time.events.add(1000, eswitch_timer, this, [button])
         }
 
     })
 
-     
+
 
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
@@ -616,7 +617,7 @@ var outofTime = function() {
     location.reload();
 }
 
-function eswitch_timer() {
+function eswitch_timer(button) {
     for (var i = 0; i < arrayOfCoins.length; i++) {
         if (arrayOfCoins[i] != null) {
             arrayOfCoins[i].kill()
@@ -624,6 +625,7 @@ function eswitch_timer() {
             arrayOfCoins[i].body.immovable = true
         }
     }
+    button[0].animations.play('depressed')
     buttonPressed = false;
 }
 
