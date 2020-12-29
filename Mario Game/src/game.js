@@ -645,19 +645,17 @@ function falloutofworld(player) {
 function kill_mario(player, hazard) {
     // Make sure the player is overtop the hazard 
     if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
-        console.log("j")
         if (!hazard.static) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false
             }
             if (hazard.health >= 0) {
+                player.body.velocity.y = -250 
                 console.log(hazard.health)
                 if (hazard.health == 0) {
                     hazard.kill()
                 } else {
                     hazard.health--
-                        lastHit = timing
-                    player.isInvincible = true
                 }
             }
             return
@@ -797,11 +795,13 @@ function powerUp_ingest(player, powerUp) {
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
         player.body.height = 64
         player.currentState = powerUp.power_type
-
+        player.position.y = player.position.y - 32
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
+            powerUp.kill()
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
+            powerUp.kill()
         } else if (powerUp.power_type == "hammer") {
             player.loadTexture("big_player")
             powerUp.kill()
