@@ -54,7 +54,7 @@ function preload() {
     game.load.image('coin', './assets/SF_Pit/coin.png')
     game.load.image('tracks','./assets/progress_tracks.png')
     game.load.image('playerFace', './assets/Main Sprite.png')
-    game.load.image('hourglass','./assets/hourglass.png')
+    game.load.image('hourglass', './assets/hourglass.png')
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -426,7 +426,7 @@ function update() {
         }
         hammer.body.velocity.x *= -1;
     }, null, this)
-    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer){
+    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer) {
         hammer.kill();
         keyReset = false;
     }, null, this)
@@ -557,7 +557,7 @@ function update() {
         }
     }
     if (hammer_instance != 0) {
-        if (hammer_instance.limit > 0){
+        if (hammer_instance.limit > 0) {
             if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
                 hammer_instance.body.velocity.x *= -1
             } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {

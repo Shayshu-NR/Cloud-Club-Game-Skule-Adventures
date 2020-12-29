@@ -125,7 +125,8 @@
                 "frames": [2, 0, 3, 0],
                 "delay": 4
             },
-            "lazer": true
+            "lazer": true,
+            "health": 2
         },
         {
             "src": "spike",
@@ -136,6 +137,7 @@
             "tween_speed": false,
             "animate": false,
             "lazer": false
+
         }
     ]
 }
