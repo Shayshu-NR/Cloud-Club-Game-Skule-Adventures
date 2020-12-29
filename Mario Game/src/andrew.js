@@ -34,10 +34,12 @@ var powerUpHierarchy = {
 var door;
 
 
-Mario_Game.test1 = function(game) {
+var Mario_Game = {};
+Mario_Game.Menu = function(game) {
 
-    }
-    // Mario_Game.level1 = function(game) {
+};
+
+// Mario_Game.level1 = function(game) {
 
 // }
 //does not work, gotta copy all of shayshus scene example files
@@ -280,7 +282,6 @@ function update() {
     //Placed before jump function
     if (player.position.x >= 1000 && player.position.x <= 1032) {
         console.log("door placement registered");
-        if (cursors.up.isDown) game.state.start("");
     }
 
     if (!player.isInvincible)
