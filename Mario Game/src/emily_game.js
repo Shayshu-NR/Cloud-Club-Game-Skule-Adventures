@@ -46,7 +46,7 @@ function preload() {
     game.load.image('sky', './assets/sky.png')
     game.load.image('coin', './assets/SF Pit/coin.png')
     game.load.image('playerFace', './assets/Main Sprite.png')
-    game.load.image('hourglass','./assets/hourglass.png')
+    game.load.image('hourglass', './assets/hourglass.png')
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -95,9 +95,9 @@ function create() {
     sky = game.add.tileSprite(0, 0, 800, 600, 'sky')
     sky.fixedToCamera = true
     sky.tilePosition.x = game.camera.x * -0.2
-    
+
     //totalDistance =
-        //~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Groups ~~~~~
     platforms = game.add.group()
@@ -161,7 +161,7 @@ function create() {
     livesText.text = lives;
     livesText.fixedToCamera = true;
     progressBar = game.add.tileSprite(200, 10, 32, 32, 'playerFace')
-    //progressBar.fixedToCamera = true;
+        //progressBar.fixedToCamera = true;
     face = game.add.tileSprite(12, 50, 32, 32, 'playerFace')
     face.fixedToCamera = true;
     coin = game.add.tileSprite(12, 85, 32, 32, 'coin')
@@ -169,7 +169,7 @@ function create() {
     coinsText = game.add.text(50, 85, '', { fontSize: '32px', fill: '#000' })
     coinsText.text = coins;
     coinsText.fixedToCamera = true;
-    hourglass = game.add.tileSprite(665,20,32,32,'hourglass')
+    hourglass = game.add.tileSprite(665, 20, 32, 32, 'hourglass')
     hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
@@ -230,7 +230,7 @@ function create() {
     game.camera.follow(player)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    
+
 }
 
 function update() {
@@ -266,7 +266,7 @@ function update() {
         scoreText.text = 'Score: ' + score
         hammer.body.velocity.x *= -1;
     }, null, this)
-    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer){
+    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer) {
         hammer.kill();
         keyReset = false;
     }, null, this)
@@ -319,10 +319,10 @@ function update() {
     if (player.position.y >= 568) {
         falloutofworld(player)
     }
-    
+
     //Progress bar
-    progress = player.body.position.x/totalDistance*100+200
-    progressBar.x = progress+this.camera.view.x
+    progress = player.body.position.x / totalDistance * 100 + 200
+    progressBar.x = progress + this.camera.view.x
 
     if (player.currentState == 'fireflower') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
@@ -345,7 +345,7 @@ function update() {
     }
 
     if (hammer_instance != 0) {
-        if (hammer_instance.limit > 0){
+        if (hammer_instance.limit > 0) {
             if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
                 hammer_instance.body.velocity.x *= -1
             } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
@@ -368,9 +368,9 @@ function update() {
 }
 
 function render() {
-    this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
-    this.game.debug.cameraInfo(this.game.camera, 200, 32);
-    this.game.debug.spriteInfo(player, 500, 32);
+    // this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
+    // this.game.debug.cameraInfo(this.game.camera, 200, 32);
+    // this.game.debug.spriteInfo(player, 500, 32);
 }
 
 function collectDiamond(player, diamond) {
@@ -382,7 +382,7 @@ function collectDiamond(player, diamond) {
     score += 10
     scoreText.text = 'Score: ' + score
     coins += 1
-    coinsText.text = ''+coins
+    coinsText.text = '' + coins
 }
 
 function collectBDiamond(brick, diamond) {
@@ -393,7 +393,7 @@ function collectBDiamond(brick, diamond) {
     score += 10
     scoreText.text = 'Score: ' + score
     coins += 1
-    coinsText.text = ''+coins
+    coinsText.text = '' + coins
 }
 
 function kill_mario(player, hazard) {

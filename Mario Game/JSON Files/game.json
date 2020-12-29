@@ -125,6 +125,7 @@
 
     "Enemies": [{
             "src": "astronaut",
+            "health":2,
             "x": 400,
             "y": 336,
             "tween_x": 700,
@@ -143,7 +144,8 @@
             }],
             "lazer": {
                 "src": "red_lazer",
-                "frequency": 2500
+                "frequency": 2500,
+                "health":-1
             },
             "static": false
         },
@@ -156,7 +158,8 @@
             "tween_speed": false,
             "animate": false,
             "lazer": false,
-            "static": true
+            "static": true,
+            "health": -1
         }
     ]
 }

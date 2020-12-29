@@ -26,6 +26,7 @@ var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
+var music
 
 Mario_Game.level_1 = function(game) {
 
@@ -100,7 +101,7 @@ Mario_Game.level_1.prototype = {
         console.log("Json file structure: ", json_parsed)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
+        music = game.add.audio('lofi-hiphop')
         music.play();
 
 
@@ -360,6 +361,7 @@ Mario_Game.level_1.prototype = {
         game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
         game.physics.arcade.collide(player, flag, function next_level(player, flag) {
             alert("You won");
+            game.player_attributes = [player.currentState]
             this.level_2()
         }, null, this)
         game.physics.arcade.collide(platforms, integral, integralKill, null, this)
@@ -434,6 +436,7 @@ Mario_Game.level_1.prototype = {
             player.kill();
             var die_noise = game.add.audio("mario_die");
             die_noise.play();
+            music.pause()
             if (lives > 0) {
                 game.state.start("Level_1", true, false)
                 lives--
@@ -558,6 +561,7 @@ function falloutofworld(player, game) {
     player.kill();
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
+    music.pause()
     game.state.start("level_1")
 }
 
@@ -599,6 +603,7 @@ function kill_mario(player, hazard) {
             //needs to be across the screen in big red letters
             alert("All lives lost! Game over");
             this.input.keyboard.enabled = false
+            music.pause()
             game.state.start("MenuScreen")
         }
         player.kill();
