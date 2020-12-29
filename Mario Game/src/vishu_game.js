@@ -364,7 +364,7 @@ function update() {
         console.log(buttonPressed)
 
         if (buttonPressed == false) {
-            button.animations.play('pressed')
+            // button.animations.play('pressed')
 
             buttonPressed = true;
             if (isBrick == true) {
