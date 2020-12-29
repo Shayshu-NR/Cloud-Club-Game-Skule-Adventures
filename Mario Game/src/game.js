@@ -82,7 +82,7 @@ function preload() {
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
-    game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
+    game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup2.png', 32, 64)
     game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
     //~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -216,13 +216,8 @@ function create() {
     player.animations.add('right_blink', [0, 23, 1, 23, 2, 23, 0, 23, 3, 23, 4, 23, 0, 23], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-<<<<<<< HEAD
-    player.animations.add('stop_blink', [20, 5, 20], 10, true)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=======
     player.animations.add('stop_blink', [23, 5, 23], 10, true)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>>>> e6c6e1a2249c5679ce335be542f3f978d33745a1
 
     //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
@@ -397,8 +392,13 @@ function update() {
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
     game.physics.arcade.collide(player, lazer, kill_mario, null, this)
 
-    if (!player.isInvincible)
-        game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
+    if (!player.isInvincible){
+        game.physics.arcade.overlap(player, enemy, function(enemy, player){
+            kill_mario(enemy, player)
+            //enemy.lazer_timer.loop = false
+        }, null, this);
+        game.physics.arcade.collide(player, lazer, kill_mario, null, this)
+    }
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -406,8 +406,6 @@ function update() {
 
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-
-
 
     var velocity_x = 300
     var velocity_y = -500
@@ -580,7 +578,7 @@ function falloutofworld(player) {
     location.reload();
 }
 
-function kill_mario(player, hazard) {
+function kill_mario(player, hazard) {    
     // Make sure the player is overtop the hazard 
     if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y  ) {
     console.log("j")
@@ -595,16 +593,17 @@ function kill_mario(player, hazard) {
                 }
                 else{
                     hazard.health--
+                    player.isInvincible = true
                 }
             }
             return
         }
     }
 
-    //this checks whether mario has a power up or not.
-    if (powerUpHierarchy[player.currentState] >= 1) {
+    //this checks whether mario has a power up or not.    
+     else if (powerUpHierarchy[player.currentState] >= 1) {
 
-        state--
+        player.state--
         console.log("State:" + state)
         lastHit = timing
         player.isInvincible = true
@@ -633,8 +632,7 @@ function kill_mario(player, hazard) {
 
         location.reload(true);
     }
-
-    hazard.kill();
+    
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
