@@ -174,15 +174,16 @@ function create() {
     book.enableBody = true
     button.enableBody = true;
     //~~~~~~~~~~~~~~~~~~~~~~~
-    const e_switch = button.create(50, 515, 'button')
-    e_switch.body.immovable = true
+    button = button.create(50, 515, 'button')
+    button.body.immovable = true
     for (var i = 0; i < 10; i++) {
         const coins = diamonds.create(i * 20, 400, 'diamond')
-        coins.e_switch = true
+        coins.button = true
         arrayOfCoins.push(coins)
-
     }
-
+    
+    button.animations.add('button', [0, 1, 2, 3, 4], 20, false)
+     
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
     for (var i = 0; i < ground_location.length; i++) {
@@ -243,8 +244,8 @@ function create() {
     this.timeText = game.add.text(700, 20, "00:00")
     this.timeText.fill = "#000000"
     this.timer = game.time.events.loop(1000, tick, this)
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+    
     //~~~~~ Cursors ~~~~~
     cursors = game.input.keyboard.createCursorKeys({
             up: 'up',
@@ -364,6 +365,9 @@ function update() {
 
         if (buttonPressed == false) {
             buttonPressed = true;
+            button.animations.play('button') 
+            button.kill
+            
             if (isBrick == true) {
                 for (var i = 0; i < arrayOfCoins.length; i++) {
                     if (arrayOfCoins[i] != null) {
@@ -388,6 +392,8 @@ function update() {
         }
 
     })
+
+     
 
     game.physics.arcade.collide(player, platforms)
     game.physics.arcade.collide(diamonds, platforms)
