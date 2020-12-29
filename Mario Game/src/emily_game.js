@@ -233,20 +233,22 @@ function create() {
     scoreText.text = 'Score: 0';
     scoreText.fixedToCamera = true
 
-    livesText = game.add.text(50, 50, '', { fontSize: '32px', fill: '#FFFFFF' })
+    livesText = game.add.text(50, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
     livesText.text = lives;
     livesText.fixedToCamera = true;
     progressBar = game.add.tileSprite(200, 16, 32, 32, 'playerFace')
-    face = game.add.tileSprite(12, 50, 32, 32, 'playerFace')
+    face = game.add.tileSprite(10, 50, 32, 32, 'playerFace')
     face.fixedToCamera = true;
-    coin = game.add.tileSprite(16, 85, 32, 29, 'coin')
+    coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
     coin.fixedToCamera = true;
-    coinsText = game.add.text(50, 85, '', { fontSize: '32px', fill: '#FFFFFF' })
+    coinsText = game.add.text(50, 87, '', { fontSize: '32px', fill: '#FFFFFF' })
     coinsText.text = coins;
     coinsText.fixedToCamera = true;
+
     track = game.add.tileSprite(210,35,392,16,'tracks')
     track.fixedToCamera = true;
-    pole = game.add.image(580, 10, 'pole')
+
+    pole = game.add.image(580, 12, 'pole')
     pole.scale.setTo(0.2,0.2)
     pole.fixedToCamera = true;
     hourglass = game.add.tileSprite(665,18,32,32,'hourglass')

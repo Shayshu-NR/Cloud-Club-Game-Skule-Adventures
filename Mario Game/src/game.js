@@ -8,7 +8,12 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 
 // Declare shared variables at the top so all methods can access them
 var score = 0
+var coins = 0
+var totalDistance
+var coinsText
 var scoreText
+var progressBar
+var progress
 var platforms
 var diamonds
 var cursors
@@ -34,7 +39,6 @@ var playerPowerUp;
 var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
-var hammerReturn = false;
 
 
 function preload() {
@@ -47,6 +51,10 @@ function preload() {
     game.load.image('space', './assets/Space/Space_Background.jpg')
     game.load.image('bahen', './assets/Bahen/Bahen.png')
     game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
+    game.load.image('coin', './assets/SF_Pit/coin.png')
+    game.load.image('tracks', './assets/progress_tracks.png')
+    game.load.image('playerFace', './assets/Main Sprite.png')
+    game.load.image('hourglass', './assets/hourglass.png')
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -220,12 +228,36 @@ function create() {
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Create the score text and timer ~~~~~
-    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
+    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
     scoreText.text = 'Score: 0';
+    scoreText.fixedToCamera = true
 
+    livesText = game.add.text(50, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
+    livesText.text = lives;
+    livesText.fixedToCamera = true;
+    progressBar = game.add.tileSprite(200, 16, 32, 32, 'playerFace')
+    face = game.add.tileSprite(10, 50, 32, 32, 'playerFace')
+    face.fixedToCamera = true;
+    coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
+    coin.fixedToCamera = true;
+    coinsText = game.add.text(50, 87, '', { fontSize: '32px', fill: '#FFFFFF' })
+    coinsText.text = coins;
+    coinsText.fixedToCamera = true;
+
+    //progress bar tracks
+    track = game.add.tileSprite(210, 35, 392, 16, 'tracks')
+    track.fixedToCamera = true;
+
+
+    pole = game.add.image(580, 12, 'pole')
+    pole.scale.setTo(0.2, 0.2)
+    pole.fixedToCamera = true;
+    hourglass = game.add.tileSprite(665, 18, 32, 32, 'hourglass')
+    hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
-    this.timeText.fill = "#000000"
+    this.timeText.fixedToCamera = true
+    this.timeText.fill = "#FFFFFF"
     this.timer = game.time.events.loop(1000, tick, this)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -358,6 +390,8 @@ function update() {
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
         enemy.kill();
         fireballs.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -365,6 +399,8 @@ function update() {
     game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
         enemy.kill();
         derivative.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -372,6 +408,8 @@ function update() {
     game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
         enemy.kill();
         integral.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -385,10 +423,16 @@ function update() {
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         enemy.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
         hammer.body.velocity.x *= -1;
+    }, null, this)
+    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer) {
+        hammer.kill();
+        keyReset = false;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
 
@@ -456,6 +500,11 @@ function update() {
         falloutofworld(player);
     }
 
+    //Progress bar
+    progress = player.body.position.x / totalDistance * 400 + 200
+    progressBar.x = progress + this.camera.view.x
+
+
     if (player.currentState == 'fireflower') {
         if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
             keyReset = true;
@@ -516,13 +565,24 @@ function update() {
     }
 
     if (hammer_instance != 0) {
-        if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
-            hammer_instance.body.velocity.x *= -1
-        } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
-            console.log("Reached backwards limit")
-            hammer_instance.kill()
-            keyReset = false
-            hammer_instance = 0
+        if (hammer_instance.limit > 0) {
+            if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
+                hammer_instance.body.velocity.x *= -1
+            } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
+                console.log("Reached backwards limit")
+                hammer_instance.kill()
+                keyReset = false
+                hammer_instance = 0
+            }
+        } else {
+            if (hammer_instance.body.position.x <= hammer_instance.forward_limit) {
+                hammer_instance.body.velocity.x *= -1
+            } else if (hammer_instance.body.position.x > hammer_instance.backwards_limit) {
+                console.log("Reached backwards limit")
+                hammer_instance.kill()
+                keyReset = false
+                hammer_instance = 0
+            }
         }
     }
 
@@ -804,7 +864,7 @@ function hammerTime(hammer, player) {
 
     //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
     const h = hammer.create(player_x, player_y + 16, 'hammer')
-
+    h.limit = 300 * player.facing;
     h.forward_limit = player_x + (300 * player.facing)
     h.backwards_limit = player_x
         //adding some spin
@@ -872,10 +932,6 @@ function integralKill(platforms, integral) {
 function hammerGrab(player, hammer) {
     hammer.kill();
     keyReset = false;
-}
-
-function hammerReturn() {
-    console.log("Return");
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
