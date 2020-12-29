@@ -41,7 +41,7 @@ var enemyPoints = 10;
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/game.json")
+    game.load.text("shayshu_json", "./JSON Files/SF_part_1.json")
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
@@ -705,8 +705,6 @@ function kill_mario(player, hazard) {
 function brick_break(player, block) {
     //Only break the brick when the player is below 
     //and not hittin gon the sides
-    console.log('Player (x,y):', "(", player.position.x, player.position.y, ")")
-    console.log('Block (x,y):', "(", block.position.x, block.position.y, ")")
 
     var player_x = player.position.x + 16
     var player_y = player.position.y + 16
@@ -798,6 +796,7 @@ function powerUp_ingest(player, powerUp) {
         player.body.height = 64
         player.position.y -= 32
         player.currentState = powerUp.power_type
+        console.log(player.position.y)
 
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
