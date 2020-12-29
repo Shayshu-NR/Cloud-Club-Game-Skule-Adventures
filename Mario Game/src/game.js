@@ -777,6 +777,8 @@ function collectDiamond(player, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+    coins +=1
+    coinsText.text = coins
 }
 
 function collectBDiamond(brick, diamond) {
@@ -786,6 +788,8 @@ function collectBDiamond(brick, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+    coins +=1
+    coinsText.text = coins
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
