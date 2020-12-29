@@ -212,12 +212,17 @@ function create() {
     player.currentState = 'small'
 
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
-    player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
-    player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
+    player.animations.add('left_blink', [10, 23, 9, 23, 8, 23, 10, 23, 7, 23, 6, 23, 10, 23], 10, true)
+    player.animations.add('right_blink', [0, 23, 1, 23, 2, 23, 0, 23, 3, 23, 4, 23, 0, 23], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
+<<<<<<< HEAD
     player.animations.add('stop_blink', [20, 5, 20], 10, true)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=======
+    player.animations.add('stop_blink', [23, 5, 23], 10, true)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>>> e6c6e1a2249c5679ce335be542f3f978d33745a1
 
     //~~~~~ Create the score text and timer ~~~~~
     scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
@@ -576,8 +581,8 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     // Make sure the player is overtop the hazard 
-    if (player.position.y + player.body.height <= hazard.position.y) {
-
+    if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y  ) {
+    console.log("j")
         if (!hazard.static) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false

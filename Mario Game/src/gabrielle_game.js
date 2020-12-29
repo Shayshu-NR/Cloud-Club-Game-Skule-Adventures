@@ -43,7 +43,7 @@ var hammerReturn = false;
  */
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/shayshu.json")
+    game.load.text("shayshu_json", "./JSON Files/game.json")
         //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
@@ -265,6 +265,7 @@ function create() {
         var nme_tween_y = enemy_location[i].tween_y
         var nme_tween_speed = enemy_location[i].tween_speed
         const nme_animate = enemy_location[i].animate
+  
 
         const new_nme = enemy.create(nme_x, nme_y, nme_src)
 
@@ -288,6 +289,7 @@ function create() {
 
             new_nme.lazer_timer = event
         }
+        
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -545,11 +547,12 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
+    console.log()
     if(hazard.position.y>player.position.y + player.height){
         console.log(hazard.position.y-32 , player.position.y)
-            console.log(hazard.texture.key)
-            //add if the sprite is a certain texture kill the event for that texture
-            // bullets for astronauts
+        //hazard 
+        //add if the sprite is a certain texture kill the event for that texture
+        // bullets for astronauts
         hazard.kill()
     }
     else {
