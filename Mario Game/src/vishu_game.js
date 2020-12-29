@@ -38,6 +38,7 @@ var hammerReturn = false;
 var button;
 var isBrick = false;
 var arrayOfCoins = []
+var buttonPressed = false;
 
 
 function preload() {
@@ -172,13 +173,14 @@ function create() {
     integral.enableBody = true
     book.enableBody = true
     button.enableBody = true;
-        //~~~~~~~~~~~~~~~~~~~~~~~
-    const e_switch = button.create(50, 495, 'button')
-    for (var i=0; i < 10; i++) {
-        const coins = diamonds.create(i, i, 'diamond')
+    //~~~~~~~~~~~~~~~~~~~~~~~
+    const e_switch = button.create(50, 515, 'button')
+    e_switch.body.immovable = true
+    for (var i = 0; i < 10; i++) {
+        const coins = diamonds.create(i * 20, 400, 'diamond')
         coins.e_switch = true
         arrayOfCoins.push(coins)
-    
+
     }
 
     //~~~~~ Ground/ledge creation ~~~~~
@@ -358,25 +360,33 @@ function update() {
 
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, button, function buttonChange() {
-        console.log(arrayOfCoins)
-        
-        if (isBrick == true) {
-            for (var i = 0; i < arrayOfCoins.length; i++) {
-                arrayOfCoins[i].kill()
-                arrayOfCoins[i] = diamonds.create(i, i, 'diamond')
-                arrayOfCoins[i].body.immovable = true
+        console.log(buttonPressed)
+
+        if (buttonPressed == false) {
+            buttonPressed = true;
+            if (isBrick == true) {
+                for (var i = 0; i < arrayOfCoins.length; i++) {
+                    if (arrayOfCoins[i] != null) {
+                        arrayOfCoins[i].kill()
+                        arrayOfCoins[i] = diamonds.create(i * 20, 400, 'diamond')
+                        arrayOfCoins[i].body.immovable = true
+                    }
+                }
+                isBrick = false;
+            } else if (isBrick == false) {
+                for (var i = 0; i < arrayOfCoins.length; i++) {
+                    if (arrayOfCoins[i] != null) {
+                        arrayOfCoins[i].kill()
+                        arrayOfCoins[i] = brick.create(i * 20, 400, 'brick')
+                        arrayOfCoins[i].body.immovable = true
+                    }
+                }
+                isBrick = true
             }
-            isBrick = false;
+
+            game.time.events.add(10000, eswitch_timer, this, [])
         }
 
-        if (isBrick == false) {
-            for (var i = 0; i < arrayOfCoins.length; i++) {
-                arrayOfCoins[i].kill()
-                arrayOfCoins[i] = brick.create(i, i, 'brick')
-                arrayOfCoins[i].body.immovable = true
-            }
-            isBrick = true
-        }
     })
 
     game.physics.arcade.collide(player, platforms)
@@ -597,6 +607,17 @@ var outofTime = function() {
     location.reload();
 }
 
+function eswitch_timer() {
+    for (var i = 0; i < arrayOfCoins.length; i++) {
+        if (arrayOfCoins[i] != null) {
+            arrayOfCoins[i].kill()
+            arrayOfCoins[i] = diamonds.create(i * 20, 400, 'diamond')
+            arrayOfCoins[i].body.immovable = true
+        }
+    }
+    buttonPressed = false;
+}
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //~~~~~ Death Scripts ~~~~~
@@ -688,6 +709,13 @@ function brick_break(player, block) {
         dia.body.velocity.y = -100
         dia.body.bounce.y = 1
     } else {
+        if (arrayOfCoins.includes(block)) {
+            var index = arrayOfCoins.indexOf(block)
+            arrayOfCoins[index].kill()
+            arrayOfCoins[index] = null
+            return;
+        }
+
         block.kill()
     }
 
@@ -730,8 +758,15 @@ function question_break(player, block) {
 
 function collectDiamond(player, diamond) {
     console.log("Unique ID for diamound: ", diamond.unique)
+
+    if (arrayOfCoins.includes(diamond)) {
+        var index = arrayOfCoins.indexOf(diamond)
+        arrayOfCoins[index].kill();
+        arrayOfCoins[index] = null
+    } else {
         // Removes the diamond from the screen
-    diamond.kill()
+        diamond.kill()
+    }
 
     //  And update the score
     score += 10

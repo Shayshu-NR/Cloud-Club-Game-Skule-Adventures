@@ -10,7 +10,7 @@
             "height": 600,
             "width": 800,
             "src": "SF",
-            "tile": false
+            "tile": true
         },
         {
             "x": 800,
@@ -131,16 +131,16 @@
     ],
 
     "Enemies": [{
-            "src": "astronaut",
-            "x": 400,
-            "y": 336,
-            "tween_x": 700,
-            "tween_y": 336,
-            "tween_speed": 10000,
-            "animate": {
-                "name": "walk",
-                "frames": [2, 0, 3, 0],
-                "delay": 4
+                "src": "astronaut",
+                "x": 400,
+                "y": 336,
+                "tween_x": 700,
+                "tween_y": 336,
+                "tween_speed": 10000,
+                "animate": {
+                    "name": "walk",
+                    "frames": [2, 0, 3, 0],
+                    "delay": `4
             },
             "lazer": true
         },
