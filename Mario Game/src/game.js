@@ -44,7 +44,7 @@ var lastHit = 520
 function preload() {
     //~~~~~ Json file ~~~~~
     game.load.text("shayshu_json", "./JSON Files/game.json")
-    //~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
@@ -55,7 +55,7 @@ function preload() {
 
     //~~~~~~Score board & Progress bar~~~~~
     game.load.image('coin', './assets/SF_Pit/coin.png')
-    game.load.image('tracks','./assets/progress_tracks.png')
+    game.load.image('tracks', './assets/progress_tracks.png')
     game.load.image('playerFace', './assets/Main Sprite.png')
     game.load.image('hourglass', './assets/hourglass.png')
     game.load.image('pole', './assets/flag_pole.png',32,32)
@@ -71,14 +71,14 @@ function preload() {
     game.load.image('flag_pole', './assets/flag_pole.png')
     game.load.image('asteroid', './assets/Space/Asteroid.png')
     game.load.image('ufo', './assets/Space/UFO.png')
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
     game.load.image('steve', './assets/steve.png')
     game.load.image('spike', './assets/spike.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
-    //~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Power ups ~~~~~
     game.load.image('fireflower', './assets/fireflower.png')
@@ -89,25 +89,25 @@ function preload() {
     game.load.image('derivative', './assets/derivative_1.png')
     game.load.image('integral', './assets/integral_1.png')
     game.load.image('coffee', './assets/powerups/coffee_1_30x32.png')
-    //~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/MainSprite2.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
     game.load.spritesheet('big_player', './assets/bigmainsprite2.png', 32, 64)
-    //~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     game.load.audio("lofi-hiphop", './assets/mario_theme_song.mp3')
-    //~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~
 
     //~~~~~ Misc ~~~~~
     game.load.image("space_ship", './assets/spaceship.png')
     game.load.image("red_lazer", './assets/lazer_red.png')
     game.load.image("blue_lazer", './assets/lazer.png')
-    //~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~
 }
 
 function create() {
@@ -115,7 +115,7 @@ function create() {
     console.log(Phaser.Keyboard);
     json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
     console.log("Json file structure: ", json_parsed)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     var music = game.add.audio('lofi-hiphop')
     music.play();
@@ -123,7 +123,7 @@ function create() {
 
     //~~~~~ Physics engine ~~~~~
     game.physics.startSystem(Phaser.Physics.ARCADE)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     var background_location = json_parsed.Background
@@ -160,7 +160,7 @@ function create() {
     book = game.add.group()
     flag = game.add.group()
     lazer = game.add.group()
-    //~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enable body ~~~~~
     platforms.enableBody = true
@@ -177,7 +177,7 @@ function create() {
     derivative.enableBody = true
     integral.enableBody = true
     book.enableBody = true
-    //~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Ground/ledge creation ~~~~~
     var ground_location = json_parsed.Ground
@@ -249,12 +249,12 @@ function create() {
     coinsText.fixedToCamera = true;
 
     //progress bar tracks
-    track = game.add.tileSprite(210,35,392,16,'tracks')
+    track = game.add.tileSprite(210, 35, 392, 16, 'tracks')
     track.fixedToCamera = true;
 
 
     pole = game.add.image(580, 12, 'pole')
-    pole.scale.setTo(0.2,0.2)
+    pole.scale.setTo(0.2, 0.2)
     pole.fixedToCamera = true;
     hourglass = game.add.tileSprite(665,14,32,32,'hourglass')
     hourglass.fixedToCamera = true;
@@ -263,17 +263,17 @@ function create() {
     this.timeText.fixedToCamera = true
     this.timeText.fill = "#FFFFFF"
     this.timer = game.time.events.loop(1000, tick, this)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Cursors ~~~~~
     cursors = game.input.keyboard.createCursorKeys({
-        up: 'up',
-        down: 'down',
-        left: 'left',
-        right: 'right',
-        space: 'spacebar'
-    })
-    //~~~~~~~~~~~~~~~~~~~
+            up: 'up',
+            down: 'down',
+            left: 'left',
+            right: 'right',
+            space: 'spacebar'
+        })
+        //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Brick and Qblock parsing from json file ~~~~~
     var qBlock_location = json_parsed.QBlocks
@@ -345,7 +345,7 @@ function create() {
         if (enemy_location[i].lazer) {
             new_nme.lazer_src = enemy_location[i].lazer.src
 
-            var event = game.time.events.loop(enemy_location[i].lazer.frequency, function (enemy_projectile) {
+            var event = game.time.events.loop(enemy_location[i].lazer.frequency, function(enemy_projectile) {
                 const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, enemy_projectile[0].lazer_src);
                 new_lazer.body.velocity.x = -500;
             }, this, [new_nme])
@@ -361,14 +361,14 @@ function create() {
     var flag_position = json_parsed.FlagPole
     const end_of_level = flag.create(flag_position.x, flag_position.y, flag_position.src)
     end_of_level.scale.setTo(1.5, 1.5)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
     totalDistance = world_bounds.x
     game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
     game.camera.follow(player)
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function update() {
@@ -439,12 +439,12 @@ function update() {
         keyReset = false;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
-    
 
-    if (!player.isInvincible){
-        game.physics.arcade.overlap(player, enemy, function(enemy, player){
+
+    if (!player.isInvincible) {
+        game.physics.arcade.overlap(player, enemy, function(enemy, player) {
             kill_mario(enemy, player)
-            //enemy.lazer_timer.loop = false
+                //enemy.lazer_timer.loop = false
         }, null, this);
         game.physics.arcade.collide(player, lazer, kill_mario, null, this)
     }
@@ -458,7 +458,7 @@ function update() {
 
     var velocity_x = 300
     var velocity_y = -500
-    // Configure the controls!
+        // Configure the controls!
     if (player.currentState == 'coffee') {
         velocity_x = 700;
     }
@@ -507,8 +507,8 @@ function update() {
     }
 
     //Progress bar
-    progress = player.body.position.x/totalDistance*400+200
-    progressBar.x = progress+this.camera.view.x
+    progress = player.body.position.x / totalDistance * 400 + 200
+    progressBar.x = progress + this.camera.view.x
 
 
     if (player.currentState == 'fireflower') {
@@ -609,7 +609,7 @@ function render() {
 
 
 //~~~~~ Timer and score ~~~~~
-var tick = function () {
+var tick = function() {
     this.timeLimit--;
     var minutes = Math.floor(this.timeLimit / 60);
     var seconds = this.timeLimit - (minutes * 60);
@@ -620,14 +620,14 @@ var tick = function () {
     }
 };
 
-var addZeros = function (num) {
+var addZeros = function(num) {
     if (num < 10) {
         num = "0" + num;
     }
     return num;
 };
 
-var outofTime = function () {
+var outofTime = function() {
     var die_noise = game.add.audio("mario_die");
     die_noise.play();
     alert("Out of Time!");
@@ -645,23 +645,21 @@ function falloutofworld(player) {
     location.reload();
 }
 
-function kill_mario(player, hazard) {    
+function kill_mario(player, hazard) {
     // Make sure the player is overtop the hazard 
-    if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y  ) {
-    console.log("j")
+    if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
         if (!hazard.static) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false
             }
-            if(hazard.health>=0){
+            if (hazard.health >= 0) {
                 console.log(hazard.health)
-                if(hazard.health==0){
+                if (hazard.health == 0) {
                     hazard.kill()
-                }
-                else{
+                } else {
                     hazard.health--
-                    lastHit = timing
-                    player.isInvincible = true
+                        lastHit = timing
+                    player.body.velocity.y = -350;
                 }
             }
             return
@@ -669,10 +667,10 @@ function kill_mario(player, hazard) {
     }
 
     //this checks whether mario has a power up or not.    
-     else if (powerUpHierarchy[player.currentState] >= 1) {
+    else if (powerUpHierarchy[player.currentState] >= 1) {
 
         player.state--
-        console.log("State:" + state)
+            console.log("State:" + state)
         lastHit = timing
         player.isInvincible = true
 
@@ -700,7 +698,7 @@ function kill_mario(player, hazard) {
 
         location.reload(true);
     }
-    
+
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -726,7 +724,7 @@ function brick_break(player, block) {
         return
     } else if (block.counter > 0) {
         block.counter--
-        var break_sound = game.add.audio('brick_sound')
+            var break_sound = game.add.audio('brick_sound')
         break_sound.play()
         const dia = diamonds.create(block_x, block_y - 50, 'diamond')
         dia.body.gravity.y = 1000
@@ -757,7 +755,7 @@ function question_break(player, block) {
     } else if (!block.broken) {
         console.log(block)
         block.animations.play('q_break', 60, false)
-        // block.loadTexture('iron')
+            // block.loadTexture('iron')
         var break_sound = game.add.audio('brick_sound')
         break_sound.play()
 
@@ -775,7 +773,7 @@ function question_break(player, block) {
 
 function collectDiamond(player, diamond) {
     console.log("Unique ID for diamound: ", diamond.unique)
-    // Removes the diamond from the screen
+        // Removes the diamond from the screen
     diamond.kill()
 
     //  And update the score
@@ -820,7 +818,7 @@ function powerUp_ingest(player, powerUp) {
             powerUp.kill()
         } else if (powerUp.power_type == 'coffee') {
             player.loadTexture('big_player');
-            game.time.events.add(10000, function (player) {
+            game.time.events.add(10000, function(player) {
                 console.log("Getting rid of coffee")
                 player[0].currentState = "mushroom";
             }, this, [player])
@@ -872,10 +870,10 @@ function hammerTime(hammer, player) {
 
     //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
     const h = hammer.create(player_x, player_y + 16, 'hammer')
-    h.limit = 300*player.facing;
+    h.limit = 300 * player.facing;
     h.forward_limit = player_x + (300 * player.facing)
     h.backwards_limit = player_x
-    //adding some spin
+        //adding some spin
 
     h.return = false;
     h.body.angularVelocity = 1000;
