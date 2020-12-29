@@ -35,12 +35,13 @@ var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
+var enemyPoints = 10;
 
 
 function preload() {
     //~~~~~ Json file ~~~~~
-    game.load.text("shayshu_json", "./JSON Files/game.json")
-    //~~~~~~~~~~~~~~~~~~~~~
+    game.load.text("shayshu_json", "./JSON Files/SF.json")
+        //~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
