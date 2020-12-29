@@ -12,7 +12,7 @@
         "y": 0,
         "height": 600,
         "width": 800,
-        "src": "space",
+        "src": "brick_background",
         "tile": true
     }],
     "FlagPole": {
@@ -21,48 +21,126 @@
     "Ground": [
         {
             "start_x": 0,
-            "end_x": 96,
-            "height": 400,
-            "src": "moon_ground"
+            "end_x": 400,
+            "height": 550,
+            "src": "stone_platform"
+        },
+        {
+            "start_x": 300,
+            "end_x": 400,
+            "height": 518,
+            "src": "stone_platform"
+        },
+        {
+            "start_x": 325,
+            "end_x": 400,
+            "height": 486,
+            "src": "stone_platform"
+        },
+        {
+            "start_x": 500,
+            "end_x": 1100,
+            "height": 486,
+            "src": "galbraith_ground"
+        },
+        {
+            "start_x": 1100,
+            "end_x": 1164,
+            "height": 454,
+            "src": "galbraith_ground"
+        },
+        {
+            "start_x": 1164,
+            "end_x": 1228,
+            "height": 422,
+            "src": "galbraith_ground"
+        },
+        {
+            "start_x": 1228,
+            "end_x": 1292,
+            "height": 390,
+            "src": "galbraith_ground"
         }
         
     ],
     "Platform": [{
-            "x": 160,
-            "y": 400,
-            "height": 32,
-            "width": 400,
-            "src": "asteroid"
-        }
+        "x": 575,
+        "y": 350,
+        "height": 32,
+        "width": 400,
+        "src": "galbraith_ground"
+    }
         
     ],
     "QBlocks": [
         {
-            "x": 165,
-            "y": 275,
-            "powerUp": "fireflower"
+            "x": 132,
+            "y": 425,
+            "powerUp": "integral"
+        },
+        {
+            "x": 732,
+            "y": 250,
+            "powerUp": "coffee"
         }
         
     ],
     "Bricks": [
         {
-            "x": 197,
-            "y": 275,
+            "x": 100,
+            "y": 425,
+            "counter": 3
+        },
+        {
+            "x": 164,
+            "y": 425,
+            "counter": 3
+        },
+        {
+            "x": 700,
+            "y": 250,
+            "counter": 3
+        },
+        {
+            "x": 764,
+            "y": 250,
             "counter": 3
         }
     ],
-    "Enemies": [
-        {
-            "src": "goomba",
-            "x": 350,
-            "y": 320,
-            "tween_x": 400,
-            "tween_y": 320,
-            "tween_speed": 1000,
-            "animate": false,
-            "lazer": false,
-            "static": false
-        }
+    "Enemies": [{
+        "src": "goomba",
+        "x": 325,
+        "y": 455,
+        "tween_x": 375,
+        "tween_y": 455,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    },
+    {
+        "src": "goomba",
+        "x": 530,
+        "y": 455,
+        "tween_x": 700,
+        "tween_y": 455,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    },
+    {
+        "src": "goomba",
+        "x": 830,
+        "y": 455,
+        "tween_x": 1000,
+        "tween_y": 455,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    }
+
 
     ]
 
