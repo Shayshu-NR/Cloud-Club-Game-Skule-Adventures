@@ -236,15 +236,15 @@ function create() {
     scoreText.text = 'Score: 0';
     scoreText.fixedToCamera = true
 
-    livesText = game.add.text(50, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
+    livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
     livesText.text = lives;
     livesText.fixedToCamera = true;
     progressBar = game.add.tileSprite(200, 16, 32, 32, 'playerFace')
-    face = game.add.tileSprite(10, 50, 32, 32, 'playerFace')
+    face = game.add.tileSprite(10, 46, 32, 32, 'playerFace')
     face.fixedToCamera = true;
     coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
     coin.fixedToCamera = true;
-    coinsText = game.add.text(50, 87, '', { fontSize: '32px', fill: '#FFFFFF' })
+    coinsText = game.add.text(55, 91, '', { fontSize: '32px', fill: '#FFFFFF' })
     coinsText.text = coins;
     coinsText.fixedToCamera = true;
 
