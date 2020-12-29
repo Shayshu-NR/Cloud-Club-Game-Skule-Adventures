@@ -65,7 +65,7 @@ function preload() {
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
-    game.load.image('pole', './assets/flag_pole.png')
+    game.load.image('pole', './assets/flag_pole.png', 32, 32)
     game.load.image('asteroid', './assets/Space/Asteroid.png')
     game.load.image('ufo', './assets/Space/UFO.png')
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -415,7 +415,6 @@ function update() {
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
         alert("You won");
-        game.player_attributes = [player.currentState, score, coins]
         location.reload();
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
