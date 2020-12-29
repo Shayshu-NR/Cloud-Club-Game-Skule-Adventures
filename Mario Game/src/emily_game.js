@@ -102,7 +102,14 @@ function preload() {
     game.load.image('coin', './assets/SF_Pit/coin.png')
     game.load.image('playerFace', './assets/Main Sprite.png')
     game.load.image('hourglass', './assets/hourglass.png')
-        //~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~
+
+    //~~~Progress bar and scoreboard ~~~
+    game.load.image('tracks', './assets/progress_tracks.png')
+    game.load.image('coin', './assets/SF_Pit/coin.png')
+    game.load.image('playerFace', './assets/Main Sprite.png')
+    game.load.image('hourglass', './assets/hourglass.png')
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 function create() {
