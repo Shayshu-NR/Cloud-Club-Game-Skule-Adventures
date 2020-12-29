@@ -227,7 +227,7 @@ function create() {
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Create the score text and timer ~~~~~
-    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
+    scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
     scoreText.text = 'Score: 0';
     scoreText.fixedToCamera = true
 
@@ -255,7 +255,8 @@ function create() {
     hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
-    this.timeText.fill = "#000000"
+    this.timeText.fixedToCamera = true;
+    this.timeText.fill = "#FFFFFF"
     this.timer = game.time.events.loop(1000, tick, this)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
