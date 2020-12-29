@@ -391,6 +391,8 @@ function update() {
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
         if (!enemy.static) enemy.kill();
         fireballs.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -398,6 +400,8 @@ function update() {
     game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
         if (!enemy.static) enemy.kill();
         derivative.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -405,12 +409,16 @@ function update() {
     game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
         if (!enemy.static) enemy.kill();
         integral.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         if (!enemy.static) enemy.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -425,7 +433,10 @@ function update() {
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
-
+    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer) {
+        hammer.kill();
+        keyReset = false;
+    }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
 
 
