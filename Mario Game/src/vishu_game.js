@@ -175,6 +175,7 @@ function create() {
     button.enableBody = true;
     //~~~~~~~~~~~~~~~~~~~~~~~
     const e_switch = button.create(50, 515, 'button')
+    e_switch.animations.add('pressed', [0, 1, 2, 3], 10, true);
     e_switch.body.immovable = true
     for (var i = 0; i < 10; i++) {
         const coins = diamonds.create(i * 20, 400, 'diamond')
@@ -363,6 +364,8 @@ function update() {
         console.log(buttonPressed)
 
         if (buttonPressed == false) {
+            button.animations.play('pressed')
+
             buttonPressed = true;
             if (isBrick == true) {
                 for (var i = 0; i < arrayOfCoins.length; i++) {
@@ -384,7 +387,7 @@ function update() {
                 isBrick = true
             }
 
-            game.time.events.add(10000, eswitch_timer, this, [])
+            game.time.events.add(1000, eswitch_timer, this, [])
         }
 
     })
