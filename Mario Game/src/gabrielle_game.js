@@ -361,7 +361,6 @@ function update() {
     if (!player.isInvincible){
         game.physics.arcade.overlap(player, enemy, function(enemy, player){
             kill_mario(enemy, player)
-            //enemy.lazer_timer.loop = false
         }, null, this);
         game.physics.arcade.collide(player, lazer, kill_mario, null, this)
     }
@@ -547,8 +546,8 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     //this checks whether mario has a power up or not.
-    if(hazard.position.y>player.position.y + player.height){
-        console.log(hazard.position.y-32 , player.position.y)
+    if(!hazard.static && hazard.position.y>player.position.y + player.height){
+        
         //add if the sprite is a certain texture kill the event for that texture
         // bullets for astronauts
         if(hazard.health>=0){
@@ -560,8 +559,7 @@ function kill_mario(player, hazard) {
         }
         
     }
-    else {
-    if (powerUpHierarchy[player.currentState] >= 1) {
+    else if(powerUpHierarchy[player.currentState] >= 1) {
 
         player.state--
         console.log("State:" + powerUpHierarchy[player.currentState])
@@ -591,7 +589,7 @@ function kill_mario(player, hazard) {
 
         location.reload(true);
     }
-    }
+    
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -695,8 +693,10 @@ function powerUp_ingest(player, powerUp) {
 
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
+            powerUp.kill()
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
+            powerUp.kill()
         } else if (powerUp.power_type == "hammer") {
             player.loadTexture("big_player")
             powerUp.kill()

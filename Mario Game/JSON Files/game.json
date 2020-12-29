@@ -125,7 +125,7 @@
 
     "Enemies": [{
             "src": "astronaut",
-            "health":2,
+            "health":1,
             "x": 400,
             "y": 336,
             "tween_x": 700,

@@ -89,9 +89,9 @@ function preload() {
 
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('player', './assets/MainSprite2.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
-    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    game.load.spritesheet('big_player', './assets/bigmainsprite2.png', 32, 64)
     //~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Sound ~~~~~
@@ -435,10 +435,15 @@ function update() {
         keyReset = false;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
-    game.physics.arcade.collide(player, lazer, kill_mario, null, this)
+    
 
-    if (!player.isInvincible)
-        game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
+    if (!player.isInvincible){
+        game.physics.arcade.overlap(player, enemy, function(enemy, player){
+            kill_mario(enemy, player)
+            //enemy.lazer_timer.loop = false
+        }, null, this);
+        game.physics.arcade.collide(player, lazer, kill_mario, null, this)
+    }
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -446,8 +451,6 @@ function update() {
 
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-
-
 
     var velocity_x = 300
     var velocity_y = -500
@@ -636,7 +639,7 @@ function falloutofworld(player) {
     location.reload();
 }
 
-function kill_mario(player, hazard) {
+function kill_mario(player, hazard) {    
     // Make sure the player is overtop the hazard 
     if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y  ) {
     console.log("j")
@@ -651,16 +654,18 @@ function kill_mario(player, hazard) {
                 }
                 else{
                     hazard.health--
+                    lastHit = timing
+                    player.isInvincible = true
                 }
             }
             return
         }
     }
 
-    //this checks whether mario has a power up or not.
-    if (powerUpHierarchy[player.currentState] >= 1) {
+    //this checks whether mario has a power up or not.    
+     else if (powerUpHierarchy[player.currentState] >= 1) {
 
-        state--
+        player.state--
         console.log("State:" + state)
         lastHit = timing
         player.isInvincible = true
@@ -689,8 +694,7 @@ function kill_mario(player, hazard) {
 
         location.reload(true);
     }
-
-    hazard.kill();
+    
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
