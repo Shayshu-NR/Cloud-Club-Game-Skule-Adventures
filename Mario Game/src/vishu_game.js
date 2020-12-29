@@ -38,6 +38,7 @@ var hammerReturn = false;
 var button;
 var isBrick = false;
 var arrayOfCoins = []
+var buttonPressed = false;
 
 
 function preload() {
@@ -175,7 +176,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~
     const e_switch = button.create(50, 495, 'button')
     for (var i = 0; i < 10; i++) {
-        const coins = diamonds.create(i, i, 'diamond')
+        const coins = diamonds.create(i * 20, 400, 'diamond')
         coins.e_switch = true
         arrayOfCoins.push(coins)
 
@@ -360,21 +361,33 @@ function update() {
     game.physics.arcade.collide(player, button, function buttonChange() {
         console.log(arrayOfCoins)
 
-        if (isBrick == true) {
-            for (var i = 0; i < arrayOfCoins.length; i++) {
-                arrayOfCoins[i].kill()
-                arrayOfCoins[i] = diamonds.create(i, i, 'diamond')
-                arrayOfCoins[i].body.immovable = true
+        if (buttonPressed == false) {
+            if (isBrick == true) {
+                for (var i = 0; i < arrayOfCoins.length; i++) {
+                    arrayOfCoins[i].kill()
+                    arrayOfCoins[i] = diamonds.create(i * 20, 400, 'diamond')
+                    arrayOfCoins[i].body.immovable = true
+                }
+                isBrick = false;
+            } else if (isBrick == false) {
+                for (var i = 0; i < arrayOfCoins.length; i++) {
+                    arrayOfCoins[i].kill()
+                    arrayOfCoins[i] = brick.create(i * 20, 400, 'brick')
+                    arrayOfCoins[i].body.immovable = true
+                }
+                isBrick = true
             }
-            isBrick = false;
-        } else if (isBrick == false) {
-            for (var i = 0; i < arrayOfCoins.length; i++) {
-                arrayOfCoins[i].kill()
-                arrayOfCoins[i] = brick.create(i, i, 'brick')
-                arrayOfCoins[i].body.immovable = true
-            }
-            isBrick = true
+
+            game.time.events.add(10000, function() {
+                for (var i = 0; i < arrayOfCoins.length; i++) {
+                    arrayOfCoins[i].kill()
+                    arrayOfCoins[i] = diamonds.create(i * 20, 400, 'diamond')
+                    arrayOfCoins[i].body.immovable = true
+                }
+                buttonPressed = true;
+            }, this, [])
         }
+
     })
 
     game.physics.arcade.collide(player, platforms)
