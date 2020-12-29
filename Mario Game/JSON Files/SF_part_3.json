@@ -104,6 +104,8 @@
         }
     ],
 
+    "Bricks": [],
+
     "Enemies": [
         {
             "src": "lava",

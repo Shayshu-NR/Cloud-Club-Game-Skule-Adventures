@@ -22,11 +22,7 @@
         }
     ],
 
-    "FlagPole": {
-        "x": 3000,
-        "y": 260,
-        "src": "flag_pole"
-    },
+    "FlagPole": {},
 
     "Ground": [{
             "start_x": 0,
@@ -62,6 +58,8 @@
             "powerUp": "coffee"
         }
     ],
+
+    "Bricks": [],
 
     "Enemies": [{
             "src": "goomba",

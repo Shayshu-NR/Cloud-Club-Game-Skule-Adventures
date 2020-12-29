@@ -56,7 +56,7 @@ function preload() {
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
-    game.load.image('lava', './assets/SF_Pit/lava.png', 400, 32)
+    game.load.image('lava', './assets/SF_Pit/lava.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32)
         //~~~~~~~~~~~~~~~~~~~
@@ -82,10 +82,6 @@ function preload() {
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
     //~~~~~~~~~~~~~~~~~
-
-    //~~~~~ Misc ~~~~~
-    game.load.image("space_ship", './assets/lazer_red.png')
-    //~~~~~~~~~~~~~~~~
 }
 
 function create() {

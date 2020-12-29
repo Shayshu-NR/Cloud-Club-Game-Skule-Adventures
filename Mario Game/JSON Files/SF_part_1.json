@@ -30,6 +30,9 @@
         }
     ],
 
+
+    "FlagPole": {},
+
     "Ground": [{
             "start_x": 0,
             "end_x": 300,
