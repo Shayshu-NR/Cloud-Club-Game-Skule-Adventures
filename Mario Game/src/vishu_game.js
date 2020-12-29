@@ -176,6 +176,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~
     button = button.create(50, 515, 'button')
     button.body.immovable = true
+    
     for (var i = 0; i < 10; i++) {
         const coins = diamonds.create(i * 20, 400, 'diamond')
         coins.button = true
@@ -364,6 +365,8 @@ function update() {
         console.log(buttonPressed)
 
         if (buttonPressed == false) {
+            // button.animations.play('pressed')
+
             buttonPressed = true;
             button.animations.play('button') 
             button.kill
@@ -388,7 +391,7 @@ function update() {
                 isBrick = true
             }
 
-            game.time.events.add(10000, eswitch_timer, this, [])
+            game.time.events.add(1000, eswitch_timer, this, [])
         }
 
     })
