@@ -391,6 +391,9 @@ function update() {
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
         if (!enemy.static) enemy.kill();
         fireballs.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
+
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -398,6 +401,9 @@ function update() {
     game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
         if (!enemy.static) enemy.kill();
         derivative.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
+
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -405,12 +411,16 @@ function update() {
     game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
         if (!enemy.static) enemy.kill();
         integral.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
         if (!enemy.static) enemy.kill();
+        score += enemyPoints;
+        scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
             enemy.lazer_timer.loop = false
         }
@@ -425,7 +435,10 @@ function update() {
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
     game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
-
+    game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer) {
+        hammer.kill();
+        keyReset = false;
+    }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
 
 
@@ -451,6 +464,7 @@ function update() {
         velocity_x = 700;
     }
     if (cursors.left.isDown) {
+        player.facing = -1;
         player.body.velocity.x = -velocity_x;
         if (player.isInvincible) {
             player.animations.play('left_blink')
@@ -458,6 +472,7 @@ function update() {
             player.animations.play('left')
         }
     } else if (cursors.right.isDown) {
+        player.facing = 1;
         player.body.velocity.x = velocity_x;
         if (player.isInvincible) {
             player.animations.play('right_blink')
@@ -557,13 +572,24 @@ function update() {
     }
 
     if (hammer_instance != 0) {
-        if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
-            hammer_instance.body.velocity.x *= -1
-        } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
-            console.log("Reached backwards limit")
-            hammer_instance.kill()
-            keyReset = false
-            hammer_instance = 0
+        if (hammer_instance.limit > 0) {
+            if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
+                hammer_instance.body.velocity.x *= -1
+            } else if (hammer_instance.body.position.x < hammer_instance.backwards_limit) {
+                console.log("Reached backwards limit")
+                hammer_instance.kill()
+                keyReset = false
+                hammer_instance = 0
+            }
+        } else {
+            if (hammer_instance.body.position.x <= hammer_instance.forward_limit) {
+                hammer_instance.body.velocity.x *= -1
+            } else if (hammer_instance.body.position.x > hammer_instance.backwards_limit) {
+                console.log("Reached backwards limit")
+                hammer_instance.kill()
+                keyReset = false
+                hammer_instance = 0
+            }
         }
     }
 
@@ -846,7 +872,7 @@ function hammerTime(hammer, player) {
 
     //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
     const h = hammer.create(player_x, player_y + 16, 'hammer')
-
+    h.limit = 300 * player.facing;
     h.forward_limit = player_x + (300 * player.facing)
     h.backwards_limit = player_x
         //adding some spin
