@@ -363,7 +363,7 @@ function create() {
     const end_of_level = flag.create(flag_position.x, flag_position.y, flag_position.src)
     end_of_level.scale.setTo(1.5, 1.5)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+        
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
     totalDistance = world_bounds.x
