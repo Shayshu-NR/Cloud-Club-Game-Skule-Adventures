@@ -52,7 +52,7 @@ function preload() {
     game.load.image('bahen', './assets/Bahen/Bahen.png')
     game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
     game.load.image('coin', './assets/SF_Pit/coin.png')
-    game.load.image('tracks','./assets/progress_tracks.png')
+    game.load.image('tracks', './assets/progress_tracks.png')
     game.load.image('playerFace', './assets/Main Sprite.png')
     game.load.image('hourglass', './assets/hourglass.png')
         //~~~~~~~~~~~~~~~~~~~~~~
@@ -65,7 +65,7 @@ function preload() {
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
-    game.load.image('pole', './assets/flag_pole.png',32,32)
+    game.load.image('pole', './assets/flag_pole.png', 32, 32)
     game.load.image('asteroid', './assets/Space/Asteroid.png')
     game.load.image('ufo', './assets/Space/UFO.png')
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -245,13 +245,13 @@ function create() {
     coinsText.text = coins;
     coinsText.fixedToCamera = true;
 
-    track = game.add.tileSprite(210,35,392,16,'tracks')
+    track = game.add.tileSprite(210, 35, 392, 16, 'tracks')
     track.fixedToCamera = true;
 
     pole = game.add.image(580, 12, 'pole')
-    pole.scale.setTo(0.2,0.2)
+    pole.scale.setTo(0.2, 0.2)
     pole.fixedToCamera = true;
-    hourglass = game.add.tileSprite(665,18,32,32,'hourglass')
+    hourglass = game.add.tileSprite(665, 18, 32, 32, 'hourglass')
     hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
@@ -359,7 +359,7 @@ function create() {
 
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
-    totalDistance= world_bounds.x
+    totalDistance = world_bounds.x
     game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
     game.camera.follow(player)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -415,7 +415,6 @@ function update() {
     game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
     game.physics.arcade.collide(player, flag, function next_level(player, flag) {
         alert("You won");
-        game.player_attributes = [player.currentState, score, coins]
         location.reload();
     }, null, this)
     game.physics.arcade.collide(platforms, integral, integralKill, null, this)
@@ -493,9 +492,9 @@ function update() {
     }
 
     //Progress bar
-    progress = player.body.position.x/totalDistance*400+200
+    progress = player.body.position.x / totalDistance * 400 + 200
 
-    progressBar.x = progress+this.camera.view.x
+    progressBar.x = progress + this.camera.view.x
 
     if (player.position.y >= 568) {
         falloutofworld(player);
