@@ -172,13 +172,13 @@ function create() {
     integral.enableBody = true
     book.enableBody = true
     button.enableBody = true;
-        //~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~
     const e_switch = button.create(50, 495, 'button')
-    for (var i=0; i < 10; i++) {
+    for (var i = 0; i < 10; i++) {
         const coins = diamonds.create(i, i, 'diamond')
         coins.e_switch = true
         arrayOfCoins.push(coins)
-    
+
     }
 
     //~~~~~ Ground/ledge creation ~~~~~
@@ -359,7 +359,7 @@ function update() {
     //  Setup collisions for the player, diamonds, and our platforms
     game.physics.arcade.collide(player, button, function buttonChange() {
         console.log(arrayOfCoins)
-        
+
         if (isBrick == true) {
             for (var i = 0; i < arrayOfCoins.length; i++) {
                 arrayOfCoins[i].kill()
@@ -367,9 +367,7 @@ function update() {
                 arrayOfCoins[i].body.immovable = true
             }
             isBrick = false;
-        }
-
-        if (isBrick == false) {
+        } else if (isBrick == false) {
             for (var i = 0; i < arrayOfCoins.length; i++) {
                 arrayOfCoins[i].kill()
                 arrayOfCoins[i] = brick.create(i, i, 'brick')
