@@ -48,19 +48,16 @@ function preload() {
 
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/SF_Pit/ground.png')
-    game.load.image('brick', './assets/brick.png')
     game.load.image('table', './assets/SF_Pit/table.png')
+    game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
-    game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
-    game.load.image('blue_vending_machine', './assets/Bahen/blue_vending_machine.png')
-    game.load.image('red_vending_machine', './assets/Bahen/red_vending_machine.png')
-    game.load.image('garbage', './assets/Bahen/garbage.png')
-    game.load.image('garbage', './assets/Bahen/seats.png')
+    game.load.image('door', './assets/SF_Pit/door.png')
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
     game.load.image('lava', './assets/SF_Pit/lava.png')
+    game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32)
         //~~~~~~~~~~~~~~~~~~~
 
