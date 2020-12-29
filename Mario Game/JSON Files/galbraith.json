@@ -1,0 +1,70 @@
+{
+    "World": {
+        "x": 4800,
+        "y": 600
+    },
+    "Player":{
+        "x":0,
+        "y":0
+    },
+    "Background": [{
+        "x": 0,
+        "y": 0,
+        "height": 600,
+        "width": 800,
+        "src": "space",
+        "tile": true
+    }],
+    "FlagPole": {
+
+    },
+    "Ground": [
+        {
+            "start_x": 0,
+            "end_x": 96,
+            "height": 400,
+            "src": "moon_ground"
+        }
+        
+    ],
+    "Platform": [{
+            "x": 160,
+            "y": 400,
+            "height": 32,
+            "width": 400,
+            "src": "asteroid"
+        }
+        
+    ],
+    "QBlocks": [
+        {
+            "x": 165,
+            "y": 275,
+            "powerUp": "fireflower"
+        }
+        
+    ],
+    "Bricks": [
+        {
+            "x": 197,
+            "y": 275,
+            "counter": 3
+        }
+    ],
+    "Enemies": [
+        {
+            "src": "goomba",
+            "x": 350,
+            "y": 320,
+            "tween_x": 400,
+            "tween_y": 320,
+            "tween_speed": 1000,
+            "animate": false,
+            "lazer": false,
+            "static": false
+        }
+
+    ]
+
+
+}
