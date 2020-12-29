@@ -30,12 +30,6 @@
         }
     ],
 
-    "FlagPole": {
-        "x": 6000,
-        "y": 240,
-        "src": "flag_pole"
-    },
-
     "Ground": [{
             "start_x": 0,
             "end_x": 300,
@@ -89,25 +83,73 @@
         }
     ],
 
-    "Enemies": [
-        {
-            "src": "lava",
-            "x": 300,
-            "y": 570,
-            "tween_x": false,
-            "tween_y": false,
-            "tween_speed": false,
-            "animate": false,
-            "lazer": false,
-            "static": true
-        },
-        {
+    "Enemies": [{
+        "src": "lava",
+        "x": 300,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    },{
+        "src": "lava",
+        "x": 700,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    },{
+        "src": "lava",
+        "x": 1100,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    },{
+        "src": "lava",
+        "x": 1500,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    },{
+        "src": "lava",
+        "x": 1900,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    },{
+        "src": "lava",
+        "x": 2100,
+        "y": 570,
+        "tween_x": false,
+        "tween_y": false,
+        "tween_speed": false,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    }, {
             "src": "goomba",
             "x": 400,
             "y": 368,
             "tween_x": 768,
             "tween_y": 368,
-            "tween_speed": 3000,
+            "tween_speed": 4000,
             "animate": false,
             "lazer": false,
             "static": false

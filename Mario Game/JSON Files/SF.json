@@ -61,25 +61,25 @@
         "src": "table"
     }, {
         "x": 1700,
-        "y": 568,
+        "y": 558,
         "height": 32,
         "width": 30,
         "src": "table"
     }, {
         "x": 1800,
-        "y": 430,
+        "y": 420,
         "height": 32,
         "width": 200,
         "src": "table"
     }, {
         "x": 1900,
-        "y": 568,
+        "y": 558,
         "height": 32,
         "width": 30,
         "src": "table"
     }, {
         "x": 2050,
-        "y": 568,
+        "y": 558,
         "height": 32,
         "width": 30,
         "src": "table"
@@ -104,18 +104,6 @@
         }
     ],
 
-    "Bricks": [{
-            "x": 50,
-            "y": 450,
-            "counter": 1
-        }, 
-        {
-            "x": 114,
-            "y": 450,
-            "counter": 5
-        }
-    ],
-
     "Enemies": [
         {
             "src": "lava",
@@ -127,8 +115,67 @@
             "animate": false,
             "lazer": false,
             "static": true
-        },
-        {
+        },{
+            "src": "lava",
+            "x": 700,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 1100,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 1500,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 1900,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 2300,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
+            "src": "lava",
+            "x": 2700,
+            "y": 570,
+            "tween_x": false,
+            "tween_y": false,
+            "tween_speed": false,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },{
             "src": "goomba",
             "x": 2200,
             "y": 398,
