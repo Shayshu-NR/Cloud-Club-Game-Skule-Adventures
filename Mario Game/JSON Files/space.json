@@ -11,55 +11,65 @@
         "src": "space",
         "tile": true
     }],
-    "FlagPole": {},
+    "FlagPole": {
+        "x": 2725,
+        "y": 100,
+        "src": "flag_pole"
+    },
     "Ground": [
         {
             "start_x": 0,
             "end_x": 96,
             "height": 400,
-            "src": "ground"
+            "src": "moon_ground"
         },
         {
             "start_x": 775,
             "end_x": 1125,
             "height": 247,
-            "src": "ground"
+            "src": "moon_ground"
         },
         {
             "start_x": 775,
             "end_x": 1125,
             "height": 350,
-            "src": "ground"
+            "src": "moon_ground"
         },
         {
             "start_x": 1300,
             "end_x": 1650,
             "height": 425,
-            "src": "ground"
+            "src": "moon_ground"
         },
         {
             "start_x": 1300,
             "end_x": 1650,
             "height": 175,
-            "src": "ground"
+            "src": "moon_ground"
         },
         {
             "start_x": 1500,
             "end_x": 1650,
             "height": 275,
-            "src": "ground"
+            "src": "moon_ground"
         },
         {
             "start_x": 1650,
             "end_x": 1700,
             "height": 225,
-            "src": "ground"
+            "src": "moon_ground"
         },
         {
             "start_x": 1650,
             "end_x": 1700,
             "height": 300,
-            "src": "ground"
+            "src": "moon_ground"
+        },
+        {
+            "start_x": 2500,
+            "end_x": 2950,
+            "height": 400,
+            "src": "moon_ground"
         }
     ],
     "Platform": [{
@@ -106,6 +116,20 @@
                 "y": 300,
                 "speed": 3000
             }
+        },
+        {
+            "x": 2050,
+            "y": 375,
+            "hegiht": 32,
+            "width": 400,
+            "src": "asteroid"
+        },
+        {
+            "x": 2300,
+            "y": 425,
+            "hegiht": 32,
+            "width": 400,
+            "src": "asteroid"
         }
     ],
     "QBlocks": [
@@ -196,6 +220,28 @@
             "y": 215,
             "tween_x": 1100,
             "tween_y": 215,
+            "tween_speed": 1000,
+            "animate": false,
+            "lazer": false,
+            "static": false
+        },
+        {
+            "src": "goomba",
+            "x": 2050,
+            "y": 343,
+            "tween_x": 2125,
+            "tween_y": 343,
+            "tween_speed": 1000,
+            "animate": false,
+            "lazer": false,
+            "static": false
+        },
+        {
+            "src": "goomba",
+            "x": 2300,
+            "y": 393,
+            "tween_x": 2370,
+            "tween_y": 393,
             "tween_speed": 1000,
             "animate": false,
             "lazer": false,
