@@ -9,11 +9,7 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 // Declare shared variables at the top so all methods can access them
 var score = 0
 var coins = 0
-var totalDistance
-var coinsText
 var scoreText
-var progressBar
-var progress
 var platforms
 var diamonds
 var cursors
@@ -39,6 +35,8 @@ var playerPowerUp;
 var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
+var hammerReturn = false;
+var enemyPoints = 100;
 
 
 function preload() {
@@ -51,10 +49,6 @@ function preload() {
     game.load.image('space', './assets/Space/Space_Background.jpg')
     game.load.image('bahen', './assets/Bahen/Bahen.png')
     game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
-    game.load.image('coin', './assets/SF_Pit/coin.png')
-    game.load.image('tracks', './assets/progress_tracks.png')
-    game.load.image('playerFace', './assets/Main Sprite.png')
-    game.load.image('hourglass', './assets/hourglass.png')
         //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
@@ -65,9 +59,9 @@ function preload() {
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
     game.load.image('flag_pole', './assets/flag_pole.png')
-    game.load.image('pole', './assets/flag_pole.png', 32, 32)
     game.load.image('asteroid', './assets/Space/Asteroid.png')
     game.load.image('ufo', './assets/Space/UFO.png')
+    game.load.image('pole', './assets/flag_pole.png')
         //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
@@ -90,9 +84,9 @@ function preload() {
 
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
-    game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
+    game.load.spritesheet('player', './assets/MainSprite2.png', 32, 32)
     game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
-    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    game.load.spritesheet('big_player', './assets/bigmainsprite2.png', 32, 64)
         //~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Sound ~~~~~
@@ -104,6 +98,10 @@ function preload() {
     game.load.image("space_ship", './assets/spaceship.png')
     game.load.image("red_lazer", './assets/lazer_red.png')
     game.load.image("blue_lazer", './assets/lazer.png')
+    game.load.image('tracks', './assets/progress_tracks.png')
+    game.load.image('coin', './assets/SF_Pit/coin.png')
+    game.load.image('playerFace', './assets/Main Sprite.png')
+    game.load.image('hourglass', './assets/hourglass.png')
         //~~~~~~~~~~~~~~~~
 }
 
@@ -221,11 +219,11 @@ function create() {
     player.currentState = 'small'
 
     player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
-    player.animations.add('left_blink', [10, 20, 9, 20, 8, 20, 10, 20, 7, 20, 6, 20, 10, 20], 10, true)
-    player.animations.add('right_blink', [0, 20, 1, 20, 2, 20, 0, 20, 3, 20, 4, 20, 0, 20], 10, true)
+    player.animations.add('left_blink', [10, 23, 9, 23, 8, 23, 10, 23, 7, 23, 6, 23, 10, 23], 10, true)
+    player.animations.add('right_blink', [0, 23, 1, 23, 2, 23, 0, 23, 3, 23, 4, 23, 0, 23], 10, true)
     player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
     player.animations.add('stop', [5], 10, true)
-    player.animations.add('stop_blink', [20, 5, 20], 10, true)
+    player.animations.add('stop_blink', [23, 5, 23], 10, true)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Create the score text and timer ~~~~~
@@ -233,29 +231,30 @@ function create() {
     scoreText.text = 'Score: 0';
     scoreText.fixedToCamera = true
 
-    livesText = game.add.text(50, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
+    livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
     livesText.text = lives;
     livesText.fixedToCamera = true;
     progressBar = game.add.tileSprite(200, 16, 32, 32, 'playerFace')
-    face = game.add.tileSprite(10, 50, 32, 32, 'playerFace')
+    face = game.add.tileSprite(10, 46, 32, 32, 'playerFace')
     face.fixedToCamera = true;
     coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
     coin.fixedToCamera = true;
-    coinsText = game.add.text(50, 87, '', { fontSize: '32px', fill: '#FFFFFF' })
+    coinsText = game.add.text(55, 91, '', { fontSize: '32px', fill: '#FFFFFF' })
     coinsText.text = coins;
     coinsText.fixedToCamera = true;
 
+    //progress bar tracks
     track = game.add.tileSprite(210, 35, 392, 16, 'tracks')
     track.fixedToCamera = true;
+
 
     pole = game.add.image(580, 12, 'pole')
     pole.scale.setTo(0.2, 0.2)
     pole.fixedToCamera = true;
-    hourglass = game.add.tileSprite(665, 18, 32, 32, 'hourglass')
+    hourglass = game.add.tileSprite(665, 14, 32, 32, 'hourglass')
     hourglass.fixedToCamera = true;
     this.timeLimit = 500
     this.timeText = game.add.text(700, 20, "00:00")
-    this.timeText.fixedToCamera = true
     this.timeText.fill = "#FFFFFF"
     this.timer = game.time.events.loop(1000, tick, this)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -309,8 +308,11 @@ function create() {
 
         const new_nme = enemy.create(nme_x, nme_y, nme_src)
         new_nme.static = enemy_location[i].static
+        new_nme.health = enemy_location[i].health
 
-
+        if (new_nme.static) {
+            new_nme.body.immovable = true
+        }
         if (nme_tween_x != false) {
             var new_tween = game.add.tween(new_nme)
             new_tween.to({ x: nme_tween_x, y: nme_tween_y }, nme_tween_speed, null, true, 0, 100000000, true)
@@ -356,7 +358,7 @@ function create() {
     const end_of_level = flag.create(flag_position.x, flag_position.y, flag_position.src)
     end_of_level.scale.setTo(1.5, 1.5)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+        
     //~~~~~ World and camera settings ~~~~~
     var world_bounds = json_parsed.World
     totalDistance = world_bounds.x
@@ -385,8 +387,9 @@ function update() {
     game.physics.arcade.collide(player, powerUp, powerUp_ingest, null, this)
     game.physics.arcade.collide(hazard, platforms)
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
+
     game.physics.arcade.collide(fireballs, enemy, function enemyKill(fireballs, enemy) {
-        enemy.kill();
+        if (!enemy.static) enemy.kill();
         fireballs.kill();
         score += enemyPoints;
         scoreText.text = 'Score: ' + score
@@ -395,7 +398,7 @@ function update() {
         }
     }, null, this)
     game.physics.arcade.collide(derivative, enemy, function enemyKill(derivative, enemy) {
-        enemy.kill();
+        if (!enemy.static) enemy.kill();
         derivative.kill();
         score += enemyPoints;
         scoreText.text = 'Score: ' + score
@@ -404,7 +407,7 @@ function update() {
         }
     }, null, this)
     game.physics.arcade.collide(integral, enemy, function enemyKill(integral, enemy) {
-        enemy.kill();
+        if (!enemy.static) enemy.kill();
         integral.kill();
         score += enemyPoints;
         scoreText.text = 'Score: ' + score
@@ -412,15 +415,8 @@ function update() {
             enemy.lazer_timer.loop = false
         }
     }, null, this)
-    game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
-    game.physics.arcade.collide(player, flag, function next_level(player, flag) {
-        alert("You won");
-        location.reload();
-    }, null, this)
-    game.physics.arcade.collide(platforms, integral, integralKill, null, this)
-    game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
     game.physics.arcade.collide(hammer, enemy, function enemyKill(hammer, enemy) {
-        enemy.kill();
+        if (!enemy.static) enemy.kill();
         score += enemyPoints;
         scoreText.text = 'Score: ' + score
         if (enemy.lazer_timer) {
@@ -428,15 +424,30 @@ function update() {
         }
         hammer.body.velocity.x *= -1;
     }, null, this)
+
+
+    game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
+    game.physics.arcade.collide(player, flag, function next_level(player, flag) {
+        alert("You won");
+        game.player_attributes = [player.currentState,score,coins]
+        location.reload();
+    }, null, this)
+    game.physics.arcade.collide(platforms, integral, integralKill, null, this)
+    game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
     game.physics.arcade.collide(platforms, hammer, function hammerReturn(platforms, hammer) {
         hammer.kill();
         keyReset = false;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
-    game.physics.arcade.collide(player, lazer, kill_mario, null, this)
 
-    if (!player.isInvincible)
-        game.physics.arcade.overlap(player, enemy, kill_mario, null, this);
+
+    if (!player.isInvincible) {
+        game.physics.arcade.overlap(player, enemy, function(enemy, player) {
+            kill_mario(enemy, player)
+                //enemy.lazer_timer.loop = false
+        }, null, this);
+        game.physics.arcade.collide(player, lazer, kill_mario, null, this)
+    }
 
     //does the mario coin brick interaction where the diamond gets killed and added to score board
     //issue - we can't have diamonds prespawned on bricks
@@ -445,8 +456,6 @@ function update() {
     //  Call callectionDiamond() if player overlaps with a diamond
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
 
-
-
     var velocity_x = 300
     var velocity_y = -500
         // Configure the controls!
@@ -454,6 +463,7 @@ function update() {
         velocity_x = 700;
     }
     if (cursors.left.isDown) {
+        player.facing = -1;
         player.body.velocity.x = -velocity_x;
         if (player.isInvincible) {
             player.animations.play('left_blink')
@@ -461,6 +471,7 @@ function update() {
             player.animations.play('left')
         }
     } else if (cursors.right.isDown) {
+        player.facing = 1;
         player.body.velocity.x = velocity_x;
         if (player.isInvincible) {
             player.animations.play('right_blink')
@@ -495,7 +506,7 @@ function update() {
     progress = player.body.position.x / totalDistance * 400 + 200
 
     progressBar.x = progress + this.camera.view.x
-
+    
     if (player.position.y >= 568) {
         falloutofworld(player);
     }
@@ -558,6 +569,7 @@ function update() {
             keyReset = false;
         }
     }
+
     if (hammer_instance != 0) {
         if (hammer_instance.limit > 0) {
             if (hammer_instance.body.position.x >= hammer_instance.forward_limit) {
@@ -635,23 +647,31 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     // Make sure the player is overtop the hazard 
-    if (player.position.y + player.body.height <= hazard.position.y) {
-
+    if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
+        console.log("j")
         if (!hazard.static) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false
             }
-            hazard.kill()
-
+            if (hazard.health >= 0) {
+                console.log(hazard.health)
+                if (hazard.health == 0) {
+                    hazard.kill()
+                } else {
+                    hazard.health--
+                        lastHit = timing
+                    player.isInvincible = true
+                }
+            }
             return
         }
     }
 
-    //this checks whether mario has a power up or not.
-    if (powerUpHierarchy[player.currentState] >= 1) {
+    //this checks whether mario has a power up or not.    
+    else if (powerUpHierarchy[player.currentState] >= 1) {
 
-        state--
-        console.log("State:" + state)
+        player.state--
+            console.log("State:" + state)
         lastHit = timing
         player.isInvincible = true
 
@@ -680,7 +700,6 @@ function kill_mario(player, hazard) {
         location.reload(true);
     }
 
-    hazard.kill();
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -859,7 +878,7 @@ function hammerTime(hammer, player) {
         //adding some spin
 
     h.return = false;
-    //h.body.angularVelocity = 1000;
+    h.body.angularVelocity = 1000;
     h.body.velocity.y = 0;
     h.body.velocity.x = 200 * player.facing;
     return h;
@@ -921,6 +940,10 @@ function integralKill(platforms, integral) {
 function hammerGrab(player, hammer) {
     hammer.kill();
     keyReset = false;
+}
+
+function hammerReturn() {
+    console.log("Return");
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
