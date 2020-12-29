@@ -501,7 +501,10 @@ function update() {
     if (game.input.keyboard.justReleased(Phaser.Keyboard.UP)) {
         keyResetJump = false;
     }
+    //Progress bar
+    progress = player.body.position.x / totalDistance * 400 + 200
 
+    progressBar.x = progress + this.camera.view.x
     if (player.position.y >= 568) {
         falloutofworld(player);
     }
