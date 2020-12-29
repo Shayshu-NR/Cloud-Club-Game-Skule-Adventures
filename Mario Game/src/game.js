@@ -82,8 +82,8 @@ function preload() {
     //~~~~~ Player model ~~~~~
     game.load.image('diamond', './assets/diamond.png')
     game.load.spritesheet('player', './assets/Main Sprite.png', 32, 32)
-    game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup2.png', 32, 64)
-    game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
+    game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
+    game.load.spritesheet('big_player', './assets/bigmainsprite2.png', 32, 64)
     //~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Sound ~~~~~
@@ -391,7 +391,7 @@ function update() {
         hammer.body.velocity.x *= -1;
     }, null, this)
     game.physics.arcade.collide(hammer, player, hammerGrab, null, this)
-    game.physics.arcade.collide(player, lazer, kill_mario, null, this)
+    
 
     if (!player.isInvincible){
         game.physics.arcade.overlap(player, enemy, function(enemy, player){

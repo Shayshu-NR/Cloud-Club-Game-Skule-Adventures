@@ -693,8 +693,10 @@ function powerUp_ingest(player, powerUp) {
 
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')
+            powerUp.kill()
         } else if (powerUp.power_type == 'mushroom') {
             player.loadTexture('big_player')
+            powerUp.kill()
         } else if (powerUp.power_type == "hammer") {
             player.loadTexture("big_player")
             powerUp.kill()
