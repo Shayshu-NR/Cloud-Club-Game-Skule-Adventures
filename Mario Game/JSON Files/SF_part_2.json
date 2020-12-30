@@ -3,7 +3,7 @@
         "x": 3200,
         "y": 600
     },
-    
+
     "Player": {
         "x": 32,
         "y": 450
@@ -30,12 +30,11 @@
     "FlagPole": {},
 
     "Ground": [{
-            "start_x": 0,
-            "end_x": 400,
-            "height": 560,
-            "src": "ground"
-        }
-    ],
+        "start_x": 0,
+        "end_x": 400,
+        "height": 560,
+        "src": "ground"
+    }],
 
     "Platform": [{
         "x": 400,
@@ -58,28 +57,32 @@
     }],
 
     "QBlocks": [{
-            "x": 82,
-            "y": 450,
-            "powerUp": "coffee"
-        }
-    ],
+        "x": 82,
+        "y": 450,
+        "powerUp": "coffee"
+    }],
 
     "Bricks": [],
 
+    "Eswitch": [{
+        "x": 200,
+        "y": 500
+    }],
+
     "Enemies": [{
-            "src": "goomba",
-            "x": 2200,
-            "y": 398,
-            "tween_x": 2268,
-            "tween_y": 398,
-            "tween_speed": 3000,
-            "animate": {
-                "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
-            "lazer": false,
-            "static": false
-        }
-    ]
+        "src": "goomba",
+        "x": 2200,
+        "y": 398,
+        "tween_x": 2268,
+        "tween_y": 398,
+        "tween_speed": 3000,
+        "animate": [{
+            "name": "walk",
+            "frames": [0, 1, 2],
+            "delay": 4,
+            "play": true
+        }],
+        "lazer": false,
+        "static": false
+    }]
 }
