@@ -696,18 +696,22 @@ function kill_mario(player, hazard) {
         } else if (powerUpHierarchy[player.currentState] >= 1) {
             player.currentState = "small";
             player.body.height = 32
+            player.position.y+=32
             player.loadTexture("player");
         }
 
     } 
     else {
         //life is lost
-        console.log("Restarting")
-        lives--
         if (lives == 0) {
             //needs to be across the screen in big red letters
+            alert("Game Over")
             game.state.start("MenuScreen")
         }
+        console.log("Restarting")
+        lives--
+        livesText.text = lives
+        
         console.log("Restarting")
         player.kill();
         game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }

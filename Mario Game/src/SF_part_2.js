@@ -760,8 +760,8 @@ function kill_mario(player, hazard) {
             player.loadTexture("big_player");
         } else if (powerUpHierarchy[player.currentState] >= 1) {
             player.currentState = "small";
+            player.position.y+=32
             player.body.height = 32
-            player.position.y-=32
             player.loadTexture("player");
         }
 
