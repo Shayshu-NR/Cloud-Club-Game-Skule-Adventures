@@ -689,6 +689,112 @@ Mario_Game.SF_part_2.prototype = {
     }
 }
 
+//~~~~~ Timer and score ~~~~~
+var tick = function() {
+    this.timeLimit--;
+    var minutes = Math.floor(this.timeLimit / 60);
+    var seconds = this.timeLimit - (minutes * 60);
+    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
+    this.timeText.text = timeString;
+    if (this.timeLimit === 0) {
+        outofTime();
+    }
+};
+
+var addZeros = function(num) {
+    if (num < 10) {
+        num = "0" + num;
+    }
+    return num;
+};
+
+var outofTime = function() {
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+    alert("Out of Time!");
+    location.reload();
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~ Death Scripts ~~~~~
+function falloutofworld(player) {
+    player.kill();
+    var die_noise = game.add.audio("mario_die");
+    die_noise.play();
+    alert("Game over");
+    location.reload();
+}
+
+function kill_mario(player, hazard) {
+    // Make sure the player is overtop the hazard 
+    console.log("Lives"+player.lives)
+    if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
+        if (!hazard.static) {
+            if (hazard.lazer_timer) {
+                hazard.lazer_timer.loop = false
+            }
+            if (hazard.health >= 0) {
+                console.log(hazard.health)
+                if (hazard.health == 0) {
+                    hazard.kill()
+                } else {
+                    hazard.health--
+                        lastHit = timing
+                    player.isInvincible = true
+                }
+            }
+            return
+        }
+    }
+
+    //this checks whether mario has a power up or not.    
+    else if (powerUpHierarchy[player.currentState] >= 1) {
+
+        player.state--
+        lastHit = timing
+        player.isInvincible = true
+
+        if (powerUpHierarchy[player.currentState] >= 2) {
+            player.currentState = "mushroom";
+            player.loadTexture("big_player");
+        } else if (powerUpHierarchy[player.currentState] >= 1) {
+            player.currentState = "small";
+            player.position.y+=32
+            player.body.height = 32
+            player.loadTexture("player");
+        }
+
+    } else {
+        //life is lost
+        console.log(player.lives)
+        if (player.lives > 0) {
+            player.lives--
+            console.log("Dead ")
+            livesText.text = player.lives
+            //needs to be across the screen in big red letters
+            player.position.x = 0
+            player.position.y = 0
+        }
+        else{
+        
+        alert("All lives lost! Game over");
+        var die_noise = game.add.audio("mario_die");
+        //die_noise.play();
+        }
+        
+    }
+
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~ Neutral Block Collision ~~~~~
+function brick_break(player, block) {
+    //Only break the brick when the player is below 
+    //and not hittin gon the sides
+    console.log('Player (x,y):', "(", player.position.x, player.position.y, ")")
+    console.log('Block (x,y):', "(", block.position.x, block.position.y, ")")
 function eswitch_timer(button) {
     for (var i = 0; i < arrayOfCoins.length; i++) {
         if (arrayOfCoins[i] != null) {
@@ -752,3 +858,164 @@ function collectDiamond(player, diamond) {
     score += 10
     scoreText.text = 'Score: ' + score
 }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~ Power Up Ingestion ~~~~~
+function powerUp_ingest(player, powerUp) {
+    console.log(player)
+
+    if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
+        if(player.body.height == 32){player.position.y = player.position.y - 32}
+        
+        player.body.height = 64
+        
+        player.currentState = powerUp.power_type
+
+        if (powerUp.power_type == 'fireflower') {
+            player.loadTexture('big_purple_player')
+        } else if (powerUp.power_type == 'mushroom') {
+            player.loadTexture('big_player')
+        } else if (powerUp.power_type == "hammer") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "text") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "derivative") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "integral") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == 'coffee') {
+            player.loadTexture('big_player');
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of coffee")
+                player[0].currentState = "mushroom";
+            }, this, [player])
+        }
+    }
+    powerUp.kill()
+    console.log(player.currentState)
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~ Player Projectiles ~~~~~
+function Derivatives(derivative, player) {
+    console.log(player.body.velocity)
+    const d = derivative.create(player.position.x, player.position.y, "derivative")
+    d.body.gravity.y = 400;
+    d.body.velocity.y = 0;
+    d.bounce = 0;
+    d.body.velocity.x = 500 * player.facing;
+}
+
+function Integrals(integral, derivative, player) {
+    console.log(player.body.velocity)
+    const i = integral.create(player.position.x, player.position.y, "integral")
+    i.body.gravity.y = 400;
+    i.body.velocity.y = 0;
+    i.bounce = 0;
+    i.body.velocity.x = 500 * player.facing;
+
+    const d = derivative.create(player.position.x, player.position.y, "derivative")
+    d.body.gravity.y = 300;
+    d.body.velocity.y = 0;
+    ``
+    d.bounce = 0;
+    d.body.velocity.x = 600 * -player.facing
+}
+
+function TextBook(book, player) {
+    const t = derivative.create(player.position.x, player.position.y, 'text')
+    t.body.velocity.y = 0;
+    t.bounce = 0;
+    t.body.velocity.x = 600 * player.facing
+    t.animations.add('rotate', [0, 1, 2, 3], 10, true)
+    t.animations.play('rotate')
+}
+
+function hammerTime(hammer, player) {
+    var player_x = player.position.x;
+    var player_y = player.position.y;
+
+    //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
+    const h = hammer.create(player_x, player_y + 16, 'hammer')
+    h.limit = 300 * player.facing;
+
+    h.forward_limit = player_x + (300 * player.facing)
+    h.backwards_limit = player_x
+        //adding some spin
+
+    h.return = false;
+    h.body.angularVelocity = 1000;
+    h.body.velocity.y = 0;
+    h.body.velocity.x = 200 * player.facing;
+    return h;
+}
+
+function Fireballs(fireballs, player) {
+
+    console.log(player.body.velocity)
+    const f = fireballs.create(player.position.x, player.position.y, "fireball")
+    f.body.gravity.y = 400;
+    f.body.velocity.y = 0;
+    f.bounce = 0;
+    f.body.velocity.x = 400 * player.facing;
+
+}
+
+function fireballKill(platforms, fireballs) {
+    console.log("Platfors in FBK: ", platforms.position.y, fireballs.position.y)
+    if (fireballs.position.y + 28 >= platforms.position.y) {
+        fireballs.kill();
+        return;
+    }
+
+    fireballs.body.velocity.y = -100;
+    fireballs.bounce++;
+    if (fireballs.bounce == 5) {
+        fireballs.kill();
+    }
+
+}
+
+function derivativeKill(platforms, derivative) {
+    if (derivative.position.y + 28 >= platforms.position.y) {
+        derivative.kill();
+        return;
+    }
+
+    derivative.body.velocity.y = -100;
+    derivative.bounce++;
+    if (derivative.bounce == 5) {
+        derivative.kill();
+    }
+}
+
+function integralKill(platforms, integral) {
+    if (integral.position.y + 28 >= platforms.position.y) {
+        integral.kill();
+        return;
+    }
+
+    integral.body.velocity.y = -100;
+    integral.bounce++;
+    if (integral.bounce == 5) {
+        integral.kill();
+    }
+
+}
+
+function hammerGrab(player, hammer) {
+    hammer.kill();
+    keyReset = false;
+}
+
+function hammerReturn() {
+    console.log("Return");
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
