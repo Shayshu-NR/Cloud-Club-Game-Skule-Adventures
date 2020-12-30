@@ -646,21 +646,17 @@ var addZeros = function(num) {
 };
 
 var outofTime = function() {
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-    alert("Out of Time!");
-    location.reload();
+    game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+    game.state.start('SF_part_1')
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //~~~~~ Death Scripts ~~~~~
 function falloutofworld(player) {
-    player.kill();
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-    alert("Game over");
-    location.reload();
+    player.kill()
+    game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+    game.state.start('SF_part_1')
 }
 
 function kill_mario(player, hazard) {
