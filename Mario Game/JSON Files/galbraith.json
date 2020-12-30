@@ -16,7 +16,9 @@
         "tile": true
     }],
     "FlagPole": {
-
+        "x": 3150,
+        "y": 50,
+        "src": "flag_pole"
     },
     "Ground": [
         {
@@ -59,6 +61,12 @@
             "start_x": 1428,
             "end_x": 1600,
             "height": 390,
+            "src": "galbraith_ground"
+        },
+        {
+            "start_x": 2900,
+            "end_x": 3500,
+            "height": 350,
             "src": "galbraith_ground"
         }
         
@@ -111,6 +119,34 @@
         "height": 32,
         "width": 400,
         "src": "galbraith_ground"
+    },
+    {
+        "x": 2400,
+        "y": 390,
+        "height": 32,
+        "width": 400,
+        "src": "galbraith_ground"
+    },
+    {
+        "x": 2550,
+        "y": 200,
+        "height": 32,
+        "width": 400,
+        "src": "stair"
+    },
+    {
+        "x": 2625,
+        "y": 250,
+        "height": 32,
+        "width": 400,
+        "src": "stair"
+    },
+    {
+        "x": 2700,
+        "y": 300,
+        "height": 32,
+        "width": 400,
+        "src": "stair"
     }
         
     ],
