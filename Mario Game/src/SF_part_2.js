@@ -30,6 +30,12 @@ var lastHit = 520
 var hammerReturn = false;
 var enemyPoints = 10;
 var door;
+var arrayOfCoins = []
+var buttonPressed = false;
+var button;
+var isBrick = false;
+var es_coins
+
 
 Mario_Game.SF_part_2 = function(game) {
 
@@ -39,7 +45,7 @@ Mario_Game.SF_part_2.prototype = {
     preload: function() {
         console.log("SF_part")
             //~~~~~ Json file ~~~~~
-        game.load.text("shayshu_json", "./JSON Files/SF_part_3.json")
+        game.load.text("shayshu_json", "./JSON Files/SF_part_2.json")
             //~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Background ~~~~~
@@ -56,9 +62,10 @@ Mario_Game.SF_part_2.prototype = {
         game.load.image('door', './assets/SF_Pit/door.png')
         game.load.image('pole', './assets/flag_pole.png')
         game.load.image('tracks', './assets/progress_tracks.png')
-        game.load.image('coin', './assets/SF_Pit/coin.png')
+        game.load.spritesheet('coin', './assets/SF_Pit/coin.png', 32, 32)
         game.load.image('playerFace', './assets/Main Sprite.png')
         game.load.image('hourglass', './assets/hourglass.png')
+        game.load.spritesheet("button", './assets/SF_Pit/e-switch.png', 18, 20)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Enemies ~~~~~
@@ -134,7 +141,8 @@ Mario_Game.SF_part_2.prototype = {
         flag = game.add.group()
         lazer = game.add.group()
         door = game.add.group();
-        //~~~~~~~~~~~~~~~~~~
+        button = game.add.group()
+            //~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Enable body ~~~~~
         platforms.enableBody = true
@@ -152,7 +160,8 @@ Mario_Game.SF_part_2.prototype = {
         integral.enableBody = true
         book.enableBody = true
         door.enableBody = true
-            //~~~~~~~~~~~~~~~~~~~~~~~
+        button.enableBody = true;
+        //~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~~Door~~~~~~~~~~~~~
 
@@ -255,8 +264,9 @@ Mario_Game.SF_part_2.prototype = {
         face = game.add.tileSprite(10, 46, 32, 32, 'playerFace')
         face.fixedToCamera = true;
         coins = game.player_attributes["coins"]
-        coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
+        coin = game.add.image(16, 85, 'coin')
         coin.fixedToCamera = true;
+        coin.button = false;
         coinsText = game.add.text(55, 91, '', { fontSize: '32px', fill: '#FFFFFF' })
         coinsText.text = coins;
         coinsText.fixedToCamera = true;
@@ -377,6 +387,20 @@ Mario_Game.SF_part_2.prototype = {
         end_of_level.scale.setTo(1.5, 1.5)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        es_coins = json_parsed.Eswitch
+        for (var i = 0; i < es_coins.length; i++) {
+            const es_coin = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
+            es_coin.button = true
+            es_coin.animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
+            es_coin.animations.play('spin')
+            arrayOfCoins.push(es_coin)
+        }
+
+        button = button.create(100, 515, 'button')
+        button.body.immovable = true
+        button.animations.add('pressed', [0, 1, 2, 3, 4], 20, false)
+        button.animations.add('depressed', [4, 3, 2, 1, 0], 20, false)
+
         //~~~~~ World and camera settings ~~~~~
         var world_bounds = json_parsed.World
         totalDistance = world_bounds.x
@@ -393,6 +417,45 @@ Mario_Game.SF_part_2.prototype = {
         if ((lastHit - timing) > 2) {
             player.isInvincible = false
         }
+
+        //  Setup collisions for the player, diamonds, and our platforms
+        game.physics.arcade.collide(player, button, function buttonChange() {
+            console.log(buttonPressed)
+
+            if (buttonPressed == false) {
+                // button.animations.play('pressed')
+
+                buttonPressed = true;
+                button.animations.play('pressed')
+                button.kill
+
+                if (isBrick == true) {
+                    for (var i = 0; i < arrayOfCoins.length; i++) {
+                        if (arrayOfCoins[i] != null && arrayOfCoins[i].button) {
+                            arrayOfCoins[i].kill()
+                            arrayOfCoins[i] = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
+                            arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
+                            arrayOfCoins[i].animations.play('spin')
+                            arrayOfCoins[i].body.immovable = true
+                        }
+                    }
+                    isBrick = false;
+                } else if (isBrick == false) {
+                    for (var i = 0; i < arrayOfCoins.length; i++) {
+                        if (arrayOfCoins[i] != null) {
+                            arrayOfCoins[i].kill()
+                            arrayOfCoins[i] = brick.create(es_coins[i].x, es_coins[i].y, 'brick')
+                            arrayOfCoins[i].button = true;
+                            arrayOfCoins[i].body.immovable = true
+                        }
+                    }
+                    isBrick = true
+                }
+
+                game.time.events.add(1000, eswitch_timer, this, [button])
+            }
+
+        })
 
         //  Setup collisions for the player, diamonds, and our platforms
         game.physics.arcade.collide(player, platforms)
@@ -624,4 +687,68 @@ Mario_Game.SF_part_2.prototype = {
         scoreText.x = 16 + this.camera.view.x
 
     }
+}
+
+function eswitch_timer(button) {
+    for (var i = 0; i < arrayOfCoins.length; i++) {
+        if (arrayOfCoins[i] != null) {
+            arrayOfCoins[i].kill()
+            arrayOfCoins[i] = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
+            arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
+            arrayOfCoins[i].animations.play('spin')
+        }
+    }
+    button[0].animations.play('depressed')
+    buttonPressed = false;
+}
+
+function brick_break(player, block) {
+
+    var player_x = player.position.x + 16
+    var player_y = player.position.y + 16
+
+    var block_x = block.position.x
+    var block_y = block.position.y
+
+    if (player_y < block_y) {
+        return
+    } else if (player_x > block_x + 32) {
+        return
+    } else if (player_x < block_x) {
+        return
+    } else if (block.counter > 0) {
+        block.counter--
+            var break_sound = game.add.audio('brick_sound')
+        break_sound.play()
+        const dia = diamonds.create(block_x, block_y - 50, 'diamond')
+        dia.body.gravity.y = 1000
+        dia.body.velocity.y = -100
+        dia.body.bounce.y = 1
+    } else {
+        if (arrayOfCoins.includes(block)) {
+            var index = arrayOfCoins.indexOf(block)
+            arrayOfCoins[index].kill()
+            arrayOfCoins[index] = null
+            return;
+        }
+
+        block.kill()
+    }
+}
+
+function collectDiamond(player, diamond) {
+    console.log("Unique ID for diamound: ", diamond.unique)
+
+    if (arrayOfCoins.includes(diamond)) {
+        var index = arrayOfCoins.indexOf(diamond)
+        arrayOfCoins[index].kill();
+        arrayOfCoins[index] = null
+    } else {
+        // Removes the diamond from the screen
+        diamond.kill()
+    }
+
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
 }
