@@ -52,6 +52,7 @@ function preload() {
     game.load.image('ground', './assets/platform.png')
     game.load.image('galbraith_ground', './assets/Galbraith/Brick_platform.jpg')
     game.load.image('stone_platform', './assets/Galbraith/Stone_platform.jpg')
+    game.load.image('stair', './assets/Galbraith/platform.jpg')
     game.load.image('brick', './assets/Brown_Brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')

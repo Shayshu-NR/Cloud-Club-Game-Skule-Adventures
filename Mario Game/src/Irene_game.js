@@ -45,8 +45,7 @@ function preload() {
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
     game.load.image('space', './assets/Space/Space_Background.jpg')
-    game.load.image('bahen', './assets/Bahen/Bahen.png')
-    game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
+
     //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
