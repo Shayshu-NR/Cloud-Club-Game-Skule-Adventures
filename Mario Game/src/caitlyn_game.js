@@ -58,7 +58,7 @@ function preload() {
     //~~~~~ Enemies ~~~~~
     game.load.image('lava', './assets/SF_Pit/lava.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-    game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32)
+    game.load.spritesheet('derivative', './assets/SF_Pit/derivative.png', 32, 32)
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Power ups ~~~~~

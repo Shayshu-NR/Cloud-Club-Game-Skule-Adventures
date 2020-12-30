@@ -3,6 +3,11 @@
         "x": 3200,
         "y": 600
     },
+    
+    "Player": {
+        "x": 32,
+        "y": 350
+    },
 
     "Background": [{
             "x": 0,
@@ -14,7 +19,6 @@
         }
     ],
 
-
     "FlagPole": {
         "x": 3000,
         "y": 260,
@@ -25,21 +29,27 @@
 
     "Platform": [{
         "x": 0,
-        "y": 560,
+        "y": 470,
         "height": 32,
         "width": 400,
         "src": "pipe"
     },{
-        "x": 400,
-        "y": 400,
+        "x": 800,
+        "y": 300,
+        "height": 32,
+        "width": 200,
+        "src": "pipe"
+    }, {
+        "x": 1400,
+        "y": 232,
         "height": 32,
         "width": 400,
         "src": "pipe"
     }, {
-        "x": 1300,
-        "y": 300,
+        "x": 1400,
+        "y": 464,
         "height": 32,
-        "width": 200,
+        "width": 400,
         "src": "pipe"
     }, {
         "x": 2000,
@@ -50,29 +60,29 @@
     }],
 
     "QBlocks": [{
-        "x": 82,
-        "y": 450,
-        "powerUp": "fireflower"
+        "x": 92,
+        "y": 350,
+        "powerUp": "hammer"
     }],
 
     "Bricks": [{
-            "x": 50,
-            "y": 450,
+            "x": 60,
+            "y": 350,
             "counter": 1
         },
         {
-            "x": 114,
-            "y": 450,
+            "x": 124,
+            "y": 350,
             "counter": 5
         }
     ],
 
     "Enemies": [{
         "src": "goomba",
-        "x": 400,
-        "y": 368,
-        "tween_x": 768,
-        "tween_y": 368,
+        "x": 368,
+        "y": 438,
+        "tween_x": 10,
+        "tween_y": 438,
         "tween_speed": 4000,
         "animate": {
             "name": "walk",
@@ -81,5 +91,49 @@
         },
         "lazer": false,
         "static": false
-    }]
+    }, {
+        "src": "goomba",
+        "x": 800,
+        "y": 268,
+        "tween_x": 968,
+        "tween_y": 268,
+        "tween_speed": 3000,
+        "animate": {
+            "name": "walk",
+            "frames": [0, 1, 2],
+            "delay": 4
+        },
+        "lazer": false,
+        "static": false
+    },
+    {
+        "src": "astronaut",
+        "x": 1400,
+        "y": 168,
+        "tween_x": 1736,
+        "tween_y": 168,
+        "tween_speed": 5000,
+        "animate": {
+            "name": "walk",
+            "frames": [0],
+            "delay": 4
+        },
+        "lazer": true
+    },
+    {
+        "src": "astronaut",
+        "x": 1400,
+        "y": 400,
+        "tween_x": 1736,
+        "tween_y": 400,
+        "tween_speed": 5000,
+        "animate": {
+            "name": "walk",
+            "frames": [0],
+            "delay": 4
+        },
+        "lazer": true
+    }
+
+]
 }

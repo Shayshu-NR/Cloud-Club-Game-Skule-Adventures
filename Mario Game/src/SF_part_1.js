@@ -29,7 +29,8 @@ var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
 var enemyPoints = 10;
-var door;
+var door
+var jumpCount = 0
 
 Mario_Game.SF_part_1 = function(game) {
 
@@ -69,6 +70,7 @@ Mario_Game.SF_part_1.prototype = {
 
         //~~~~~ Power ups ~~~~~
         game.load.image('fireflower', './assets/fireflower.png')
+        game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
             //~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Player model ~~~~~
@@ -198,13 +200,14 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~ Player attributes ~~~~~
         player = game.add.sprite(json_parsed.Player.x, json_parsed.Player.y, 'player')
         game.physics.arcade.enable(player)
-        player.lives = 3
+        player.lives = game.player_attributes["lives"]
+        lives = game.player_attributes["lives"]
         player.state = 3
         player.facing = 1;
         player.body.bounce.y = 0
         player.body.gravity.y = 1000
         player.body.collideWorldBounds = true
-        player.currentState = 'small'
+        player.currentState = game.player_attributes["current_state"]
 
         player.animations.add('left', [10, 9, 8, 10, 7, 6, 10], 10, true)
         player.animations.add('left_blink', [10, 23, 9, 23, 8, 23, 10, 23, 7, 23, 6, 23, 10, 23], 10, true)
@@ -212,9 +215,38 @@ Mario_Game.SF_part_1.prototype = {
         player.animations.add('right', [0, 1, 2, 0, 3, 4, 0], 10, true)
         player.animations.add('stop', [5], 10, true)
         player.animations.add('stop_blink', [23, 5, 23], 10, true)
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        if (player.currentState == 'fireflower') {
+            player.loadTexture('big_purple_player')
+            player.body.height = 64
+        } else if (player.currentState == 'mushroom') {
+            player.loadTexture('big_player')
+            player.body.height = 64
+        } else if (player.currentState == "hammer") {
+            player.loadTexture("big_player")
+            player.body.height = 64
+        } else if (player.currentState == "text") {
+            player.loadTexture("big_player")
+            player.body.height = 64
+        } else if (player.currentState == "derivative") {
+            player.loadTexture("big_player")
+            player.body.height = 64
+        } else if (player.currentState == "integral") {
+            player.loadTexture("big_player")
+            player.body.height = 64
+        } else if (player.currentState == 'coffee') {
+            player.loadTexture('big_player');
+            player.body.height = 64
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of coffee")
+                player[0].currentState = "mushroom";
+            }, this, [player])
+            player.body.height = 64
+        }
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Create the score text and timer ~~~~~
+        score = game.player_attributes["score"]
         scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
         scoreText.text = 'Score: 0';
         scoreText.fixedToCamera = true
@@ -225,6 +257,7 @@ Mario_Game.SF_part_1.prototype = {
         progressBar = game.add.tileSprite(200, 16, 32, 32, 'playerFace')
         face = game.add.tileSprite(10, 46, 32, 32, 'playerFace')
         face.fixedToCamera = true;
+        coins = game.player_attributes["coins"]
         coin = game.add.tileSprite(16, 85, 32, 32, 'coin')
         coin.fixedToCamera = true;
         coinsText = game.add.text(55, 91, '', { fontSize: '32px', fill: '#FFFFFF' })
@@ -426,10 +459,8 @@ Mario_Game.SF_part_1.prototype = {
 
 
         if (!player.isInvincible) {
-            game.physics.arcade.overlap(player, enemy, function(enemy, player) {
-                kill_mario(enemy, player)
-                    //enemy.lazer_timer.loop = false
-            }, null, this);
+
+            game.physics.arcade.overlap(player, enemy, kill_mario, null, this)
             game.physics.arcade.collide(player, lazer, kill_mario, null, this)
         }
 
@@ -443,6 +474,7 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~~~~~~~~~~~ *DOOR* Moving to Different State *DOOR* ~~~~~~~~~~~~~~
         if (player.position.x >= doorx - 20 && player.position.x <= doorx + 20) {
             if (cursors.up.isDown) {
+                game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
                 game.state.start("SF_part_2");
             }
         }
@@ -629,7 +661,9 @@ function falloutofworld(player) {
 
 function kill_mario(player, hazard) {
     // Make sure the player is overtop the hazard 
+    console.log("Collision")
     if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
+        console.log("Restarting")
         if (!hazard.static) {
             if (hazard.lazer_timer) {
                 hazard.lazer_timer.loop = false
@@ -650,7 +684,7 @@ function kill_mario(player, hazard) {
 
     //this checks whether mario has a power up or not.    
     else if (powerUpHierarchy[player.currentState] >= 1) {
-
+        console.log("Restarting")
         player.state--
             console.log("State:" + state)
         lastHit = timing
@@ -667,18 +701,16 @@ function kill_mario(player, hazard) {
 
     } else {
         //life is lost
+        console.log("Restarting")
         lives--
         if (lives <= 0) {
             //needs to be across the screen in big red letters
-            alert("All lives lost! Game over");
-            this.input.keyboard.enabled = false
+            game.state.start("MenuScreen")
         }
+        console.log("Restarting")
         player.kill();
-
-        var die_noise = game.add.audio("mario_die");
-        //die_noise.play();
-
-        location.reload(true);
+        game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+        game.state.start('SF_part_1')
     }
 
 }
@@ -774,15 +806,13 @@ function collectBDiamond(brick, diamond) {
 
 //~~~~~ Power Up Ingestion ~~~~~
 function powerUp_ingest(player, powerUp) {
-    console.log("powerUp_ingest")
 
     if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
-        console.log(player.position)
-        player.position.y = player.position.y - 32
+        if (player.body.height == 32) {
+            player.position.y = player.position.y - 32
+        }
         player.body.height = 64
-        player.position.y -= 32
         player.currentState = powerUp.power_type
-        console.log(player.position.y)
 
         if (powerUp.power_type == 'fireflower') {
             player.loadTexture('big_purple_player')

@@ -79,6 +79,10 @@ function preload() {
 
     //~~~~~ Sound ~~~~~
     game.load.audio("mario_die", './assets/smb_mariodie.wav')
+
+    //~~~~~ Misc ~~~~~
+    game.load.image("space_ship", './assets/lazer_red.png')
+    //~~~~~~~~~~~~~~~~
 }
 
 function create() {
@@ -173,7 +177,7 @@ function create() {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Player attributes ~~~~~
-    player = game.add.sprite(32, game.world.height - 150, 'player')
+    player = game.add.sprite(32, 350, 'player')
     game.physics.arcade.enable(player)
     player.lives = 3
     player.state = 3
