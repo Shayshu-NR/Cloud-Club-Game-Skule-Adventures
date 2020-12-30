@@ -13,8 +13,73 @@
         "height": 600,
         "width": 800,
         "src": "brick_background",
-        "tile": true
-    }],
+        "tile": false
+    },
+    {
+        "x": 800,
+        "y": 0,
+        "height": 600,
+        "width": 800,
+        "src": "brick_background",
+        "tile": false
+    },
+    {
+        "x": 1600,
+        "y": 0,
+        "height": 600,
+        "width": 800,
+        "src": "brick_background",
+        "tile": false
+    },
+    {
+        "x": 2400,
+        "y": 0,
+        "height": 600,
+        "width": 800,
+        "src": "brick_background",
+        "tile": false
+    },
+    {
+        "x": 3200,
+        "y": 0,
+        "height": 600,
+        "width": 800,
+        "src": "brick_background",
+        "tile": false
+    },
+    {
+        "x": 0,
+        "y": 0,
+        "height": 600,
+        "width": 400,
+        "src": "entry",
+        "tile": false
+    },
+    {
+        "x": 500,
+        "y": 430,
+        "height": 32,
+        "width": 64,
+        "src": "floor1",
+        "tile": false
+    },
+    {
+        "x": 1550,
+        "y": 300,
+        "height": 32,
+        "width": 64,
+        "src": "floor2",
+        "tile": false
+    },
+    {
+        "x": 1550,
+        "y": 90,
+        "height": 32,
+        "width": 64,
+        "src": "floor3",
+        "tile": false
+    }
+    ],
     "FlagPole": {
         "x": 3150,
         "y": 50,
@@ -72,8 +137,8 @@
         
     ],
     "Platform": [{
-        "x": 575,
-        "y": 350,
+        "x": 800,
+        "y": 330,
         "height": 32,
         "width": 400,
         "src": "galbraith_ground"
@@ -154,12 +219,12 @@
         {
             "x": 132,
             "y": 425,
-            "powerUp": "integral"
+            "powerUp": "derivative"
         },
         {
-            "x": 732,
-            "y": 250,
-            "powerUp": "coffee"
+            "x": 1032,
+            "y": 230,
+            "powerUp": "integral"
         }
         
     ],
@@ -175,25 +240,37 @@
             "counter": 3
         },
         {
-            "x": 700,
-            "y": 250,
+            "x": 1000,
+            "y": 230,
             "counter": 3
         },
         {
-            "x": 764,
-            "y": 250,
+            "x": 1064,
+            "y": 230,
             "counter": 3
         },
         {
-            "x": 1100,
-            "y": 350,
+            "x": 2320,
+            "y": 50,
             "counter": 3
         },
         {
-            "x": 1132,
-            "y": 350,
+            "x": 2352,
+            "y": 50,
+            "counter": 3
+        },
+        {
+            "x": 2450,
+            "y": 280,
+            "counter": 3
+        },
+        {
+            "x": 2482,
+            "y": 280,
             "counter": 3
         }
+
+
     ],
     "Enemies": [{
         "src": "goomba",
@@ -238,7 +315,74 @@
         "animate": false,
         "lazer": false,
         "static": false
+    },
+    {
+        "src": "enemy",
+        "x": 1800,
+        "y": 330,
+        "tween_x": 1800,
+        "tween_y": 330,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": true,
+        "static": false
+    },
+    {
+        "src": "goomba",
+        "x": 2000,
+        "y": 362,
+        "tween_x": 2200,
+        "tween_y": 362,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    },
+    {
+        "src": "enemy",
+        "x": 1550,
+        "y": 90,
+        "tween_x": 1550,
+        "tween_y": 90,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": true,
+        "static": false
+    },
+    {
+        "src": "spike",
+        "x": 2200,
+        "y": 120,
+        "tween_x": 2200,
+        "tween_y": 120,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    },
+    {
+        "src": "spike",
+        "x": 2450,
+        "y": 120,
+        "tween_x": 2450,
+        "tween_y": 120,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": false,
+        "static": true
+    },
+    {
+        "src": "goomba",
+        "x": 2900,
+        "y": 320,
+        "tween_x": 3100,
+        "tween_y": 320,
+        "tween_speed": 1000,
+        "animate": false,
+        "lazer": false,
+        "static": false
     }
+
 
 
     ]
