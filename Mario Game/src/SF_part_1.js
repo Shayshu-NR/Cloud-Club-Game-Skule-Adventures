@@ -745,7 +745,6 @@ function brick_break(player, block) {
     } else {
         block.kill()
     }
-
 }
 
 function question_break(player, block) {
