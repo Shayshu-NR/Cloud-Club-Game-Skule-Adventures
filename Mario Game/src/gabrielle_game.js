@@ -221,7 +221,7 @@ function create() {
 
     //~~~~~ Cursors ~~~~~
     cursors = game.input.keyboard.createCursorKeys({
-            up: 'up',
+            w: 'up',
             down: 'down',
             left: 'left',
             right: 'right',
@@ -409,7 +409,7 @@ function update() {
     if (player.body.touching.down) {
         jumpCount = 2;
     }
-    if (game.input.keyboard.justPressed(Phaser.Keyboard.UP) && jumpCount > 0 && !keyResetJump) {
+    if (game.input.keyboard.justPressed(Phaser.Keyboard.W) && jumpCount > 0 && !keyResetJump) {
         keyResetJump = true;
         player.body.velocity.y = velocity_y;
         jumpCount--;

@@ -354,9 +354,9 @@ Mario_Game.SF_part_1.prototype = {
 
 
                 }
-                if (nme_animate[0].play == true) {
+                /*if (nme_animate[0].play == true) {
                     new_nme.animations.play(nme_animate[0].name)
-                }
+                }*/
             }
 
             if (enemy_location[i].lazer) {
@@ -699,11 +699,12 @@ function kill_mario(player, hazard) {
             player.loadTexture("player");
         }
 
-    } else {
+    } 
+    else {
         //life is lost
         console.log("Restarting")
         lives--
-        if (lives <= 0) {
+        if (lives == 0) {
             //needs to be across the screen in big red letters
             game.state.start("MenuScreen")
         }
