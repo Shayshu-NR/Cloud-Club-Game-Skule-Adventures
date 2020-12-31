@@ -719,6 +719,7 @@ var outofTime = function() {
 
 //~~~~~ Death Scripts ~~~~~
 function falloutofworld(player) {
+    lives--
     player.kill();
     var die_noise = game.add.audio("mario_die");
     die_noise.play();

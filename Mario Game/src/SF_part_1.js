@@ -654,6 +654,7 @@ var outofTime = function() {
 
 //~~~~~ Death Scripts ~~~~~
 function falloutofworld(player) {
+    lives--
     player.kill()
     game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
     game.state.start('SF_part_1')
@@ -703,18 +704,21 @@ function kill_mario(player, hazard) {
     } 
     else {
         //life is lost
+        lives--
+        livesText.text = lives
         if (lives == 0) {
             //needs to be across the screen in big red letters
             alert("Game Over")
             game.state.start("MenuScreen")
+            //restart
+            game.player_attributes = { "current_state": "small", "lives": 3, "score": 0, "coins": 0}
+        } else {
+            game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
         }
         console.log("Restarting")
-        lives--
-        livesText.text = lives
         
         console.log("Restarting")
         player.kill();
-        game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
         game.state.start('SF_part_1')
     }
 
