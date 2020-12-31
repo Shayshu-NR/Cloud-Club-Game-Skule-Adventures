@@ -248,7 +248,7 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~ Create the score text and timer ~~~~~
         score = game.player_attributes["score"]
         scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
-        scoreText.text = 'Score: 0';
+        scoreText.text = 'Score: '+score;
         scoreText.fixedToCamera = true
 
         livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })

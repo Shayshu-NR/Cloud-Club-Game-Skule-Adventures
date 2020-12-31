@@ -28,7 +28,7 @@ var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
-var enemyPoints = 10;
+var enemyPoints = 100;
 var door;
 var arrayOfCoins = []
 var buttonPressed = false;
@@ -254,7 +254,7 @@ Mario_Game.SF_part_2.prototype = {
         //~~~~~ Create the score text and timer ~~~~~
         score = game.player_attributes["score"]
         scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
-        scoreText.text = 'Score: 0';
+        scoreText.text = 'Score: '+score;
         scoreText.fixedToCamera = true
 
         livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
@@ -857,6 +857,19 @@ function collectDiamond(player, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+    coins++
+    coinsText.text = coins
+}
+
+function collectBDiamond(brick, diamond) {
+    // Removes the diamond from the screen for the brick and diamond interaction
+    diamond.kill()
+
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
+    coins++
+    coinsText.text = coins
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
