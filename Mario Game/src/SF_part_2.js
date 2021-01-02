@@ -798,246 +798,241 @@ function kill_mario(player, hazard) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //~~~~~ Neutral Block Collision ~~~~~
+function eswitch_timer(button) {
+    for (var i = 0; i < arrayOfCoins.length; i++) {
+        if (arrayOfCoins[i] != null) {
+            arrayOfCoins[i].kill()
+            arrayOfCoins[i] = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
+            arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
+            arrayOfCoins[i].animations.play('spin')
+        }
+    }
+    button[0].animations.play('depressed')
+    buttonPressed = false;
+}
+
+
 function brick_break(player, block) {
-    //Only break the brick when the player is below 
-    //and not hittin gon the sides
-    console.log('Player (x,y):', "(", player.position.x, player.position.y, ")")
-    console.log('Block (x,y):', "(", block.position.x, block.position.y, ")")
 
-    function eswitch_timer(button) {
-        for (var i = 0; i < arrayOfCoins.length; i++) {
-            if (arrayOfCoins[i] != null) {
-                arrayOfCoins[i].kill()
-                arrayOfCoins[i] = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
-                arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
-                arrayOfCoins[i].animations.play('spin')
-            }
-        }
-        button[0].animations.play('depressed')
-        buttonPressed = false;
-    }
+    var player_x = player.position.x + 16
+    var player_y = player.position.y + 16
 
-    function brick_break(player, block) {
+    var block_x = block.position.x
+    var block_y = block.position.y
 
-        var player_x = player.position.x + 16
-        var player_y = player.position.y + 16
-
-        var block_x = block.position.x
-        var block_y = block.position.y
-
-        if (player_y < block_y) {
-            return
-        } else if (player_x > block_x + 32) {
-            return
-        } else if (player_x < block_x) {
-            return
-        } else if (block.counter > 0) {
-            block.counter--
-                var break_sound = game.add.audio('brick_sound')
-            break_sound.play()
-            const dia = diamonds.create(block_x, block_y - 50, 'diamond')
-            dia.body.gravity.y = 1000
-            dia.body.velocity.y = -100
-            dia.body.bounce.y = 1
-        } else {
-            if (arrayOfCoins.includes(block)) {
-                var index = arrayOfCoins.indexOf(block)
-                arrayOfCoins[index].kill()
-                arrayOfCoins[index] = null
-                return;
-            }
-
-            block.kill()
-        }
-    }
-
-    function collectDiamond(player, diamond) {
-        console.log("Unique ID for diamound: ", diamond.unique)
-
-        if (arrayOfCoins.includes(diamond)) {
-            var index = arrayOfCoins.indexOf(diamond)
-            arrayOfCoins[index].kill();
+    if (player_y < block_y) {
+        return
+    } else if (player_x > block_x + 32) {
+        return
+    } else if (player_x < block_x) {
+        return
+    } else if (block.counter > 0) {
+        block.counter--
+            var break_sound = game.add.audio('brick_sound')
+        break_sound.play()
+        const dia = diamonds.create(block_x, block_y - 50, 'diamond')
+        dia.body.gravity.y = 1000
+        dia.body.velocity.y = -100
+        dia.body.bounce.y = 1
+    } else {
+        if (arrayOfCoins.includes(block)) {
+            var index = arrayOfCoins.indexOf(block)
+            arrayOfCoins[index].kill()
             arrayOfCoins[index] = null
-        } else {
-            // Removes the diamond from the screen
-            diamond.kill()
+            return;
         }
 
-        //  And update the score
-        score += 10
-        scoreText.text = 'Score: ' + score
-        coins++
-        coinsText.text = coins
+        block.kill()
     }
+}
 
-    function collectBDiamond(brick, diamond) {
-        // Removes the diamond from the screen for the brick and diamond interaction
+function collectDiamond(player, diamond) {
+    console.log("Unique ID for diamound: ", diamond.unique)
+
+    if (arrayOfCoins.includes(diamond)) {
+        var index = arrayOfCoins.indexOf(diamond)
+        arrayOfCoins[index].kill();
+        arrayOfCoins[index] = null
+    } else {
+        // Removes the diamond from the screen
         diamond.kill()
-
-        //  And update the score
-        score += 10
-        scoreText.text = 'Score: ' + score
-        coins++
-        coinsText.text = coins
     }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
+    coins++
+    coinsText.text = coins
+}
 
-    //~~~~~ Power Up Ingestion ~~~~~
-    function powerUp_ingest(player, powerUp) {
-        console.log(player)
+function collectBDiamond(brick, diamond) {
+    // Removes the diamond from the screen for the brick and diamond interaction
+    diamond.kill()
 
-        if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
-            if (player.body.height == 32) { player.position.y = player.position.y - 32 }
+    //  And update the score
+    score += 10
+    scoreText.text = 'Score: ' + score
+    coins++
+    coinsText.text = coins
+}
 
-            player.body.height = 64
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-            player.currentState = powerUp.power_type
+//~~~~~ Power Up Ingestion ~~~~~
+function powerUp_ingest(player, powerUp) {
+    console.log(player)
 
-            if (powerUp.power_type == 'fireflower') {
-                player.loadTexture('big_purple_player')
-            } else if (powerUp.power_type == 'mushroom') {
-                player.loadTexture('big_player')
-            } else if (powerUp.power_type == "hammer") {
-                player.loadTexture("big_player")
-                powerUp.kill()
-            } else if (powerUp.power_type == "text") {
-                player.loadTexture("big_player")
-                powerUp.kill()
-            } else if (powerUp.power_type == "derivative") {
-                player.loadTexture("big_player")
-                powerUp.kill()
-            } else if (powerUp.power_type == "integral") {
-                player.loadTexture("big_player")
-                powerUp.kill()
-            } else if (powerUp.power_type == 'coffee') {
-                player.loadTexture('big_player');
-                game.time.events.add(10000, function(player) {
-                    console.log("Getting rid of coffee")
-                    player[0].currentState = "mushroom";
-                }, this, [player])
-            }
-        }
-        powerUp.kill()
-        console.log(player.currentState)
-    }
+    if (powerUpHierarchy[player.currentState] <= powerUpHierarchy[powerUp.power_type]) {
+        if (player.body.height == 32) { player.position.y = player.position.y - 32 }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        player.body.height = 64
 
-    //~~~~~ Player Projectiles ~~~~~
-    function Derivatives(derivative, player) {
-        console.log(player.body.velocity)
-        const d = derivative.create(player.position.x, player.position.y, "derivative")
-        d.body.gravity.y = 400;
-        d.body.velocity.y = 0;
-        d.bounce = 0;
-        d.body.velocity.x = 500 * player.facing;
-    }
+        player.currentState = powerUp.power_type
 
-    function Integrals(integral, derivative, player) {
-        console.log(player.body.velocity)
-        const i = integral.create(player.position.x, player.position.y, "integral")
-        i.body.gravity.y = 400;
-        i.body.velocity.y = 0;
-        i.bounce = 0;
-        i.body.velocity.x = 500 * player.facing;
-
-        const d = derivative.create(player.position.x, player.position.y, "derivative")
-        d.body.gravity.y = 300;
-        d.body.velocity.y = 0;
-        ``
-        d.bounce = 0;
-        d.body.velocity.x = 600 * -player.facing
-    }
-
-    function TextBook(book, player) {
-        const t = derivative.create(player.position.x, player.position.y, 'text')
-        t.body.velocity.y = 0;
-        t.bounce = 0;
-        t.body.velocity.x = 600 * player.facing
-        t.animations.add('rotate', [0, 1, 2, 3], 10, true)
-        t.animations.play('rotate')
-    }
-
-    function hammerTime(hammer, player) {
-        var player_x = player.position.x;
-        var player_y = player.position.y;
-
-        //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
-        const h = hammer.create(player_x, player_y + 16, 'hammer')
-        h.limit = 300 * player.facing;
-
-        h.forward_limit = player_x + (300 * player.facing)
-        h.backwards_limit = player_x
-            //adding some spin
-
-        h.return = false;
-        h.body.angularVelocity = 1000;
-        h.body.velocity.y = 0;
-        h.body.velocity.x = 200 * player.facing;
-        return h;
-    }
-
-    function Fireballs(fireballs, player) {
-
-        console.log(player.body.velocity)
-        const f = fireballs.create(player.position.x, player.position.y, "fireball")
-        f.body.gravity.y = 400;
-        f.body.velocity.y = 0;
-        f.bounce = 0;
-        f.body.velocity.x = 400 * player.facing;
-
-    }
-
-    function fireballKill(platforms, fireballs) {
-        console.log("Platfors in FBK: ", platforms.position.y, fireballs.position.y)
-        if (fireballs.position.y + 28 >= platforms.position.y) {
-            fireballs.kill();
-            return;
-        }
-
-        fireballs.body.velocity.y = -100;
-        fireballs.bounce++;
-        if (fireballs.bounce == 5) {
-            fireballs.kill();
-        }
-
-    }
-
-    function derivativeKill(platforms, derivative) {
-        if (derivative.position.y + 28 >= platforms.position.y) {
-            derivative.kill();
-            return;
-        }
-
-        derivative.body.velocity.y = -100;
-        derivative.bounce++;
-        if (derivative.bounce == 5) {
-            derivative.kill();
+        if (powerUp.power_type == 'fireflower') {
+            player.loadTexture('big_purple_player')
+        } else if (powerUp.power_type == 'mushroom') {
+            player.loadTexture('big_player')
+        } else if (powerUp.power_type == "hammer") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "text") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "derivative") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == "integral") {
+            player.loadTexture("big_player")
+            powerUp.kill()
+        } else if (powerUp.power_type == 'coffee') {
+            player.loadTexture('big_player');
+            game.time.events.add(10000, function(player) {
+                console.log("Getting rid of coffee")
+                player[0].currentState = "mushroom";
+            }, this, [player])
         }
     }
+    powerUp.kill()
+    console.log(player.currentState)
+}
 
-    function integralKill(platforms, integral) {
-        if (integral.position.y + 28 >= platforms.position.y) {
-            integral.kill();
-            return;
-        }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        integral.body.velocity.y = -100;
-        integral.bounce++;
-        if (integral.bounce == 5) {
-            integral.kill();
-        }
+//~~~~~ Player Projectiles ~~~~~
+function Derivatives(derivative, player) {
+    console.log(player.body.velocity)
+    const d = derivative.create(player.position.x, player.position.y, "derivative")
+    d.body.gravity.y = 400;
+    d.body.velocity.y = 0;
+    d.bounce = 0;
+    d.body.velocity.x = 500 * player.facing;
+}
 
+function Integrals(integral, derivative, player) {
+    console.log(player.body.velocity)
+    const i = integral.create(player.position.x, player.position.y, "integral")
+    i.body.gravity.y = 400;
+    i.body.velocity.y = 0;
+    i.bounce = 0;
+    i.body.velocity.x = 500 * player.facing;
+
+    const d = derivative.create(player.position.x, player.position.y, "derivative")
+    d.body.gravity.y = 300;
+    d.body.velocity.y = 0;
+    ``
+    d.bounce = 0;
+    d.body.velocity.x = 600 * -player.facing
+}
+
+function TextBook(book, player) {
+    const t = derivative.create(player.position.x, player.position.y, 'text')
+    t.body.velocity.y = 0;
+    t.bounce = 0;
+    t.body.velocity.x = 600 * player.facing
+    t.animations.add('rotate', [0, 1, 2, 3], 10, true)
+    t.animations.play('rotate')
+}
+
+function hammerTime(hammer, player) {
+    var player_x = player.position.x;
+    var player_y = player.position.y;
+
+    //depends on player size, if the player is big, we need the projectile to be slightly lower to hit the enemy
+    const h = hammer.create(player_x, player_y + 16, 'hammer')
+    h.limit = 300 * player.facing;
+
+    h.forward_limit = player_x + (300 * player.facing)
+    h.backwards_limit = player_x
+        //adding some spin
+
+    h.return = false;
+    h.body.angularVelocity = 1000;
+    h.body.velocity.y = 0;
+    h.body.velocity.x = 200 * player.facing;
+    return h;
+}
+
+function Fireballs(fireballs, player) {
+
+    console.log(player.body.velocity)
+    const f = fireballs.create(player.position.x, player.position.y, "fireball")
+    f.body.gravity.y = 400;
+    f.body.velocity.y = 0;
+    f.bounce = 0;
+    f.body.velocity.x = 400 * player.facing;
+
+}
+
+function fireballKill(platforms, fireballs) {
+    console.log("Platfors in FBK: ", platforms.position.y, fireballs.position.y)
+    if (fireballs.position.y + 28 >= platforms.position.y) {
+        fireballs.kill();
+        return;
     }
 
-    function hammerGrab(player, hammer) {
-        hammer.kill();
-        keyReset = false;
+    fireballs.body.velocity.y = -100;
+    fireballs.bounce++;
+    if (fireballs.bounce == 5) {
+        fireballs.kill();
     }
 
-    function hammerReturn() {
-        console.log("Return");
+}
+
+function derivativeKill(platforms, derivative) {
+    if (derivative.position.y + 28 >= platforms.position.y) {
+        derivative.kill();
+        return;
     }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    derivative.body.velocity.y = -100;
+    derivative.bounce++;
+    if (derivative.bounce == 5) {
+        derivative.kill();
+    }
+}
+
+function integralKill(platforms, integral) {
+    if (integral.position.y + 28 >= platforms.position.y) {
+        integral.kill();
+        return;
+    }
+
+    integral.body.velocity.y = -100;
+    integral.bounce++;
+    if (integral.bounce == 5) {
+        integral.kill();
+    }
+
+}
+
+function hammerGrab(player, hammer) {
+    hammer.kill();
+    keyReset = false;
+}
+
+function hammerReturn() {
+    console.log("Return");
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
