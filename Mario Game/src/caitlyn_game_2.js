@@ -40,7 +40,7 @@ var hammerReturn = false;
 
 function preload() {
     // Load & Define our game assets
-    game.load.text("lassonde_json", "./JSON Files/lassonde.json")
+    game.load.text("lassonde_json", "./JSON Files/lassonde_part_1.json")
         //~~~~~ Background ~~~~~
     game.load.image('L', './assets/lassonde/background.png')
         //~~~~~~~~~~~~~~~~~~~
@@ -50,6 +50,7 @@ function preload() {
     game.load.image('brick', './assets/brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('flag_pole', './assets/flag_pole.png')
+    game.load.image('door', './assets/SF_Pit/door.png')
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
