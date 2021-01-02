@@ -19,14 +19,7 @@
         },
         {
             "x": 30,
-            "y": 505,
-            "height": 60,
-            "width": 35,
-            "src": "door",
-            "tile": false
-        }, {
-            "x": 3700,
-            "y": 505,
+            "y": 490,
             "height": 60,
             "width": 35,
             "src": "door",

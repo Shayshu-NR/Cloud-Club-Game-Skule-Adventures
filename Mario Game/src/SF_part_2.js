@@ -76,6 +76,13 @@ Mario_Game.SF_part_2.prototype = {
 
         //~~~~~ Power ups ~~~~~
         game.load.image('fireflower', './assets/fireflower.png')
+        game.load.image('hammer', './assets/32x32_hammer.png')
+        game.load.image('mushroom', './assets/temp_mushroom.png')
+        game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
+        game.load.spritesheet('text', './assets/textbook.png', 32, 32)
+        game.load.image('derivative', './assets/derivative_1.png')
+        game.load.image('integral', './assets/integral_1.png')
+        game.load.image('coffee', './assets/powerups/coffee_1_30x32.png')
             //~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Player model ~~~~~
@@ -86,7 +93,7 @@ Mario_Game.SF_part_2.prototype = {
             //~~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Sound ~~~~~
-        game.load.audio("mario_die", './assets/smb_mariodie.wav')
+        game.load.audio("mario_die", './assets/smb_mariodie.wav') 
         game.load.audio("lofi-hiphop", './assets/mario_theme_song.mp3')
             //~~~~~~~~~~~~~~~~~
     },

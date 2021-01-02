@@ -64,16 +64,23 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~ Enemies ~~~~~
         game.load.image('lava', './assets/SF_Pit/lava.png')
         game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-        game.load.spritesheet('derivative_e', './assets/derivative_1.png', 32, 32)
+        game.load.spritesheet('derivative_e', './assets/SF_Pit/derivative.png', 32, 32) //~~~~~~~~~~~~~~~~~~~
             // ~~~~~~~~~~~~~~~~~
 
         //~~~~~ Power ups ~~~~~
         game.load.image('fireflower', './assets/fireflower.png')
+        game.load.image('hammer', './assets/32x32_hammer.png')
+        game.load.image('mushroom', './assets/temp_mushroom.png')
         game.load.image('fireball', './assets/5d08f167c3a6a5d.png')
+        game.load.spritesheet('text', './assets/textbook.png', 32, 32)
+        game.load.image('derivative', './assets/derivative_1.png')
+        game.load.image('integral', './assets/integral_1.png')
+        game.load.image('coffee', './assets/powerups/coffee_1_30x32.png')
             //~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Player model ~~~~~
         game.load.image('diamond', './assets/diamond.png')
+        game.load.image('toike', './assets/SF_Pit/toike.png')
         game.load.spritesheet('player', './assets/MainSprite2.png', 32, 32)
         game.load.spritesheet('big_purple_player', './assets/Big_Main_SpritePowerup.png', 32, 64)
         game.load.spritesheet('big_player', './assets/bigmainsprite2.png', 32, 64)
@@ -157,8 +164,8 @@ Mario_Game.SF_part_1.prototype = {
 
         //~~~~~~Door~~~~~~~~~~~~~
         doorx = 2700;
-        doory = 505;
-        const door_body = door.create(2700, 505, "door");
+        doory = 500;
+        const door_body = door.create(2700, 490, "door");
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
