@@ -73,22 +73,32 @@
     }],
 
     "QBlocks": [{
-        "x": 82,
+        "x": 102,
         "y": 450,
         "powerUp": "fireflower"
     }],
 
     "Bricks": [{
-            "x": 50,
+            "x": 70,
             "y": 450,
             "counter": 1
         },
         {
-            "x": 114,
+            "x": 134,
             "y": 450,
             "counter": 5
         }
     ],
+
+    "Eswitch": [],
+
+    "ESCoins" : [],
+
+    "Toike": [
+        {
+            "x": 2300,
+            "y": 500
+        }],
 
     "Enemies": [{
         "src": "lava",
@@ -172,6 +182,26 @@
         "y": 500,
         "tween_x": 1000,
         "tween_y": 200,
+        "tween_speed": 1500,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    }, {
+        "src": "derivative_e",
+        "x": 1700,
+        "y": 400,
+        "tween_x": 1700,
+        "tween_y": 100,
+        "tween_speed": 1500,
+        "animate": false,
+        "lazer": false,
+        "static": false
+    }, {
+        "src": "derivative_e",
+        "x": 1800,
+        "y": 100,
+        "tween_x": 1800,
+        "tween_y": 400,
         "tween_speed": 1500,
         "animate": false,
         "lazer": false,

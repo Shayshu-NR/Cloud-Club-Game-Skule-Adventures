@@ -40,7 +40,7 @@ var hammerReturn = false;
 
 function preload() {
     // Load & Define our game assets
-    game.load.text("SF_json", "./JSON Files/SF_part_2.json")
+    game.load.text("SF_json", "./JSON Files/SF_part_3.json")
         //~~~~~ Background ~~~~~
     game.load.image('SF', './assets/SF_Pit/background.png')
     game.load.image('hard_hat_cafe', './assets/SF_Pit/sign.png')
