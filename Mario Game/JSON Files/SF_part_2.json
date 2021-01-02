@@ -24,7 +24,7 @@
             "width": 35,
             "src": "door",
             "tile": false
-        },{
+        }, {
             "x": 3700,
             "y": 505,
             "height": 60,
@@ -37,44 +37,43 @@
     "FlagPole": {},
 
     "Ground": [{
-            "start_x": 3600,
-            "end_x": 3900,
-            "height": 560,
-            "src": "ground"
-        }, {
-            "start_x": 0,
-            "end_x": 400,
-            "height": 560,
-            "src": "ground"
-        }
-    ],
+        "start_x": 3600,
+        "end_x": 3900,
+        "height": 560,
+        "src": "ground"
+    }, {
+        "start_x": 0,
+        "end_x": 400,
+        "height": 560,
+        "src": "ground"
+    }],
 
     "Platform": [],
 
     "QBlocks": [{
-        "x": 150,
+        "x": 102,
         "y": 450,
         "powerUp": "coffee"
     }],
 
     "Bricks": [{
-        "x": 70,
-        "y": 450,
-        "counter": 1
-    },
-    {
-        "x": 134,
-        "y": 450,
-        "counter": 5
-    }],
+            "x": 70,
+            "y": 450,
+            "counter": 1
+        },
+        {
+            "x": 134,
+            "y": 450,
+            "counter": 5
+        }
+    ],
 
-    "Eswitch": [{
+    "Eswitch": {
         "x": 250,
         "y": 528
-    }],
+    },
 
-    "ESCoins" : [
-        {
+    "ESCoins": [{
             "x": 1100,
             "y": 350
         }, {
@@ -84,7 +83,7 @@
             "x": 1164,
             "y": 350
         },
-    
+
         {
             "x": 300,
             "y": 200
@@ -94,13 +93,14 @@
         }, {
             "x": 364,
             "y": 200
+        }
+    ],
+
+    "Toike": [{
+        "x": 200,
+        "y": 100
     }],
 
-    "Toike": [
-        {   "x": 200,
-            "y": 100
-    }],
-    
     "Enemies": [{
         "src": "goomba",
         "x": 2200,

@@ -38,8 +38,7 @@ Mario_Game.SF_part_1 = function(game) {
 
 Mario_Game.SF_part_1.prototype = {
     preload: function() {
-        console.log("SF_part_1")
-            //~~~~~ Json file ~~~~~
+        //~~~~~ Json file ~~~~~
         game.load.text("shayshu_json", "./JSON Files/SF_part_1.json")
             //~~~~~~~~~~~~~~~~~~~~~
 
@@ -65,7 +64,7 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~ Enemies ~~~~~
         game.load.image('lava', './assets/SF_Pit/lava.png')
         game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-        game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32) //~~~~~~~~~~~~~~~~~~~
+        game.load.spritesheet('derivative_e', './assets/derivative_1.png', 32, 32)
             // ~~~~~~~~~~~~~~~~~
 
         //~~~~~ Power ups ~~~~~
@@ -157,7 +156,6 @@ Mario_Game.SF_part_1.prototype = {
             //~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~~Door~~~~~~~~~~~~~
-
         doorx = 2700;
         doory = 505;
         const door_body = door.create(2700, 505, "door");
@@ -248,7 +246,7 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~ Create the score text and timer ~~~~~
         score = game.player_attributes["score"]
         scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
-        scoreText.text = 'Score: '+score;
+        scoreText.text = 'Score: ' + score;
         scoreText.fixedToCamera = true
 
         livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
@@ -575,6 +573,7 @@ Mario_Game.SF_part_1.prototype = {
         }
 
         if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER)) {
+            console.log(game.state)
             game.state.start("SF_part_2")
         }
 
@@ -697,12 +696,11 @@ function kill_mario(player, hazard) {
         } else if (powerUpHierarchy[player.currentState] >= 1) {
             player.currentState = "small";
             player.body.height = 32
-            player.position.y+=32
+            player.position.y += 32
             player.loadTexture("player");
         }
 
-    } 
-    else {
+    } else {
         //life is lost
         lives--
         livesText.text = lives
@@ -710,13 +708,13 @@ function kill_mario(player, hazard) {
             //needs to be across the screen in big red letters
             alert("Game Over")
             game.state.start("MenuScreen")
-            //restart
-            game.player_attributes = { "current_state": "small", "lives": 3, "score": 0, "coins": 0}
+                //restart
+            game.player_attributes = { "current_state": "small", "lives": 3, "score": 0, "coins": 0 }
         } else {
             game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
         }
         console.log("Restarting")
-        
+
         console.log("Restarting")
         player.kill();
         game.state.start('SF_part_1')
