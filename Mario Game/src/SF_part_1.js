@@ -28,7 +28,7 @@ var keyReset = false
 var keyResetJump = false;
 var lastHit = 520
 var hammerReturn = false;
-var enemyPoints = 10;
+var enemyPoints = 100;
 var door
 var jumpCount = 0
 
@@ -248,7 +248,7 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~ Create the score text and timer ~~~~~
         score = game.player_attributes["score"]
         scoreText = game.add.text(16, 16, '', { fontSize: '32px', fill: '#FFFFFF' })
-        scoreText.text = 'Score: 0';
+        scoreText.text = 'Score: '+score;
         scoreText.fixedToCamera = true
 
         livesText = game.add.text(55, 52, '', { fontSize: '32px', fill: '#FFFFFF' })
@@ -354,9 +354,9 @@ Mario_Game.SF_part_1.prototype = {
 
 
                 }
-                if (nme_animate[0].play == true) {
+                /*if (nme_animate[0].play == true) {
                     new_nme.animations.play(nme_animate[0].name)
-                }
+                }*/
             }
 
             if (enemy_location[i].lazer) {
@@ -574,6 +574,10 @@ Mario_Game.SF_part_1.prototype = {
             }
         }
 
+        if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER)) {
+            game.state.start("SF_part_2")
+        }
+
         if (player.currentState == 'derivative') {
             if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && !keyReset) {
                 keyReset = true;
@@ -642,21 +646,18 @@ var addZeros = function(num) {
 };
 
 var outofTime = function() {
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-    alert("Out of Time!");
-    location.reload();
+    game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+    game.state.start('SF_part_1')
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //~~~~~ Death Scripts ~~~~~
 function falloutofworld(player) {
-    player.kill();
-    var die_noise = game.add.audio("mario_die");
-    die_noise.play();
-    alert("Game over");
-    location.reload();
+    lives--
+    player.kill()
+    game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+    game.state.start('SF_part_1')
 }
 
 function kill_mario(player, hazard) {
@@ -696,20 +697,28 @@ function kill_mario(player, hazard) {
         } else if (powerUpHierarchy[player.currentState] >= 1) {
             player.currentState = "small";
             player.body.height = 32
+            player.position.y+=32
             player.loadTexture("player");
         }
 
-    } else {
+    } 
+    else {
         //life is lost
-        console.log("Restarting")
         lives--
-        if (lives <= 0) {
+        livesText.text = lives
+        if (lives == 0) {
             //needs to be across the screen in big red letters
+            alert("Game Over")
             game.state.start("MenuScreen")
+            //restart
+            game.player_attributes = { "current_state": "small", "lives": 3, "score": 0, "coins": 0}
+        } else {
+            game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
         }
         console.log("Restarting")
+        
+        console.log("Restarting")
         player.kill();
-        game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
         game.state.start('SF_part_1')
     }
 
@@ -745,7 +754,6 @@ function brick_break(player, block) {
     } else {
         block.kill()
     }
-
 }
 
 function question_break(player, block) {
@@ -791,6 +799,8 @@ function collectDiamond(player, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+    coins++
+    coinsText.text = coins
 }
 
 function collectBDiamond(brick, diamond) {
@@ -800,6 +810,8 @@ function collectBDiamond(brick, diamond) {
     //  And update the score
     score += 10
     scoreText.text = 'Score: ' + score
+    coins++
+    coinsText.text = coins
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

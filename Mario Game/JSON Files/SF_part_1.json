@@ -3,7 +3,7 @@
         "x": 2850,
         "y": 600
     },
-    
+
     "Player": {
         "x": 32,
         "y": 450
@@ -158,11 +158,12 @@
         "tween_x": 768,
         "tween_y": 368,
         "tween_speed": 4000,
-        "animate": {
+        "animate": [{
             "name": "walk",
             "frames": [0, 1, 2],
-            "delay": 4
-        },
+            "delay": 4,
+            "play": true
+        }],
         "lazer": false,
         "static": false
     }, {

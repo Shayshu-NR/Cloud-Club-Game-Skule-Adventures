@@ -74,6 +74,12 @@
             "end_x": 2950,
             "height": 400,
             "src": "moon_ground"
+        },
+        {
+            "start_x": 1300,
+            "end_x": 1640,
+            "height": 300,
+            "src": "moon_ground"
         }
     ],
     "Platform": [{
@@ -139,7 +145,7 @@
     "QBlocks": [
         {
             "x": 165,
-            "y": 275,
+            "y": 285,
             "powerUp": "fireflower"
         },
         {
@@ -161,38 +167,38 @@
     "Bricks": [
         {
             "x": 197,
-            "y": 275,
+            "y": 285,
             "counter": 3
         },
         {
             "x": 815,
             "y": 147,
-            "counter": 5
+            "counter": 2
         },
         {
             "x": 879,
             "y": 147,
-            "counter": 5
+            "counter": 2
         },
         {
             "x": 1000,
             "y": 147,
-            "counter": 5
+            "counter": 2
         },
         {
             "x": 1064,
             "y": 147,
-            "counter": 5
+            "counter": 2
         },
         {
             "x": 911,
             "y": 64,
-            "counter": 5
+            "counter": 2
         },
         {
             "x": 975,
             "y": 64,
-            "counter": 5
+            "counter": 2
         }
     ],
     "Enemies": [
@@ -208,25 +214,14 @@
             "static": false
         },
         {
-            "src": "goomba",
+            "src": "astronaut",
             "x": 800,
-            "y": 215,
-            "tween_x": 950,
-            "tween_y": 215,
-            "tween_speed": 1000,
-            "animate": false,
-            "lazer": false,
-            "static": false
-        },
-        {
-            "src": "goomba",
-            "x": 950,
-            "y": 215,
+            "y": 183,
             "tween_x": 1100,
-            "tween_y": 215,
-            "tween_speed": 1000,
+            "tween_y": 183,
+            "tween_speed": 1500,
             "animate": false,
-            "lazer": false,
+            "lazer": true,
             "static": false
         },
         {
@@ -241,14 +236,14 @@
             "static": false
         },
         {
-            "src": "goomba",
+            "src": "astronaut",
             "x": 2300,
-            "y": 393,
+            "y": 361,
             "tween_x": 2370,
-            "tween_y": 393,
+            "tween_y": 361,
             "tween_speed": 1000,
             "animate": false,
-            "lazer": false,
+            "lazer": true,
             "static": false
         }
 

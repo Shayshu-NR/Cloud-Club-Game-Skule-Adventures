@@ -45,14 +45,20 @@ function preload() {
     //~~~~~ Background ~~~~~
     game.load.image('sky', './assets/sky.png')
     game.load.image('space', './assets/Space/Space_Background.jpg')
-    game.load.image('bahen', './assets/Bahen/Bahen.png')
-    game.load.image('cube_cafe', './assets/Bahen/cube_cafe.png')
+    game.load.image('floor1','./assets/Galbraith/Floor1.png')
+    game.load.image('floor2','./assets/Galbraith/Floor2.png')
+    game.load.image('floor3','./assets/Galbraith/Floor3.png')
+    game.load.image('entry','./assets/Galbraith/Entrance.png')
+    game.load.image('brick_background', './assets/Galbraith/Galbraith_background.jpg')
+
     //~~~~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Neutral blocks ~~~~~
     game.load.image('ground', './assets/platform.png')
     game.load.image('moon_ground', './assets/Space/Moon_platform.jpg')
-    game.load.image('bahen_platform', './assets/Bahen/bahen_platform.png')
+    game.load.image('galbraith_ground', './assets/Galbraith/Brick_platform.jpg')
+    game.load.image('stone_platform', './assets/Galbraith/Stone_platform.jpg')
+    game.load.image('stair', './assets/Galbraith/platform.jpg')
     game.load.image('brick', './assets/Brown_Brick.png')
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('iron', './assets/iron-block.png')
@@ -64,6 +70,7 @@ function preload() {
     //~~~~~ Enemies ~~~~~
     game.load.image('steve', './assets/steve.png')
     game.load.image('spike', './assets/spike.png')
+    game.load.image('enemy', './assets/Galbraith/enemy.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
     game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
     //~~~~~~~~~~~~~~~~~~~
@@ -306,11 +313,10 @@ function create() {
         }
 
         if (enemy_location[i].lazer) {
-            new_nme.lazer_src = enemy_location[i].lazer.src
-
-            var event = game.time.events.loop(enemy_location[i].lazer.frequency, function (enemy_projectile) {
-                const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, enemy_projectile[0].lazer_src);
+            var event = game.time.events.loop(2200, function(enemy_projectile) {
+                const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, "red_lazer");
                 new_lazer.body.velocity.x = -500;
+                console.log("Lazer: ", enemy_projectile[0].position);
             }, this, [new_nme])
 
             new_nme.lazer_timer = event
