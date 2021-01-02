@@ -428,7 +428,6 @@ Mario_Game.SF_part_2.prototype = {
 
                 buttonPressed = true;
                 button.animations.play('pressed')
-                button.kill
 
                 if (isBrick == true) {
                     for (var i = 0; i < arrayOfCoins.length; i++) {
@@ -453,7 +452,7 @@ Mario_Game.SF_part_2.prototype = {
                     isBrick = true
                 }
 
-                game.time.events.add(1000, eswitch_timer, this, [button])
+                game.time.events.add(3000, eswitch_timer, this, [button])
             }
 
         })
@@ -799,9 +798,10 @@ function eswitch_timer(button) {
             arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
             arrayOfCoins[i].animations.play('spin')
         }
+        isBrick = false
     }
-    button[0].animations.play('depressed')
     buttonPressed = false;
+    button[0].animations.play('depressed')
 }
 
 
