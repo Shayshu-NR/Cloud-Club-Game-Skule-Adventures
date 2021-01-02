@@ -1,6 +1,6 @@
 {
     "World": {
-        "x": 3200,
+        "x": 3800,
         "y": 600
     },
     
@@ -24,12 +24,24 @@
             "width": 35,
             "src": "door",
             "tile": false
+        },{
+            "x": 3700,
+            "y": 505,
+            "height": 60,
+            "width": 35,
+            "src": "door",
+            "tile": false
         }
     ],
 
     "FlagPole": {},
 
     "Ground": [{
+            "start_x": 3600,
+            "end_x": 3900,
+            "height": 560,
+            "src": "ground"
+        }, {
             "start_x": 0,
             "end_x": 400,
             "height": 560,

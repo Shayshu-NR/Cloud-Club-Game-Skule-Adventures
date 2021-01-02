@@ -166,7 +166,7 @@
         "lazer": false,
         "static": false
     }, {
-        "src": "derivative",
+        "src": "derivative_e",
         "x": 1000,
         "y": 500,
         "tween_x": 1000,

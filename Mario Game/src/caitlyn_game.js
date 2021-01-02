@@ -40,7 +40,7 @@ var hammerReturn = false;
 
 function preload() {
     // Load & Define our game assets
-    game.load.text("SF_json", "./JSON Files/SF_part_1.json")
+    game.load.text("SF_json", "./JSON Files/SF_part_2.json")
         //~~~~~ Background ~~~~~
     game.load.image('SF', './assets/SF_Pit/background.png')
     game.load.image('hard_hat_cafe', './assets/SF_Pit/sign.png')
@@ -58,7 +58,7 @@ function preload() {
     //~~~~~ Enemies ~~~~~
     game.load.image('lava', './assets/SF_Pit/lava.png')
     game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-    game.load.spritesheet('derivative', './assets/SF_Pit/derivative.png', 32, 32)
+    game.load.spritesheet('derivative_e', './assets/SF_Pit/derivative.png', 32, 32)
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Power ups ~~~~~
