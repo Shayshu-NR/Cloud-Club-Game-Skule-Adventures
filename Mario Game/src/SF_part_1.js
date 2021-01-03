@@ -282,6 +282,7 @@ Mario_Game.SF_part_1.prototype = {
         this.timeLimit = 500
         this.timeText = game.add.text(700, 20, "00:00")
         this.timeText.fill = "#FFFFFF"
+        this.timeText.fixedToCamera = true;
         this.timer = game.time.events.loop(1000, tick, this)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -661,14 +662,21 @@ var outofTime = function() {
 //~~~~~ Death Scripts ~~~~~
 function falloutofworld(player) {
     lives--
-    player.kill()
-    game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+    livesText.text = lives
+    if (lives == 0) {
+        //needs to be across the screen in big red letters
+        game.player_attributes = { "current_state": "small", "lives": 3, "score": 0, "coins": 0 }
+        game.state.start("GameOver")
+        return
+    } else {
+        game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+    }
+    player.kill();
     game.state.start('SF_part_1')
 }
 
 function kill_mario(player, hazard) {
     // Make sure the player is overtop the hazard 
-    console.log("Collision")
     if (!hazard.static && (player.position.y + player.body.height) <= hazard.position.y) {
         console.log("Restarting")
         if (!hazard.static) {
@@ -679,6 +687,8 @@ function kill_mario(player, hazard) {
                 console.log(hazard.health)
                 if (hazard.health == 0) {
                     hazard.kill()
+                    score += enemyPoints;
+                    scoreText.text = "Score: "+score;
                 } else {
                     hazard.health--
                         lastHit = timing
@@ -713,18 +723,14 @@ function kill_mario(player, hazard) {
         livesText.text = lives
         if (lives == 0) {
             //needs to be across the screen in big red letters
-            alert("Game Over")
-            game.state.start("MenuScreen")
+            game.state.start("GameOver")
                 //restart
             game.player_attributes = { "current_state": "small", "lives": 3, "score": 0, "coins": 0 }
         } else {
             game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+            player.kill();
+            game.state.start('SF_part_1')
         }
-        console.log("Restarting")
-
-        console.log("Restarting")
-        player.kill();
-        game.state.start('SF_part_1')
     }
 
 }
