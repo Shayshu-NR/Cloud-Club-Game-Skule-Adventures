@@ -1,6 +1,6 @@
 {
     "World": {
-        "x": 1800,
+        "x": 2600,
         "y": 600
     },
 
@@ -24,6 +24,14 @@
             "width": 35,
             "src": "door",
             "tile": false
+        },
+        {
+            "x": 2470,
+            "y": 490,
+            "height": 60,
+            "width": 35,
+            "src": "door",
+            "tile": false
         }
     ],
 
@@ -34,9 +42,27 @@
         "end_x": 400,
         "height": 560,
         "src": "ground"
-    }],
+    },{
+        "start_x": 2400,
+        "end_x": 2700,
+        "height": 560,
+        "src": "ground"
+    }
+    ],
 
-    "Platform": [],
+    "Platform": [{
+        "x": 900,
+        "y": 568,
+        "height": 32,
+        "width": 400,
+        "src": "table"
+    },{
+        "x": 1800,
+        "y": 568,
+        "height": 32,
+        "width": 200,
+        "src": "table"
+    }],
 
     "QBlocks": [{
         "x": 102,
@@ -89,20 +115,5 @@
         "y": 100
     },
 
-    "Enemies": [{
-        "src": "goomba",
-        "x": 2200,
-        "y": 398,
-        "tween_x": 2268,
-        "tween_y": 398,
-        "tween_speed": 3000,
-        "animate": [{
-            "name": "walk",
-            "frames": [0, 1, 2],
-            "delay": 4,
-            "play": true
-        }],
-        "lazer": false,
-        "static": false
-    }]
+    "Enemies": []
 }
