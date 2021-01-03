@@ -537,7 +537,7 @@ Mario_Game.SF_part_1.prototype = {
 
         progressBar.x = progress + this.camera.view.x
 
-        if (player.position.y >= 568) {
+        if (player.position.y - 32 + player.body.height >= 568) {
             falloutofworld(player);
         }
 
@@ -669,7 +669,7 @@ function falloutofworld(player) {
         game.state.start("GameOver")
         return
     } else {
-        game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
+        game.player_attributes = { "current_state": 'small', "lives": lives, "score": score, "coins": coins }
     }
     player.kill();
     game.state.start('SF_part_1')
@@ -688,7 +688,7 @@ function kill_mario(player, hazard) {
                 if (hazard.health == 0) {
                     hazard.kill()
                     score += enemyPoints;
-                    scoreText.text = "Score: "+score;
+                    scoreText.text = "Score: " + score;
                 } else {
                     hazard.health--
                         lastHit = timing
@@ -805,7 +805,14 @@ function question_break(player, block) {
 function collectDiamond(player, diamond) {
     console.log("Unique ID for diamound: ", diamond.unique)
         // Removes the diamond from the screen
-    diamond.kill()
+    if (arrayOfCoins.includes(diamond)) {
+        var index = arrayOfCoins.indexOf(diamond)
+        arrayOfCoins[index].kill();
+        arrayOfCoins[index] = null
+    } else {
+        // Removes the diamond from the screen
+        diamond.kill()
+    }
 
     //  And update the score
     score += 10

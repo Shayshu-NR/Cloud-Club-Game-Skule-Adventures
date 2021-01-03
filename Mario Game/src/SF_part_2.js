@@ -65,7 +65,8 @@ Mario_Game.SF_part_2.prototype = {
         game.load.spritesheet('coin', './assets/SF_Pit/coin.png', 32, 32)
         game.load.image('playerFace', './assets/Main Sprite.png')
         game.load.image('hourglass', './assets/hourglass.png')
-        game.load.spritesheet("button", './assets/SF_Pit/e-switch.png', 18, 20)
+        game.load.spritesheet("button", './assets/SF_Pit/e-switch.png', 32, 32)
+        game.load.image("toike", './assers/SF_Pit/toike.png')
             //~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Enemies ~~~~~
@@ -410,6 +411,9 @@ Mario_Game.SF_part_2.prototype = {
         button.animations.add('pressed', [0, 1, 2, 3, 4], 20, false)
         button.animations.add('depressed', [4, 3, 2, 1, 0], 20, false)
 
+        // Add toike
+        diamonds.create(json_parsed.Toike.x, json_parsed.Toike.y, 'toike')
+
         //~~~~~ World and camera settings ~~~~~
         var world_bounds = json_parsed.World
         totalDistance = world_bounds.x
@@ -606,7 +610,7 @@ Mario_Game.SF_part_2.prototype = {
 
         progressBar.x = progress + this.camera.view.x
 
-        if (player.position.y >= 568) {
+        if (player.position.y - 32 + player.body.height >= 568) {
             falloutofworld(player);
         }
 
@@ -694,6 +698,12 @@ Mario_Game.SF_part_2.prototype = {
         this.timeText.x = 700 + this.camera.view.x
         scoreText.x = 16 + this.camera.view.x
 
+    },
+
+    render: function() {
+        this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
+        this.game.debug.cameraInfo(this.game.camera, 200, 32);
+        this.game.debug.spriteInfo(player, 500, 32);
     }
 }
 
