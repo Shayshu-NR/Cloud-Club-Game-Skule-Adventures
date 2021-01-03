@@ -291,6 +291,7 @@ Mario_Game.SF_part_2.prototype = {
         this.timeLimit = 500
         this.timeText = game.add.text(700, 20, "00:00")
         this.timeText.fill = "#FFFFFF"
+        this.timeText.fixedToCamera = true;
         this.timer = game.time.events.loop(1000, tick, this)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
