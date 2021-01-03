@@ -687,6 +687,8 @@ function kill_mario(player, hazard) {
                 console.log(hazard.health)
                 if (hazard.health == 0) {
                     hazard.kill()
+                    score += enemyPoints;
+                    scoreText.text = "Score: "+score;
                 } else {
                     hazard.health--
                         lastHit = timing
