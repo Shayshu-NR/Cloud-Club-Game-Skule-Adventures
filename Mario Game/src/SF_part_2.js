@@ -21,7 +21,7 @@ var powerUp
 var state = 3
 var lives = 3
 var timing
-var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 1, 'bubbletea': 1, 'mushroom': 1, 'small': 0 }
+var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 5, 'bubbletea': 1, 'mushroom': 1, 'small': 0 }
 var fireballs;
 var playerPowerUp;
 var keyReset = false
@@ -459,7 +459,7 @@ Mario_Game.SF_part_2.prototype = {
                     isBrick = true
                 }
 
-                game.time.events.add(3000, eswitch_timer, this, [button])
+                game.time.events.add(4000, eswitch_timer, this, [button])
             }
 
         })

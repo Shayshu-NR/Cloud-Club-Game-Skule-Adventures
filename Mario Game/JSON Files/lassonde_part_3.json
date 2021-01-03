@@ -23,17 +23,13 @@
             "width": 35,
             "src": "door",
             "tile": false
-        },{
-            "x": 2884,
-            "y": 400,
-            "height": 60,
-            "width": 35,
-            "src": "door",
-            "tile": false
         }
     ],
 
-    "FlagPole": {},
+    "FlagPole": {
+        "x": 2800,
+        "y": 170,
+        "src": "flag_pole"},
 
     "Ground": [],
 
@@ -44,25 +40,19 @@
         "width": 400,
         "src": "pipe"
     },{
-        "x": 800,
+        "x": 1300,
         "y": 300,
         "height": 32,
         "width": 200,
         "src": "pipe"
     },{
-        "x": 1500,
-        "y": 300,
+        "x": 2300,
+        "y": 250,
         "height": 32,
         "width": 200,
         "src": "pipe"
     },{
-        "x": 2100,
-        "y": 400,
-        "height": 32,
-        "width": 200,
-        "src": "pipe"
-    },{
-        "x": 2800,
+        "x": 2900,
         "y": 470,
         "height": 32,
         "width": 400,
@@ -107,23 +97,9 @@
 
     "Toike": [
         {
-            "x": 1166,
-            "y": 450
+            "x": 900,
+            "y": 50
         }],
 
-    "Enemies": [{
-        "src": "goomba",
-        "x": 2100,
-        "y": 368,
-        "tween_x": 2268,
-        "tween_y": 368,
-        "tween_speed": 3000,
-        "animate": {
-            "name": "walk",
-            "frames": [0, 1, 2],
-            "delay": 4
-        },
-        "lazer": false,
-        "static": false
-    }]
+    "Enemies": []
 }

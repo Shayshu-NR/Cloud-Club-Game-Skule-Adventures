@@ -40,7 +40,7 @@ var hammerReturn = false;
 
 function preload() {
     // Load & Define our game assets
-    game.load.text("SF_json", "./JSON Files/SF_part_3.json")
+    game.load.text("SF_json", "./JSON Files/SF_part_2.json")
         //~~~~~ Background ~~~~~
     game.load.image('SF', './assets/SF_Pit/background.png')
     game.load.image('hard_hat_cafe', './assets/SF_Pit/sign.png')
@@ -53,6 +53,7 @@ function preload() {
     game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
     game.load.image('flag_pole', './assets/flag_pole.png')
     game.load.image('door', './assets/SF_Pit/door.png')
+    game.load.spritesheet("button", './assets/SF_Pit/e-switch.png', 18, 20)
         //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
