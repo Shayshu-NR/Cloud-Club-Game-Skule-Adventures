@@ -40,7 +40,7 @@ var hammerReturn = false;
 
 function preload() {
     // Load & Define our game assets
-    game.load.text("lassonde_json", "./JSON Files/lassonde_part_3.json")
+    game.load.text("lassonde_json", "./JSON Files/lassonde_part_2.json")
         //~~~~~ Background ~~~~~
     game.load.image('L', './assets/lassonde/background.png')
         //~~~~~~~~~~~~~~~~~~~
