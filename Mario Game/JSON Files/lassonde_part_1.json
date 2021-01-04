@@ -98,11 +98,11 @@
 
     "ESCoins" : [],
 
-    "Toike": [
+    "Toike": 
         {
             "x": 1850,
             "y": 500
-        }],
+        },
 
     "Enemies": [{
         "src": "goomba",

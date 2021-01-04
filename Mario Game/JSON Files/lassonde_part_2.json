@@ -105,11 +105,11 @@
         }
     ],
 
-    "Toike": [
+    "Toike": 
         {
             "x": 1166,
             "y": 450
-        }],
+        },
 
     "Enemies": [{
         "src": "goomba",

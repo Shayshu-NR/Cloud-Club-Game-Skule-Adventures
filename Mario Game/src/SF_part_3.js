@@ -351,6 +351,9 @@ LEVEL1.SF_part_3.prototype = {
         end_of_level.scale.setTo(1.5, 1.5)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        // Add toike
+        diamonds.create(json_parsed.Toike.x, json_parsed.Toike.y, 'toike')
+        
         //~~~~~ World and camera settings ~~~~~
         var world_bounds = json_parsed.World
         totalDistance = world_bounds.x

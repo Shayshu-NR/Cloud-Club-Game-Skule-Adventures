@@ -384,6 +384,8 @@ LEVEL1.SF_part_1.prototype = {
         }
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        // Add toike
+        diamonds.create(json_parsed.Toike.x, json_parsed.Toike.y, 'toike')
 
         //~~~~~ World and camera settings ~~~~~
         var world_bounds = json_parsed.World

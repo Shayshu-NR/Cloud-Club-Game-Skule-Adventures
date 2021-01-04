@@ -80,10 +80,10 @@
 
     "ESCoins": [],
 
-    "Toike": [{
-        "x": 2300,
+    "Toike": {
+        "x": 2550,
         "y": 500
-    }],
+    },
 
     "Enemies": [{
         "src": "lava",
