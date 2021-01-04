@@ -1,0 +1,147 @@
+canvas {
+    /* height: 100vh;
+    width: calc(4/3 * 100)vh; */
+    /* height: calc(3/4 * 100)vh;
+    width: 100vh; */
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+} 
+
+body {
+    /* Comment this back in to use the menu screen as a background instead of the animated gradient */
+    /* background-image: url("./assets/menu_screen.png");
+    background-size: cover; */
+
+    /* background-image: linear-gradient(-125deg, #713EB3, #13CFF0); #F0136B, */
+    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);  */
+    background: linear-gradient(-45deg,#713EB3, #121866);
+    background-size: 400% 100%;
+    animation: gradient 20s ease infinite; 
+}
+
+#astronaut {
+    /* border: 1px solid red; */
+    height: 32px;
+    width: 32px;
+    position: fixed;
+    object-position: 0px; /* Change this (-ve multiples of 32) to select a sprite. */
+    object-fit: none;
+    overflow: hidden;
+    margin: 0px 0px 0px 0px;
+    animation: jump_square 40s infinite;
+    /* animation: jump_lin 10s ease-out infinite; */
+}
+
+
+@keyframes gradient {
+    20% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes jump_lin { /*jump_lin 10s ease-out*/
+    0% {
+        top: 0px;
+        transform: rotate(-180deg);
+    }
+    50% {
+        top: calc(100vh - 32px); /*astronaut feet @ bott of screen*/
+        transform: rotate(360deg);
+    }
+    100% {
+        top: 0px;
+        transform: rotate(900deg);
+    }
+}
+
+@keyframes jump_L { /*jump_L 10s infinite;*/
+    0% {
+        left: 0px;
+        top: 0px;
+        transform: rotate(-180deg);
+    }
+    25% {
+        left: 0px;
+        top: calc(100vh - 32px); /*astronaut feet @ bott of screen*/
+        transform: rotate(450deg);
+    }
+    50% {
+        left: calc(150vh - 32px);
+        transform: rotate(720deg);
+    }
+    75% {
+        left: 0px;
+        top: calc(100vh - 32px);
+        transform: rotate(1080deg);
+    }
+    100% {
+        left: 0px;
+        top: 0px;
+        transform: rotate(1620deg); /*900 smooth, 1620*/
+    }
+}
+
+@keyframes jump_square {
+    0% {
+        left: 0px;
+        top: 0px;
+        transform: scale(1, 1) rotate(-180deg);
+    }
+    25% {
+        left: 0px;
+        top: calc(100vh - 32px); /*astronaut feet @ bott of screen*/
+        transform: scale(1, 1) rotate(450deg);
+    }
+    50% {
+        left: calc(100% - 32px);
+        top: calc(100vh - 32px);
+        transform: scale(1, 1)rotate(720deg);
+    }
+    75% {
+        left: calc(100% - 32px);
+        top: 0px;
+        transform: scale(1, 1) rotate(1260deg);
+    }
+    100% {
+        left: 0px;
+        top: 0px;
+        transform: scale(1, 1) rotate(1620deg); /*900 smooth, 1620, 1800, 1980*/
+    }
+}
+
+@keyframes peek {
+    0% {
+        margin: 0px;
+    }
+    98% {
+        margin: 0px;
+    }
+    99% {
+        margin: 10px;
+    }
+    100% {
+        margin: 0px;
+    }
+}
+
+@keyframes zoom {
+    0% {
+        object-position: 0px;
+    }
+    50% {
+        object-position: -352px;        
+    }
+    100% {
+        object-position: 0px;
+    }
+}
