@@ -65,7 +65,7 @@
         "width": 200,
         "src": "table"
     }, {
-        "x": 2000,
+        "x": 2100,
         "y": 300,
         "height": 32,
         "width": 200,
@@ -78,13 +78,12 @@
 
     "Eswitch": {},
 
-    "ESCoins" : [],
+    "ESCoins": [],
 
-    "Toike": [
-        {
-            "x": 2300,
-            "y": 500
-        }],
+    "Toike": [{
+        "x": 2300,
+        "y": 500
+    }],
 
     "Enemies": [{
         "src": "lava",
@@ -156,7 +155,7 @@
         "tween_speed": 4000,
         "animate": [{
             "name": "walk",
-            "frames": [0, 1, 2],
+            "frames": [2, 1, 2, 0],
             "delay": 4,
             "play": true
         }],

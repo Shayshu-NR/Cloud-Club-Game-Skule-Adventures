@@ -31,12 +31,15 @@ var hammerReturn = false;
 var enemyPoints = 100;
 var door
 var jumpCount = 0
+var current_level
 
-Mario_Game.SF_part_1 = function(game) {
+LEVEL1 = {}
+
+LEVEL1.SF_part_1 = function(game) {
 
 }
 
-Mario_Game.SF_part_1.prototype = {
+LEVEL1.SF_part_1.prototype = {
     preload: function() {
         //~~~~~ Json file ~~~~~
         game.load.text("shayshu_json", "./JSON Files/SF_part_1.json")
@@ -96,6 +99,7 @@ Mario_Game.SF_part_1.prototype = {
         //~~~~~ Loading json file ~~~~~
         json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
         console.log("Json file structure: ", json_parsed)
+        current_level = "SF_part_1"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         var music = game.add.audio('lofi-hiphop')
@@ -582,7 +586,7 @@ Mario_Game.SF_part_1.prototype = {
 
         if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER)) {
             console.log(game.state)
-            game.state.start("SF_part_2")
+            game.state.start("SF_library")
         }
 
         if (player.currentState == 'derivative') {
@@ -654,7 +658,7 @@ var addZeros = function(num) {
 
 var outofTime = function() {
     game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
-    game.state.start('SF_part_1')
+    game.state.start(current_level)
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -672,7 +676,7 @@ function falloutofworld(player) {
         game.player_attributes = { "current_state": 'small', "lives": lives, "score": score, "coins": coins }
     }
     player.kill();
-    game.state.start('SF_part_1')
+    game.state.start(current_level)
 }
 
 function kill_mario(player, hazard) {
@@ -729,7 +733,7 @@ function kill_mario(player, hazard) {
         } else {
             game.player_attributes = { "current_state": player.currentState, "lives": lives, "score": score, "coins": coins }
             player.kill();
-            game.state.start('SF_part_1')
+            game.state.start(current_level)
         }
     }
 

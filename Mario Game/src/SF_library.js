@@ -1,63 +1,25 @@
-// Declare shared variables at the top so all methods can access them
-var score = 0
-var coins = 0
-var scoreText
-var platforms
-var diamonds
-var cursors
-var player
-var enemy
-var text;
-var qBlock
-var timedEvent
-var hazard
-var hammer
-var hammer_instance = 0
-var derivative
-var integral;
-var book
-var lazer
-var powerUp
-var state = 3
-var lives = 3
-var timing
-var powerUpHierarchy = { 'fireflower': 4, 'hammer': 3, 'integral': 3, 'text': 2, 'derivative': 2, 'coffee': 5, 'bubbletea': 1, 'mushroom': 1, 'small': 0 }
-var fireballs;
-var playerPowerUp;
-var keyReset = false
-var keyResetJump = false;
-var lastHit = 520
-var hammerReturn = false;
-var enemyPoints = 100;
-var door;
-var arrayOfCoins = []
-var buttonPressed = false;
-var button;
-var isBrick = false;
-var es_coins
-
-
-LEVEL1.SF_part_2 = function(game) {
-
+LEVEL2 = {}
+LEVEL2.SF_library = function(game) {
+    game.player_attributes = { "current_state": 'small', "lives": 3, "score": 0, "coins": 0 }
 }
 
-LEVEL1.SF_part_2.prototype = {
+LEVEL2.SF_library.prototype = {
     preload: function() {
         console.log("SF_part")
             //~~~~~ Json file ~~~~~
-        game.load.text("shayshu_json", "./JSON Files/SF_part_2.json")
+        game.load.text("shayshu_json", "./JSON Files/library.json")
             //~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Background ~~~~~
-        game.load.image('SF', './assets/SF_Pit/background.png')
+        game.load.image('library', './assets/SF Library/library.png')
         game.load.image('hard_hat_cafe', './assets/SF_Pit/sign.png')
             //~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Neutral blocks ~~~~~
-        game.load.image('ground', './assets/SF_Pit/ground.png')
-        game.load.image('table', './assets/SF_Pit/table.png')
-        game.load.image('brick', './assets/brick.png')
-        game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
+        game.load.image('ground', './assets/SF Library/wood_ground.png')
+        game.load.image('platform', './assets/SF_Pit/table.png')
+        game.load.image('brick', './assets/SF Library/plainblock.png')
+        game.load.spritesheet('qBlock', './assets/SF Library/textbook_block2.png', 32, 32)
         game.load.image('flag_pole', './assets/flag_pole.png')
         game.load.image('door', './assets/SF_Pit/door.png')
         game.load.image('pole', './assets/flag_pole.png')
@@ -72,7 +34,8 @@ LEVEL1.SF_part_2.prototype = {
         //~~~~~ Enemies ~~~~~
         game.load.image('lava', './assets/SF_Pit/lava.png')
         game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-        game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32) //~~~~~~~~~~~~~~~~~~~
+        game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32)
+        game.load.image('textbook_stack', './assets/SF Library/textbook_stack.png')
             // ~~~~~~~~~~~~~~~~~
 
         //~~~~~ Power ups ~~~~~
@@ -103,6 +66,7 @@ LEVEL1.SF_part_2.prototype = {
         //~~~~~ Loading json file ~~~~~
         json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
         console.log("Json file structure: ", json_parsed)
+        current_level = "SF_library"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         var music = game.add.audio('lofi-hiphop')
@@ -170,13 +134,6 @@ LEVEL1.SF_part_2.prototype = {
         door.enableBody = true
         button.enableBody = true;
         //~~~~~~~~~~~~~~~~~~~~~~~
-
-        //~~~~~~Door~~~~~~~~~~~~~
-
-        doorx = 2470;
-        doory = 490;
-        const door_body = door.create(2470, 490, "door");
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
         //~~~~~ Ground/ledge creation ~~~~~
@@ -317,7 +274,7 @@ LEVEL1.SF_part_2.prototype = {
             question_block.powerUp = power_Up
             question_block.broken = false
             question_block.body.immovable = true
-            question_block.animations.add('q_break', [0, 1, 2, 3], 150, true)
+            question_block.animations.add('q_break', [0, 1, 2, 3, 4, 5, 6, 7, 8], 200, true)
         }
 
         var brick_location = json_parsed.Bricks
@@ -329,6 +286,14 @@ LEVEL1.SF_part_2.prototype = {
             const block = brick.create(brick_x, brick_y, 'brick')
             block.body.immovable = true
             block.counter = brick_counter
+        }
+
+        es_coins = json_parsed.ESCoins
+        for (var i = 0; i < es_coins.length; i++) {
+            const es_coin = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
+            es_coin.button = true
+            es_coin.animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
+            es_coin.animations.play('spin')
         }
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -393,26 +358,9 @@ LEVEL1.SF_part_2.prototype = {
         //~~~~~ Add Flag pole for end of level ~~~~~
         var flag_position = json_parsed.FlagPole
         const end_of_level = flag.create(flag_position.x, flag_position.y, flag_position.src)
+        end_of_level.body.immovable = true
         end_of_level.scale.setTo(1.5, 1.5)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        es_coins = json_parsed.ESCoins
-        for (var i = 0; i < es_coins.length; i++) {
-            const es_coin = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
-            es_coin.button = true
-            es_coin.animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
-            es_coin.animations.play('spin')
-            arrayOfCoins.push(es_coin)
-        }
-
-        es_switch_location = json_parsed.Eswitch
-        button = button.create(es_switch_location.x, es_switch_location.y, 'button')
-        button.body.immovable = true
-        button.animations.add('pressed', [0, 1, 2, 3, 4], 20, false)
-        button.animations.add('depressed', [4, 3, 2, 1, 0], 20, false)
-
-        // Add toike
-        diamonds.create(json_parsed.Toike.x, json_parsed.Toike.y, 'toike')
 
         //~~~~~ World and camera settings ~~~~~
         var world_bounds = json_parsed.World
@@ -430,44 +378,6 @@ LEVEL1.SF_part_2.prototype = {
         if ((lastHit - timing) > 2) {
             player.isInvincible = false
         }
-
-        //  Setup collisions for the player, diamonds, and our platforms
-        game.physics.arcade.collide(player, button, function buttonChange() {
-            console.log(buttonPressed)
-
-            if (buttonPressed == false) {
-                // button.animations.play('pressed')
-
-                buttonPressed = true;
-                button.animations.play('pressed')
-
-                if (isBrick == true) {
-                    for (var i = 0; i < arrayOfCoins.length; i++) {
-                        if (arrayOfCoins[i] != null && arrayOfCoins[i].button) {
-                            arrayOfCoins[i].kill()
-                            arrayOfCoins[i] = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
-                            arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
-                            arrayOfCoins[i].animations.play('spin')
-                            arrayOfCoins[i].body.immovable = true
-                        }
-                    }
-                    isBrick = false;
-                } else if (isBrick == false) {
-                    for (var i = 0; i < arrayOfCoins.length; i++) {
-                        if (arrayOfCoins[i] != null) {
-                            arrayOfCoins[i].kill()
-                            arrayOfCoins[i] = brick.create(es_coins[i].x, es_coins[i].y, 'brick')
-                            arrayOfCoins[i].button = true;
-                            arrayOfCoins[i].body.immovable = true
-                        }
-                    }
-                    isBrick = true
-                }
-
-                game.time.events.add(4000, eswitch_timer, this, [button])
-            }
-
-        })
 
         //  Setup collisions for the player, diamonds, and our platforms
         game.physics.arcade.collide(player, platforms)
@@ -523,8 +433,7 @@ LEVEL1.SF_part_2.prototype = {
 
         game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
         game.physics.arcade.collide(player, flag, function next_level(player, flag) {
-            alert("You won");
-            location.reload();
+            game.state.start('SF_library');
         }, null, this)
         game.physics.arcade.collide(platforms, integral, integralKill, null, this)
         game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
@@ -549,15 +458,6 @@ LEVEL1.SF_part_2.prototype = {
 
         //  Call callectionDiamond() if player overlaps with a diamond
         game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this)
-
-        //~~~~~~~~~~~~~~~ *DOOR* Moving to Different State *DOOR* ~~~~~~~~~~~~~~
-        if (player.position.x >= doorx - 20 && player.position.x <= doorx + 20) {
-            console.log("door placement registered");
-            if (cursors.up.isDown) {
-                game.state.start("SF_part_3");
-            }
-        }
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         var velocity_x = 300
         var velocity_y = -500
@@ -705,19 +605,4 @@ LEVEL1.SF_part_2.prototype = {
         this.game.debug.cameraInfo(this.game.camera, 200, 32);
         this.game.debug.spriteInfo(player, 500, 32);
     }
-}
-
-
-function eswitch_timer(button) {
-    for (var i = 0; i < arrayOfCoins.length; i++) {
-        if (arrayOfCoins[i] != null) {
-            arrayOfCoins[i].kill()
-            arrayOfCoins[i] = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
-            arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
-            arrayOfCoins[i].animations.play('spin')
-        }
-        isBrick = false
-    }
-    buttonPressed = false;
-    button[0].animations.play('depressed')
 }
