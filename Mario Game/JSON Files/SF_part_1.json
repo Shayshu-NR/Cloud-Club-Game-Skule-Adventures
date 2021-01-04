@@ -72,23 +72,9 @@
         "src": "table"
     }],
 
-    "QBlocks": [{
-        "x": 102,
-        "y": 450,
-        "powerUp": "fireflower"
-    }],
+    "QBlocks": [],
 
-    "Bricks": [{
-            "x": 70,
-            "y": 450,
-            "counter": 1
-        },
-        {
-            "x": 134,
-            "y": 450,
-            "counter": 5
-        }
-    ],
+    "Bricks": [],
 
     "Eswitch": {},
 
