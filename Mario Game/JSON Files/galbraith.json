@@ -3,90 +3,89 @@
         "x": 4800,
         "y": 600
     },
-    "Player":{
-        "x":0,
-        "y":0
+    "Player": {
+        "x": 3000,
+        "y": 0
     },
     "Background": [{
-        "x": 0,
-        "y": 0,
-        "height": 600,
-        "width": 800,
-        "src": "brick_background",
-        "tile": false
-    },
-    {
-        "x": 800,
-        "y": 0,
-        "height": 600,
-        "width": 800,
-        "src": "brick_background",
-        "tile": false
-    },
-    {
-        "x": 1600,
-        "y": 0,
-        "height": 600,
-        "width": 800,
-        "src": "brick_background",
-        "tile": false
-    },
-    {
-        "x": 2400,
-        "y": 0,
-        "height": 600,
-        "width": 800,
-        "src": "brick_background",
-        "tile": false
-    },
-    {
-        "x": 3200,
-        "y": 0,
-        "height": 600,
-        "width": 800,
-        "src": "brick_background",
-        "tile": false
-    },
-    {
-        "x": 0,
-        "y": 0,
-        "height": 600,
-        "width": 400,
-        "src": "entry",
-        "tile": false
-    },
-    {
-        "x": 500,
-        "y": 430,
-        "height": 32,
-        "width": 64,
-        "src": "floor1",
-        "tile": false
-    },
-    {
-        "x": 1550,
-        "y": 300,
-        "height": 32,
-        "width": 64,
-        "src": "floor2",
-        "tile": false
-    },
-    {
-        "x": 1550,
-        "y": 90,
-        "height": 32,
-        "width": 64,
-        "src": "floor3",
-        "tile": false
-    }
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "brick_background",
+            "tile": false
+        },
+        {
+            "x": 800,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "brick_background",
+            "tile": false
+        },
+        {
+            "x": 1600,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "brick_background",
+            "tile": false
+        },
+        {
+            "x": 2400,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "brick_background",
+            "tile": false
+        },
+        {
+            "x": 3200,
+            "y": 0,
+            "height": 600,
+            "width": 800,
+            "src": "brick_background",
+            "tile": false
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "height": 600,
+            "width": 400,
+            "src": "entry",
+            "tile": false
+        },
+        {
+            "x": 500,
+            "y": 430,
+            "height": 32,
+            "width": 64,
+            "src": "floor1",
+            "tile": false
+        },
+        {
+            "x": 1550,
+            "y": 300,
+            "height": 32,
+            "width": 64,
+            "src": "floor2",
+            "tile": false
+        },
+        {
+            "x": 1550,
+            "y": 90,
+            "height": 32,
+            "width": 64,
+            "src": "floor3",
+            "tile": false
+        }
     ],
     "FlagPole": {
-        "x": 3150,
+        "x": 3600,
         "y": 50,
         "src": "flag_pole"
     },
-    "Ground": [
-        {
+    "Ground": [{
             "start_x": 0,
             "end_x": 400,
             "height": 550,
@@ -130,93 +129,92 @@
         },
         {
             "start_x": 2900,
-            "end_x": 3500,
+            "end_x": 4800,
             "height": 350,
             "src": "galbraith_ground"
         }
-        
+
     ],
     "Platform": [{
-        "x": 800,
-        "y": 330,
-        "height": 32,
-        "width": 400,
-        "src": "galbraith_ground"
-    },
-    {
-        "x": 1364,
-        "y": 250,
-        "height": 32,
-        "width": 400,
-        "src": "stair"
-    },
-    {
-        "x": 1275,
-        "y": 200,
-        "height": 32,
-        "width": 400,
-        "src": "stair"
-    },
-    {
-        "x": 1400,
-        "y": 150,
-        "height": 32,
-        "width": 400,
-        "src": "stair"
-    },
-    {
-        "x": 1550,
-        "y": 150,
-        "height": 32,
-        "width": 400,
-        "src": "galbraith_ground"
-    },
-    {
-        "x": 1815,
-        "y": 390,
-        "height": 32,
-        "width": 400,
-        "src": "galbraith_ground"
-    },
-    {
-        "x": 2100,
-        "y": 150,
-        "height": 32,
-        "width": 400,
-        "src": "galbraith_ground"
-    },
-    {
-        "x": 2400,
-        "y": 390,
-        "height": 32,
-        "width": 400,
-        "src": "galbraith_ground"
-    },
-    {
-        "x": 2550,
-        "y": 200,
-        "height": 32,
-        "width": 400,
-        "src": "stair"
-    },
-    {
-        "x": 2625,
-        "y": 250,
-        "height": 32,
-        "width": 400,
-        "src": "stair"
-    },
-    {
-        "x": 2700,
-        "y": 300,
-        "height": 32,
-        "width": 400,
-        "src": "stair"
-    }
-        
-    ],
-    "QBlocks": [
+            "x": 800,
+            "y": 330,
+            "height": 32,
+            "width": 400,
+            "src": "galbraith_ground"
+        },
         {
+            "x": 1364,
+            "y": 250,
+            "height": 32,
+            "width": 400,
+            "src": "stair"
+        },
+        {
+            "x": 1275,
+            "y": 200,
+            "height": 32,
+            "width": 400,
+            "src": "stair"
+        },
+        {
+            "x": 1400,
+            "y": 150,
+            "height": 32,
+            "width": 400,
+            "src": "stair"
+        },
+        {
+            "x": 1550,
+            "y": 150,
+            "height": 32,
+            "width": 400,
+            "src": "galbraith_ground"
+        },
+        {
+            "x": 1815,
+            "y": 390,
+            "height": 32,
+            "width": 400,
+            "src": "galbraith_ground"
+        },
+        {
+            "x": 2100,
+            "y": 150,
+            "height": 32,
+            "width": 400,
+            "src": "galbraith_ground"
+        },
+        {
+            "x": 2400,
+            "y": 390,
+            "height": 32,
+            "width": 400,
+            "src": "galbraith_ground"
+        },
+        {
+            "x": 2550,
+            "y": 200,
+            "height": 32,
+            "width": 400,
+            "src": "stair"
+        },
+        {
+            "x": 2625,
+            "y": 250,
+            "height": 32,
+            "width": 400,
+            "src": "stair"
+        },
+        {
+            "x": 2700,
+            "y": 300,
+            "height": 32,
+            "width": 400,
+            "src": "stair"
+        }
+
+    ],
+    "QBlocks": [{
             "x": 132,
             "y": 425,
             "powerUp": "derivative"
@@ -226,10 +224,9 @@
             "y": 230,
             "powerUp": "integral"
         }
-        
+
     ],
-    "Bricks": [
-        {
+    "Bricks": [{
             "x": 100,
             "y": 425,
             "counter": 3
@@ -273,115 +270,161 @@
 
     ],
     "Enemies": [{
-        "src": "goomba",
-        "x": 325,
-        "y": 455,
-        "tween_x": 375,
-        "tween_y": 455,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": false
-    },
-    {
-        "src": "goomba",
-        "x": 530,
-        "y": 455,
-        "tween_x": 700,
-        "tween_y": 455,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": false
-    },
-    {
-        "src": "goomba",
-        "x": 830,
-        "y": 455,
-        "tween_x": 1000,
-        "tween_y": 455,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": false
-    },
-    {
-        "src": "goomba",
-        "x": 1450,
-        "y": 360,
-        "tween_x": 1600,
-        "tween_y": 360,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": false
-    },
-    {
-        "src": "enemy",
-        "x": 1800,
-        "y": 330,
-        "tween_x": 1800,
-        "tween_y": 330,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": true,
-        "static": false
-    },
-    {
-        "src": "goomba",
-        "x": 2000,
-        "y": 362,
-        "tween_x": 2200,
-        "tween_y": 362,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": false
-    },
-    {
-        "src": "enemy",
-        "x": 1550,
-        "y": 90,
-        "tween_x": 1550,
-        "tween_y": 90,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": true,
-        "static": false
-    },
-    {
-        "src": "spike",
-        "x": 2200,
-        "y": 120,
-        "tween_x": 2200,
-        "tween_y": 120,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": true
-    },
-    {
-        "src": "spike",
-        "x": 2450,
-        "y": 120,
-        "tween_x": 2450,
-        "tween_y": 120,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": true
-    },
-    {
-        "src": "goomba",
-        "x": 2900,
-        "y": 320,
-        "tween_x": 3100,
-        "tween_y": 320,
-        "tween_speed": 1000,
-        "animate": false,
-        "lazer": false,
-        "static": false
-    }
+            "src": "goomba",
+            "x": 325,
+            "y": 455,
+            "health": 0,
+            "tween_x": 375,
+            "tween_y": 455,
+            "tween_speed": 1000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
+        },
+        {
+            "src": "goomba",
+            "x": 530,
+            "y": 455,
+            "health": 0,
+            "tween_x": 700,
+            "tween_y": 455,
+            "tween_speed": 1000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
+        },
+        {
+            "src": "goomba",
+            "x": 830,
+            "y": 455,
+            "health": 0,
+            "tween_x": 1000,
+            "tween_y": 455,
+            "tween_speed": 1000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
+        },
+        {
+            "src": "goomba",
+            "x": 1450,
+            "y": 360,
+            "health": 0,
+            "tween_x": 1600,
+            "tween_y": 360,
+            "tween_speed": 1000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
+        },
+        {
+            "src": "enemy",
+            "x": 1800,
+            "y": 330,
+            "health": 0,
+            "tween_x": 1800,
+            "tween_y": 330,
+            "tween_speed": 1000,
+            "animate": false,
+            "lazer": {
+                "src": "blue_lazer",
+                "frequency": 2500,
+                "health": -1
+            },
+            "static": false
+        },
+        {
+            "src": "goomba",
+            "x": 2000,
+            "y": 362,
+            "health": 0,
+            "tween_x": 2200,
+            "tween_y": 362,
+            "tween_speed": 1000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
+        },
+        {
+            "src": "enemy",
+            "x": 1550,
+            "y": 90,
+            "health": 0,
+            "tween_x": 1550,
+            "tween_y": 90,
+            "tween_speed": 1000,
+            "animate": false,
+            "lazer": {
+                "src": "blue_lazer",
+                "frequency": 2500,
+                "health": -1
+            },
+            "static": false
+        },
+        {
+            "src": "spike",
+            "x": 2200,
+            "y": 120,
+            "tween_x": 2200,
+            "tween_y": 120,
+            "tween_speed": 1000,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },
+        {
+            "src": "spike",
+            "x": 2450,
+            "y": 120,
+            "tween_x": 2450,
+            "tween_y": 120,
+            "tween_speed": 1000,
+            "animate": false,
+            "lazer": false,
+            "static": true
+        },
+        {
+            "src": "goomba",
+            "x": 2900,
+            "y": 320,
+            "health": 0,
+            "tween_x": 3100,
+            "tween_y": 320,
+            "tween_speed": 1000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
+        }
 
 
 

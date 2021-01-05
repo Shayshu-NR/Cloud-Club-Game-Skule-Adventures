@@ -433,7 +433,7 @@ LEVEL2.SF_library.prototype = {
 
         game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
         game.physics.arcade.collide(player, flag, function next_level(player, flag) {
-            game.state.start('SF_library');
+            game.state.start('Galbraith');
         }, null, this)
         game.physics.arcade.collide(platforms, integral, integralKill, null, this)
         game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
@@ -598,11 +598,5 @@ LEVEL2.SF_library.prototype = {
         this.timeText.x = 700 + this.camera.view.x
         scoreText.x = 16 + this.camera.view.x
 
-    },
-
-    render: function() {
-        this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
-        this.game.debug.cameraInfo(this.game.camera, 200, 32);
-        this.game.debug.spriteInfo(player, 500, 32);
     }
 }
