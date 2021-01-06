@@ -3,6 +3,10 @@
         "x": 3200,
         "y": 600
     },
+    "Player": {
+        "x": 0,
+        "y": 400
+    },
 
     "Background": [{
             "x": 0,
@@ -125,89 +129,89 @@
     ],
 
     "Platform": [{
-        "x": 400,
-        "y": 400,
-        "height": 32,
-        "width": 400,
-        "src": "bahen_platform"
-    },
-    {
-        "x": 900,
-        "y": 280,
-        "height": 32,
-        "width": 400,
-        "src": "bahen_platform"
-    }, 
-    {
-        "x": 1800,
-        "y": 400,
-        "height": 32,
-        "width": 400,
-        "src": "bahen_platform"
-    },
-    {
-        "x": 1600,
-        "y": 164,
-        "height": 32,
-        "width": 400,
-        "src": "bahen_platform"
-    },
-    {
-        "x": 218,
-        "y": 472,
-        "height": 32,
-        "width": 400,
-        "src": "blue_vending_machine"
-    }, 
-    {
-        "x": 186,
-        "y": 472,
-        "height": 32,
-        "width": 400,
-        "src": "red_vending_machine"
-    }, 
-    {
-        "x": 500,
-        "y": 504,
-        "height": 32,
-        "width": 400,
-        "src": "blue_vending_machine"
-    }, 
-    {
-        "x": 1550,
-        "y": 486,
-        "height": 32,
-        "width": 400,
-        "src": "blue_vending_machine"
-    },
-    {
-        "x": 1582,
-        "y": 486,
-        "height": 32,
-        "width": 400,
-        "src": "red_vending_machine"
-    },  
-    {
-        "x": 1614,
-        "y": 486,
-        "height": 32,
-        "width": 400,
-        "src": "red_vending_machine"
-    },  
-    {
-        "x": 2400,
-        "y": 236,
-        "height": 32,
-        "width": 400,
-        "src": "cube_cafe"
-    }
-],
+            "x": 400,
+            "y": 400,
+            "height": 32,
+            "width": 400,
+            "src": "bahen_platform"
+        },
+        {
+            "x": 900,
+            "y": 280,
+            "height": 32,
+            "width": 400,
+            "src": "bahen_platform"
+        },
+        {
+            "x": 1800,
+            "y": 400,
+            "height": 32,
+            "width": 400,
+            "src": "bahen_platform"
+        },
+        {
+            "x": 1600,
+            "y": 164,
+            "height": 32,
+            "width": 400,
+            "src": "bahen_platform"
+        },
+        {
+            "x": 218,
+            "y": 472,
+            "height": 32,
+            "width": 400,
+            "src": "blue_vending_machine"
+        },
+        {
+            "x": 186,
+            "y": 472,
+            "height": 32,
+            "width": 400,
+            "src": "red_vending_machine"
+        },
+        {
+            "x": 500,
+            "y": 504,
+            "height": 32,
+            "width": 400,
+            "src": "blue_vending_machine"
+        },
+        {
+            "x": 1550,
+            "y": 486,
+            "height": 32,
+            "width": 400,
+            "src": "blue_vending_machine"
+        },
+        {
+            "x": 1582,
+            "y": 486,
+            "height": 32,
+            "width": 400,
+            "src": "red_vending_machine"
+        },
+        {
+            "x": 1614,
+            "y": 486,
+            "height": 32,
+            "width": 400,
+            "src": "red_vending_machine"
+        },
+        {
+            "x": 2400,
+            "y": 236,
+            "height": 32,
+            "width": 400,
+            "src": "cube_cafe"
+        }
+    ],
 
     "QBlocks": [{
             "x": 496,
             "y": 304,
             "powerUp": "derivative"
-        }, 
+        },
         {
             "x": 800,
             "y": 400,
@@ -286,126 +290,164 @@
             "src": "astronaut",
             "x": 400,
             "y": 336,
+            "health": 0,
             "tween_x": 700,
             "tween_y": 336,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "blue_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "astronaut",
             "x": 400,
             "y": 336,
+            "health": 0,
             "tween_x": 700,
             "tween_y": 336,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "blue_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "astronaut",
             "x": 1950,
             "y": 336,
+            "health": 0,
             "tween_x": 2050,
             "tween_y": 336,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "blue_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "astronaut",
             "x": 2850,
             "y": 172,
+            "health": 0,
             "tween_x": 2950,
             "tween_y": 172,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "blue_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "astronaut",
             "x": 900,
             "y": 216,
+            "health": 0,
             "tween_x": 900,
             "tween_y": 216,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "blue_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "goomba",
             "x": 600,
             "y": 488,
+            "health": 0,
             "tween_x": 900,
             "tween_y": 488,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
             "lazer": false
         },
         {
             "src": "goomba",
             "x": 1250,
             "y": 518,
+            "health": 0,
             "tween_x": 1400,
             "tween_y": 518,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
             "lazer": false
         },
         {
             "src": "goomba",
             "x": 1500,
             "y": 518,
+            "health": 0,
             "tween_x": 1750,
             "tween_y": 518,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
             "lazer": false
         },
         {
             "src": "goomba",
             "x": 2400,
             "y": 204,
+            "health": 0,
             "tween_x": 2750,
             "tween_y": 204,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
             "lazer": false
         }
     ]

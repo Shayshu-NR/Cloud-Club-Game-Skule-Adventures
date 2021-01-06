@@ -433,7 +433,7 @@ LEVEL3.Galbraith.prototype = {
 
         game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
         game.physics.arcade.collide(player, flag, function next_level(player, flag) {
-            game.state.start('SF_library');
+            game.state.start('Bahen');
         }, null, this)
         game.physics.arcade.collide(platforms, integral, integralKill, null, this)
         game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
