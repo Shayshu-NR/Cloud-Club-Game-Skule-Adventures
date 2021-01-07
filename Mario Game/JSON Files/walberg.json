@@ -3,6 +3,10 @@
         "x": 3200,
         "y": 600
     },
+    "Player": {
+        "x": 1680,
+        "y": 490
+    },
 
     "Background": [{
             "x": 0,
@@ -163,6 +167,14 @@
             "width": 32,
             "src": "locker",
             "tile": false
+        },
+        {
+            "x": 1100,
+            "y": 410,
+            "width": 400,
+            "height": 124,
+            "src": "lab",
+            "tile": false
         }
     ],
 
@@ -176,254 +188,280 @@
             "start_x": 0,
             "end_x": 250,
             "height": 536,
-            "src": "walberg_ground"
+            "src": "walberg_platform"
         },
         {
             "start_x": 700,
             "end_x": 900,
             "height": 536,
-            "src": "walberg_ground"
+            "src": "walberg_platform"
         },
         {
             "start_x": 1100,
             "end_x": 1500,
             "height": 536,
-            "src": "walberg_ground"
+            "src": "walberg_platform"
         },
         {
             "start_x": 1700,
             "end_x": 2000,
             "height": 536,
-            "src": "walberg_ground"
+            "src": "walberg_platform"
         },
         {
             "start_x": 2200,
             "end_x": 2500,
             "height": 536,
-            "src": "walberg_ground"
+            "src": "walberg_platform"
         },
         {
             "start_x": 2900,
             "end_x": 3200,
             "height": 536,
-            "src": "walberg_ground"
+            "src": "walberg_platform"
         }
     ],
 
     "Platform": [{
-        "x": 300,
-        "y": 400,
-        "height": 32,
-        "width": 400,
-        "src": "walberg_platform"
-    },
-    {
-        "x": 900,
-        "y": 400,
-        "height": 32,
-        "width": 400,
-        "src": "walberg_platform"
-    },
-    {
-        "x": 900,
-        "y": 200,
-        "height": 32,
-        "width": 400,
-        "src": "walberg_platform"
-    },
-    {
-        "x": 1600,
-        "y": 300,
-        "height": 32,
-        "width": 400,
-        "src": "walberg_platform"
-    },
-    {
-        "x": 2500,
-        "y": 400,
-        "height": 32,
-        "width": 400,
-        "src": "walberg_platform"
-    },
-    {
-        "x": 2500,
-        "y": 200,
-        "height": 32,
-        "width": 400,
-        "src": "walberg_platform"
-    }
-],
-
-    "QBlocks": [{
-        "x": 428,
-        "y": 300,
-        "powerUp": "text"
-    },
-    {
-        "x": 1856,
-        "y": 100,
-        "powerUp": "integral"
-    }],
-
-    "Bricks": [{
-        "x": 300,
-        "y": 300,
-        "counter": 5
-    },
-    {
-        "x": 332,
-        "y": 300,
-        "counter": 5
-    },
-    {
-        "x": 364,
-        "y": 300,
-        "counter": 5
-    },
-    {
-        "x": 396,
-        "y": 300,
-        "counter": 5
-    },
-    {
-        "x": 1600,
-        "y": 100,
-        "counter": 5
-    },
-    {
-        "x": 1632,
-        "y": 100,
-        "counter": 5
-    },
-    {
-        "x": 1664,
-        "y": 100,
-        "counter": 5
-    },
-    {
-        "x": 1696,
-        "y": 100,
-        "counter": 5
-    },
-    {
-        "x": 1728,
-        "y": 100,
-        "counter": 5
-    },
-    {
-        "x": 1760,
-        "y": 100,
-        "counter": 5
-    },
-    {
-        "x": 1792,
-        "y": 100,
-        "counter": 5
-    },
-    {
-        "x": 1824,
-        "y": 100,
-        "counter": 5
-    }
+            "x": 300,
+            "y": 400,
+            "height": 32,
+            "width": 400,
+            "src": "walberg_platform"
+        },
+        {
+            "x": 900,
+            "y": 400,
+            "height": 32,
+            "width": 400,
+            "src": "walberg_platform"
+        },
+        {
+            "x": 900,
+            "y": 200,
+            "height": 32,
+            "width": 400,
+            "src": "walberg_platform"
+        },
+        {
+            "x": 1600,
+            "y": 300,
+            "height": 32,
+            "width": 400,
+            "src": "walberg_platform"
+        },
+        {
+            "x": 2500,
+            "y": 400,
+            "height": 32,
+            "width": 400,
+            "src": "walberg_platform"
+        },
+        {
+            "x": 2500,
+            "y": 200,
+            "height": 32,
+            "width": 400,
+            "src": "walberg_platform"
+        }
     ],
 
-    "Enemies": [
+    "QBlocks": [{
+            "x": 428,
+            "y": 300,
+            "powerUp": "text"
+        },
         {
+            "x": 1856,
+            "y": 100,
+            "powerUp": "integral"
+        }
+    ],
+
+    "Bricks": [{
+            "x": 300,
+            "y": 300,
+            "counter": 5
+        },
+        {
+            "x": 332,
+            "y": 300,
+            "counter": 5
+        },
+        {
+            "x": 364,
+            "y": 300,
+            "counter": 5
+        },
+        {
+            "x": 396,
+            "y": 300,
+            "counter": 5
+        },
+        {
+            "x": 1600,
+            "y": 100,
+            "counter": 5
+        },
+        {
+            "x": 1632,
+            "y": 100,
+            "counter": 5
+        },
+        {
+            "x": 1664,
+            "y": 100,
+            "counter": 5
+        },
+        {
+            "x": 1696,
+            "y": 100,
+            "counter": 5
+        },
+        {
+            "x": 1728,
+            "y": 100,
+            "counter": 5
+        },
+        {
+            "x": 1760,
+            "y": 100,
+            "counter": 5
+        },
+        {
+            "x": 1792,
+            "y": 100,
+            "counter": 5
+        },
+        {
+            "x": 1824,
+            "y": 100,
+            "counter": 5
+        }
+    ],
+
+    "Enemies": [{
             "src": "mad_scientist",
             "x": 700,
             "y": 470,
+            "health": 0,
             "tween_x": 800,
             "tween_y": 470,
             "tween_speed": 7000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "red_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "mad_scientist",
             "x": 1200,
             "y": 470,
+            "health": 0,
             "tween_x": 1400,
             "tween_y": 470,
             "tween_speed": 7000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "red_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "mad_scientist",
             "x": 1100,
             "y": 136,
+            "health": 0,
             "tween_x": 1230,
             "tween_y": 136,
             "tween_speed": 7000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
                 "frames": [2, 0, 3, 0],
-                "delay": 4
-            },
-            "lazer": true
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "red_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
         },
         {
             "src": "goomba",
             "x": 1600,
             "y": 268,
+            "health": 0,
             "tween_x": 1750,
             "tween_y": 268,
             "tween_speed": 3000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
             "lazer": false
         },
         {
             "src": "goomba",
             "x": 1100,
             "y": 368,
+            "health": 0,
             "tween_x": 1250,
             "tween_y": 368,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
             "lazer": false
         },
         {
             "src": "goomba",
             "x": 2500,
             "y": 368,
+            "health": 0,
             "tween_x": 2850,
             "tween_y": 368,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
             "lazer": false
         },
         {
             "src": "goomba",
             "x": 2500,
             "y": 168,
+            "health": 0,
             "tween_x": 2850,
             "tween_y": 168,
             "tween_speed": 10000,
-            "animate": {
+            "animate": [{
                 "name": "walk",
-                "frames": [0, 1, 2],
-                "delay": 4
-            },
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
             "lazer": false
         }
     ]
