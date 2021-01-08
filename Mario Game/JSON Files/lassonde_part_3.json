@@ -3,33 +3,33 @@
         "x": 3000,
         "y": 600
     },
-    
+
     "Player": {
         "x": 32,
         "y": 350
     },
 
     "Background": [{
-            "x": 0,
-            "y": 0,
-            "height": 600,
-            "width": 800,
-            "src": "L",
-            "tile": true
-        },{
-            "x": 30,
-            "y": 400,
-            "height": 60,
-            "width": 35,
-            "src": "door",
-            "tile": false
-        }
-    ],
+        "x": 0,
+        "y": 0,
+        "height": 600,
+        "width": 800,
+        "src": "L",
+        "tile": true
+    }, {
+        "x": 30,
+        "y": 400,
+        "height": 60,
+        "width": 35,
+        "src": "door",
+        "tile": false
+    }],
 
     "FlagPole": {
         "x": 2800,
         "y": 170,
-        "src": "flag_pole"},
+        "src": "flag_pole"
+    },
 
     "Ground": [],
 
@@ -39,19 +39,19 @@
         "height": 32,
         "width": 400,
         "src": "pipe"
-    },{
+    }, {
         "x": 1300,
         "y": 300,
         "height": 32,
         "width": 200,
         "src": "pipe"
-    },{
+    }, {
         "x": 2300,
         "y": 250,
         "height": 32,
         "width": 200,
         "src": "pipe"
-    },{
+    }, {
         "x": 2900,
         "y": 470,
         "height": 32,
@@ -74,14 +74,15 @@
             "x": 134,
             "y": 350,
             "counter": 5
-        }],
-    
+        }
+    ],
+
     "Eswitch": {
         "x": 250,
-        "y": 450},
+        "y": 440
+    },
 
-    "ESCoins" : [
-        {
+    "ESCoins": [{
             "x": 1118,
             "y": 500
         },
@@ -95,11 +96,10 @@
         }
     ],
 
-    "Toike": 
-        {
-            "x": 900,
-            "y": 50
-        },
+    "Toike": {
+        "x": 900,
+        "y": 50
+    },
 
     "Enemies": []
 }

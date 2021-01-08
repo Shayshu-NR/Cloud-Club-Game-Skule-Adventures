@@ -3,7 +3,7 @@
         "x": 3000,
         "y": 600
     },
-    
+
     "Player": {
         "x": 32,
         "y": 350
@@ -37,7 +37,7 @@
         "height": 32,
         "width": 400,
         "src": "pipe"
-    },{
+    }, {
         "x": 800,
         "y": 300,
         "height": 32,
@@ -92,60 +92,69 @@
             "counter": 5
         }
     ],
-    
-    
+
+
     "Eswitch": [],
 
-    "ESCoins" : [],
+    "ESCoins": [],
 
-    "Toike": 
-        {
-            "x": 1850,
-            "y": 500
-        },
+    "Toike": {
+        "x": 1850,
+        "y": 500
+    },
 
     "Enemies": [{
-        "src": "goomba",
-        "x": 368,
-        "y": 438,
-        "tween_x": 10,
-        "tween_y": 438,
-        "tween_speed": 4000,
-        "animate": {
-            "name": "walk",
-            "frames": [0, 1, 2],
-            "delay": 4
+            "src": "goomba",
+            "x": 368,
+            "y": 438,
+            "health": 0,
+            "tween_x": 10,
+            "tween_y": 438,
+            "tween_speed": 4000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
+        }, {
+            "src": "goomba",
+            "x": 800,
+            "y": 268,
+            "health": 0,
+            "tween_x": 968,
+            "tween_y": 268,
+            "tween_speed": 3000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": false,
+            "static": false
         },
-        "lazer": false,
-        "static": false
-    }, {
-        "src": "goomba",
-        "x": 800,
-        "y": 268,
-        "tween_x": 968,
-        "tween_y": 268,
-        "tween_speed": 3000,
-        "animate": {
-            "name": "walk",
-            "frames": [0, 1, 2],
-            "delay": 4
-        },
-        "lazer": false,
-        "static": false
-    },
-    {
-        "src": "astronaut",
-        "x": 1400,
-        "y": 168,
-        "tween_x": 1736,
-        "tween_y": 168,
-        "tween_speed": 5000,
-        "animate": {
-            "name": "walk",
-            "frames": [0],
-            "delay": 4
-        },
-        "lazer": true
-    }
-]
+        {
+            "src": "astronaut",
+            "x": 1400,
+            "y": 168,
+            "tween_x": 1736,
+            "tween_y": 168,
+            "health": 0,
+            "tween_speed": 5000,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "red_lazer",
+                "frequency": 2500,
+                "health": -1
+            }
+        }
+    ]
 }

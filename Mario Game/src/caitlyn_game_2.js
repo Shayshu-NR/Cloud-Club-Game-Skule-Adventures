@@ -53,7 +53,7 @@ function preload() {
     game.load.image('door', './assets/SF_Pit/door.png')
     game.load.spritesheet("button", './assets/SF_Pit/e-switch.png', 18, 20)
 
-        //~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~
 
     //~~~~~ Enemies ~~~~~
     game.load.image('spike', './assets/spike.png')
@@ -85,7 +85,7 @@ function preload() {
 
     //~~~~~ Misc ~~~~~
     game.load.image("space_ship", './assets/lazer_red.png')
-    //~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~
 }
 
 function create() {

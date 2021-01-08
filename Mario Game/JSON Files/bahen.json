@@ -376,7 +376,7 @@
             "tween_speed": 10000,
             "animate": [{
                 "name": "walk",
-                "frames": [0],
+                "frames": [2, 0, 3, 0],
                 "delay": 4,
                 "play": true
             }],
