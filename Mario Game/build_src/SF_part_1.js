@@ -102,9 +102,6 @@ LEVEL1.SF_part_1.prototype = {
         current_level = "SF_part_1"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
-
 
         //~~~~~ Physics engine ~~~~~
         game.physics.startSystem(Phaser.Physics.ARCADE)

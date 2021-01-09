@@ -67,9 +67,6 @@ LEVEL4.Bahen.prototype = {
         current_level = "Bahen"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
-
 
         //~~~~~ Physics engine ~~~~~
         game.physics.startSystem(Phaser.Physics.ARCADE)

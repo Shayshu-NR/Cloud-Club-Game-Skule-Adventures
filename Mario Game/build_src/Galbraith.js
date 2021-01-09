@@ -76,9 +76,6 @@ LEVEL3.Galbraith.prototype = {
         current_level = "Galbraith"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
-
 
         //~~~~~ Physics engine ~~~~~
         game.physics.startSystem(Phaser.Physics.ARCADE)

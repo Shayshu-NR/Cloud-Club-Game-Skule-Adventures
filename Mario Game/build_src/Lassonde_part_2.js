@@ -62,9 +62,6 @@ LEVEL6.Lassonde_part_2.prototype = {
         current_level = "Lassonde_part_2"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
-
 
         //~~~~~ Physics engine ~~~~~
         game.physics.startSystem(Phaser.Physics.ARCADE)

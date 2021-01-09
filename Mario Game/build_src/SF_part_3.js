@@ -66,8 +66,6 @@ LEVEL1.SF_part_3.prototype = {
         console.log("Json file structure: ", json_parsed)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
 
 
         //~~~~~ Physics engine ~~~~~
@@ -353,7 +351,7 @@ LEVEL1.SF_part_3.prototype = {
 
         // Add toike
         diamonds.create(json_parsed.Toike.x, json_parsed.Toike.y, 'toike')
-        
+
         //~~~~~ World and camera settings ~~~~~
         var world_bounds = json_parsed.World
         totalDistance = world_bounds.x

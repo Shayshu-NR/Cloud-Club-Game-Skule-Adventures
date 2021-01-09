@@ -105,8 +105,6 @@ LEVEL1.SF_part_2.prototype = {
         console.log("Json file structure: ", json_parsed)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
 
 
         //~~~~~ Physics engine ~~~~~

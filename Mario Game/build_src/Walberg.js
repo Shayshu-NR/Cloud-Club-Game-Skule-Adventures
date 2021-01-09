@@ -75,8 +75,6 @@ LEVEL5.Walberg.prototype = {
         current_level = "Walberg"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
 
 
         //~~~~~ Physics engine ~~~~~
