@@ -280,8 +280,6 @@ LEVEL6.Lassonde_part_3.prototype = {
             block.body.immovable = true
             block.counter = brick_counter
         }
-
-
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~~~~~~~ Enemy creation ~~~~~~~~~~~~~~~
