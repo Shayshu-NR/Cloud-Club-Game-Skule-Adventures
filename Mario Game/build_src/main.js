@@ -16,5 +16,9 @@ game.state.add("Lassonde_part_1", LEVEL6.Lassonde_part_1)
 game.state.add("Lassonde_part_2", LEVEL6.Lassonde_part_2)
 game.state.add("Lassonde_part_3", LEVEL6.Lassonde_part_3)
 
+
+game.state.add("Space", LEVLE7.Space)
+
+game.state.add("End", End.Credits)
 game.state.add("GameOver", Game_over.go_screen)
 game.state.start("MenuScreen")

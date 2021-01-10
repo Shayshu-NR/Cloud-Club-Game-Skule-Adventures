@@ -7,7 +7,7 @@ Mario_Game.Menu = function(game) {
 
 Mario_Game.Menu.prototype = {
     preload: function() {
-        game.load.image('start_screen', './assets/menu_screen_2.png')
+        game.load.image('start_screen', './assets/menu_screen_underconstruction.png')
     },
 
     create: function() {

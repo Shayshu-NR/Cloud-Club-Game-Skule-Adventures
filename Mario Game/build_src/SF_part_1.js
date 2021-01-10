@@ -580,7 +580,7 @@ LEVEL1.SF_part_1.prototype = {
         }
 
         if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER)) {
-            game.state.start("Lassonde_part_3")
+            game.state.start("End")
         }
 
         if (player.currentState == 'derivative') {

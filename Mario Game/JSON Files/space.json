@@ -3,9 +3,9 @@
         "x": 4800,
         "y": 600
     },
-    "Player":{
-        "x":0,
-        "y":0
+    "Player": {
+        "x": 0,
+        "y": 0
     },
     "Background": [{
         "x": 0,
@@ -20,8 +20,7 @@
         "y": 100,
         "src": "flag_pole"
     },
-    "Ground": [
-        {
+    "Ground": [{
             "start_x": 0,
             "end_x": 96,
             "height": 400,
@@ -142,8 +141,7 @@
             "src": "asteroid"
         }
     ],
-    "QBlocks": [
-        {
+    "QBlocks": [{
             "x": 165,
             "y": 285,
             "powerUp": "fireflower"
@@ -164,8 +162,7 @@
             "powerUp": "hammer"
         }
     ],
-    "Bricks": [
-        {
+    "Bricks": [{
             "x": 197,
             "y": 285,
             "counter": 3
@@ -201,15 +198,20 @@
             "counter": 2
         }
     ],
-    "Enemies": [
-        {
+    "Enemies": [{
             "src": "goomba",
             "x": 350,
             "y": 320,
+            "health": 0,
             "tween_x": 400,
             "tween_y": 320,
             "tween_speed": 1000,
-            "animate": false,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
             "lazer": false,
             "static": false
         },
@@ -217,21 +219,37 @@
             "src": "astronaut",
             "x": 800,
             "y": 183,
+            "health": 0,
             "tween_x": 1100,
             "tween_y": 183,
             "tween_speed": 1500,
-            "animate": false,
-            "lazer": true,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "red_lazer",
+                "frequency": 2500,
+                "health": -1
+            },
             "static": false
         },
         {
             "src": "goomba",
             "x": 2050,
             "y": 343,
+            "health": 0,
             "tween_x": 2125,
             "tween_y": 343,
             "tween_speed": 1000,
-            "animate": false,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 1, 2, 0],
+                "delay": 3,
+                "play": true
+            }],
             "lazer": false,
             "static": false
         },
@@ -239,11 +257,21 @@
             "src": "astronaut",
             "x": 2300,
             "y": 361,
+            "health": 0,
             "tween_x": 2370,
             "tween_y": 361,
             "tween_speed": 1000,
-            "animate": false,
-            "lazer": true,
+            "animate": [{
+                "name": "walk",
+                "frames": [2, 0, 3, 0],
+                "delay": 4,
+                "play": true
+            }],
+            "lazer": {
+                "src": "red_lazer",
+                "frequency": 2500,
+                "health": -1
+            },
             "static": false
         }
 

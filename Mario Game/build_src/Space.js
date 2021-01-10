@@ -1,32 +1,46 @@
-LEVEL6.Lassonde_part_3 = function(game) {}
+var LEVLE7 = {}
 
-LEVEL6.Lassonde_part_3.prototype = {
+LEVLE7.Space = function(game) {}
+
+LEVLE7.Space.prototype = {
     preload: function() {
-        // Load & Define our game assets
-        game.load.text("lassonde_json", "./JSON Files/lassonde_part_3.json")
-            //~~~~~ Background ~~~~~
-        game.load.image('L', './assets/lassonde/background.png')
-            //~~~~~~~~~~~~~~~~~~~
+        //~~~~~ Json file ~~~~~
+        game.load.text("shayshu_json", "./JSON Files/space.json")
+            //~~~~~~~~~~~~~~~~~~~~~
+
+        //~~~~~ Background ~~~~~
+        game.load.image('sky', './assets/sky.png')
+        game.load.image('space', './assets/Space/Space_Background.jpg')
+        game.load.image('floor1', './assets/Galbraith/Floor1.png')
+        game.load.image('floor2', './assets/Galbraith/Floor2.png')
+        game.load.image('floor3', './assets/Galbraith/Floor3.png')
+        game.load.image('entry', './assets/Galbraith/Entrance.png')
+        game.load.image('brick_background', './assets/Galbraith/Galbraith_background.jpg')
+
+        //~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Neutral blocks ~~~~~
-        game.load.image('pipe', './assets/lassonde/pipe.png')
-        game.load.image('brick', './assets/brick.png')
+        game.load.image('ground', './assets/platform.png')
+        game.load.image('moon_ground', './assets/Space/Moon_platform.jpg')
+        game.load.image('galbraith_ground', './assets/Galbraith/Brick_platform.jpg')
+        game.load.image('stone_platform', './assets/Galbraith/Stone_platform.jpg')
+        game.load.image('stair', './assets/Galbraith/platform.jpg')
+        game.load.image('brick', './assets/Brown_Brick.png')
         game.load.spritesheet('qBlock', './assets/Question_block.png', 32, 32)
+        game.load.image('iron', './assets/iron-block.png')
         game.load.image('flag_pole', './assets/flag_pole.png')
-        game.load.image('door', './assets/SF_Pit/door.png')
+        game.load.image('asteroid', './assets/Space/Asteroid.png')
+        game.load.image('ufo', './assets/Space/UFO.png')
+        game.load.image('flag_pole', './assets/flag_pole.png')
         game.load.spritesheet('coin', './assets/SF_Pit/coin.png', 32, 32)
-        game.load.image('playerFace', './assets/Main Sprite.png')
-        game.load.image('hourglass', './assets/hourglass.png')
-        game.load.spritesheet("button", './assets/SF_Pit/e-switch.png', 32, 32)
-        game.load.image("toike", './assets/SF_Pit/toike.png')
-
-        //~~~~~~~~~~~~~~~~~~~
+            //~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Enemies ~~~~~
+        game.load.image('steve', './assets/steve.png')
         game.load.image('spike', './assets/spike.png')
-        game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
+        game.load.image('enemy', './assets/Galbraith/enemy.png')
         game.load.spritesheet('goomba', './assets/bluegoomba.png', 32, 32)
-        game.load.spritesheet('derivative', './assets/derivative_1.png', 32, 32)
+        game.load.spritesheet('astronaut', './assets/frosh_astronaut64x64.png', 64, 64)
             //~~~~~~~~~~~~~~~~~~~
 
         //~~~~~ Power ups ~~~~~
@@ -47,21 +61,19 @@ LEVEL6.Lassonde_part_3.prototype = {
         game.load.spritesheet('big_player', './assets/BigMain_Sprite.png', 32, 64)
             //~~~~~~~~~~~~~~~~~~~~~~~~
 
-        //~~~~~ Sound ~~~~~
-        game.load.audio("mario_die", './assets/smb_mariodie.wav')
-
         //~~~~~ Misc ~~~~~
-        game.load.image("space_ship", './assets/lazer_red.png')
+        game.load.image("space_ship", './assets/spaceship.png')
+        game.load.image("red_lazer", './assets/lazer_red.png')
+        game.load.image("blue_lazer", './assets/lazer.png')
             //~~~~~~~~~~~~~~~~
     },
 
     create: function() {
         //~~~~~ Loading json file ~~~~~
-        json_parsed = JSON.parse(game.cache.getText('lassonde_json'))
+        json_parsed = JSON.parse(game.cache.getText('shayshu_json'))
         console.log("Json file structure: ", json_parsed)
-        current_level = "Lassonde_part_3"
+        current_level = "Space"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 
         //~~~~~ Physics engine ~~~~~
@@ -278,6 +290,7 @@ LEVEL6.Lassonde_part_3.prototype = {
             block.body.immovable = true
             block.counter = brick_counter
         }
+
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~~~~~~~~~~ Enemy creation ~~~~~~~~~~~~~~~
@@ -329,12 +342,12 @@ LEVEL6.Lassonde_part_3.prototype = {
                 var event = game.time.events.loop(enemy_location[i].lazer.frequency, function(enemy_projectile) {
                     const new_lazer = lazer.create(enemy_projectile[0].position.x, enemy_projectile[0].position.y, enemy_projectile[0].lazer_src);
                     new_lazer.body.velocity.x = -500;
+                    new_lazer.lazer = true;
+                    new_lazer.body.immovable = true
                 }, this, [new_nme])
 
                 new_nme.lazer_timer = event
             }
-
-            console.log(new_nme)
         }
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -345,32 +358,12 @@ LEVEL6.Lassonde_part_3.prototype = {
         end_of_level.scale.setTo(1.5, 1.5)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        arrayOfCoins = []
-        es_coins = json_parsed.ESCoins
-        for (var i = 0; i < es_coins.length; i++) {
-            const es_coin = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
-            es_coin.button = true
-            es_coin.animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
-            es_coin.animations.play('spin')
-            arrayOfCoins.push(es_coin)
-        }
-
-        es_switch_location = json_parsed.Eswitch
-        button = button.create(es_switch_location.x, es_switch_location.y, 'button')
-        button.body.immovable = true
-        button.animations.add('pressed', [0, 1, 2, 3, 4], 20, false)
-        button.animations.add('depressed', [4, 3, 2, 1, 0], 20, false)
-
-        // Add toike
-        diamonds.create(json_parsed.Toike.x, json_parsed.Toike.y, 'toike')
-
         //~~~~~ World and camera settings ~~~~~
         var world_bounds = json_parsed.World
         totalDistance = world_bounds.x
         game.world.setBounds(0, 0, world_bounds.x, world_bounds.y)
         game.camera.follow(player)
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     },
 
     update: function() {
@@ -383,43 +376,6 @@ LEVEL6.Lassonde_part_3.prototype = {
         }
 
         //  Setup collisions for the player, diamonds, and our platforms
-        //  Setup collisions for the player, diamonds, and our platforms
-        game.physics.arcade.collide(player, button, function buttonChange() {
-
-            if (buttonPressed == false) {
-                // button.animations.play('pressed')
-
-                buttonPressed = true;
-                button.animations.play('pressed')
-
-                if (isBrick == true) {
-                    for (var i = 0; i < arrayOfCoins.length; i++) {
-                        if (arrayOfCoins[i] != null && arrayOfCoins[i].button) {
-                            arrayOfCoins[i].kill()
-                            arrayOfCoins[i] = diamonds.create(es_coins[i].x, es_coins[i].y, 'coin')
-                            arrayOfCoins[i].animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true)
-                            arrayOfCoins[i].animations.play('spin')
-                            arrayOfCoins[i].body.immovable = true
-                        }
-                    }
-                    isBrick = false;
-                } else if (isBrick == false) {
-                    for (var i = 0; i < arrayOfCoins.length; i++) {
-                        if (arrayOfCoins[i] != null) {
-                            arrayOfCoins[i].kill()
-                            arrayOfCoins[i] = brick.create(es_coins[i].x, es_coins[i].y, 'brick')
-                            arrayOfCoins[i].button = true;
-                            arrayOfCoins[i].body.immovable = true
-                        }
-                    }
-                    isBrick = true
-                }
-
-                game.time.events.add(4000, eswitch_timer, this, [button])
-            }
-
-        })
-
         game.physics.arcade.collide(player, platforms)
         game.physics.arcade.collide(diamonds, platforms)
         game.physics.arcade.collide(enemy, platforms)
@@ -473,7 +429,7 @@ LEVEL6.Lassonde_part_3.prototype = {
 
         game.physics.arcade.collide(platforms, fireballs, fireballKill, null, this)
         game.physics.arcade.collide(player, flag, function next_level(player, flag) {
-            game.state.start('Space');
+            game.state.start('End');
         }, null, this)
         game.physics.arcade.collide(platforms, integral, integralKill, null, this)
         game.physics.arcade.collide(platforms, derivative, derivativeKill, null, this)
@@ -485,10 +441,7 @@ LEVEL6.Lassonde_part_3.prototype = {
 
 
         if (!player.isInvincible) {
-            game.physics.arcade.overlap(player, enemy, function(enemy, player) {
-                kill_mario(enemy, player)
-                    //enemy.lazer_timer.loop = false
-            }, null, this);
+            game.physics.arcade.overlap(player, enemy, kill_mario, null, this)
             game.physics.arcade.collide(player, lazer, kill_mario, null, this)
         }
 

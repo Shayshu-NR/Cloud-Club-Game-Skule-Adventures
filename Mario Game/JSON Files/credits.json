@@ -1,0 +1,106 @@
+{
+    "World": {
+        "x": 2400,
+        "y": 600
+    },
+    "Player": {
+        "x": 2000,
+        "y": 400
+    },
+
+    "Background": [{
+        "x": 0,
+        "y": 0,
+        "height": 600,
+        "width": 800,
+        "src": "end2",
+        "tile": true
+    }],
+
+    "FlagPole": {
+        "x": 2200,
+        "y": 260,
+        "src": "flag_pole"
+    },
+
+    "Ground": [{
+        "start_x": 0,
+        "end_x": 3200,
+        "height": 560,
+        "src": "ground"
+    }],
+
+    "Platform": [],
+
+    "QBlocks": [{
+            "x": 100,
+            "y": 450,
+            "powerUp": "Andrew"
+        },
+        {
+            "x": 250,
+            "y": 450,
+            "powerUp": "Asma"
+        },
+        {
+            "x": 400,
+            "y": 450,
+            "powerUp": "Bryce"
+        },
+        {
+            "x": 550,
+            "y": 450,
+            "powerUp": "Caitlyn"
+        },
+        {
+            "x": 700,
+            "y": 450,
+            "powerUp": "Divy"
+        },
+        {
+            "x": 850,
+            "y": 450,
+            "powerUp": "Eesha"
+        },
+        {
+            "x": 1000,
+            "y": 450,
+            "powerUp": "Emily"
+        },
+        {
+            "x": 1150,
+            "y": 450,
+            "powerUp": "Gabrielle"
+        },
+        {
+            "x": 1300,
+            "y": 450,
+            "powerUp": "Harsimrat"
+        },
+        {
+            "x": 1450,
+            "y": 450,
+            "powerUp": "Ian"
+        },
+        {
+            "x": 1600,
+            "y": 450,
+            "powerUp": "Irene"
+        },
+        {
+            "x": 1750,
+            "y": 450,
+            "powerUp": "Shayshu"
+        },
+        {
+            "x": 1900,
+            "y": 450,
+            "powerUp": "Vishu"
+        }
+
+    ],
+
+    "Bricks": [],
+
+    "Enemies": []
+}
