@@ -68,9 +68,6 @@ End.Credits.prototype = {
         current_level = "SF_library"
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        var music = game.add.audio('lofi-hiphop')
-        music.play();
-
 
         //~~~~~ Physics engine ~~~~~
         game.physics.startSystem(Phaser.Physics.ARCADE)
