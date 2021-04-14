@@ -699,9 +699,6 @@ LEVEL1.SF_part_2.prototype = {
     },
 
     render: function() {
-        this.game.debug.text(`Debugging Phaser ${Phaser.VERSION}`, 200, 20, 'yellow', 'Segoe UI');
-        this.game.debug.cameraInfo(this.game.camera, 200, 32);
-        this.game.debug.spriteInfo(player, 500, 32);
     }
 }
 
